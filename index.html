@@ -435,27 +435,8 @@
           </div>
           
           <div class="product-grid" id="new-arrivals-container">
-             <a href="product.html?id=oversized-tee-black" class="product-card" data-product-id="oversized-tee-black">
-                 <div class="product-image-container">
-                    <img src="https://hnungh.github.io/mcl/img/oversized-tee-black.jpg" alt="Classic Black Oversized Tee" class="product-image">
-                    <span class="product-category">OVERSIZED TEE</span>
-                 </div>
-                 <div class="product-info">
-                    <h4 class="product-name">Classic Black Oversized Tee</h4>
-                    <p class="product-price">790 THB</p>
-                 </div>
-             </a>
-             <a href="product.html?id=cargo-pants-olive" class="product-card" data-product-id="cargo-pants-olive">
-                 <div class="product-image-container">
-                    <img src="https://hnungh.github.io/mcl/img/cargo-pants-olive.jpg" alt="Military Olive Cargo Pants" class="product-image">
-                    <span class="product-category">CARGO PANTS</span>
-                 </div>
-                 <div class="product-info">
-                    <h4 class="product-name">Military Olive Cargo Pants</h4>
-                    <p class="product-price">1,590 THB</p>
-                 </div>
-             </a>
-             </div>
+             <p style="text-align: center; grid-column: 1 / -1;">กำลังโหลดสินค้ามาใหม่...</p>
+          </div>
       </section>
 
       <section id="collections" class="container">
@@ -582,7 +563,7 @@
     }
 
     // ===========================================
-    // PRODUCT RENDERING LOGIC (The Fix)
+    // PRODUCT RENDERING LOGIC
     // ===========================================
 
     /**
@@ -596,15 +577,12 @@
 
     /**
      * สร้าง HTML element <a> ที่เป็นบัตรสินค้า
-     * **การแก้ไข:** ใช้ product.id ในการสร้างลิงก์ไปยัง product.html พร้อม Query Parameter ที่ถูกต้อง
      * @param {Object} product - ข้อมูลสินค้าจาก MOCK_PRODUCTS_DATA
      * @returns {HTMLAnchorElement} - บัตรสินค้าที่เป็นลิงก์ไปยัง product.html?id=...
      */
     function createProductCard(product) {
         const card = document.createElement('a');
-        // V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V
-        card.href = `product.html?id=${encodeURIComponent(product.id)}`; // **จุดแก้ไข:** สร้างลิงก์ที่ถูกต้อง
-        // ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^
+        card.href = `product.html?id=${encodeURIComponent(product.id)}`; 
         card.className = 'product-card';
         card.setAttribute('data-product-id', product.id); 
 
@@ -623,8 +601,32 @@
     }
 
     /**
+     * เรนเดอร์สินค้ามาใหม่ลงในส่วน #new-arrivals-container
+     */
+    function renderNewArrivals() {
+        if (typeof MOCK_PRODUCTS_DATA === 'undefined' || MOCK_PRODUCTS_DATA.length === 0) {
+            console.warn('MOCK_PRODUCTS_DATA is not available or empty. Cannot render new arrivals.');
+            return;
+        }
+
+        const container = document.getElementById('new-arrivals-container');
+        if (!container) {
+            console.error('Container #new-arrivals-container not found.');
+            return;
+        }
+
+        // ใช้สินค้า 2 รายการแรกจาก MOCK_PRODUCTS_DATA สำหรับ New Arrivals
+        const productsToRender = MOCK_PRODUCTS_DATA.slice(0, 2); 
+
+        container.innerHTML = ''; // เคลียร์เนื้อหาเก่า
+
+        productsToRender.forEach(product => {
+            container.appendChild(createProductCard(product));
+        });
+    }
+
+    /**
      * เรนเดอร์สินค้าที่กำลังเป็นที่นิยมลงในส่วน #trending-products-container
-     * **การแก้ไข:** ใช้ MOCK_PRODUCTS_DATA ในการสร้าง Product Card ที่มีลิงก์ถูกต้อง
      */
     function renderTrendingProducts() {
         // ตรวจสอบว่า MOCK_PRODUCTS_DATA ถูกโหลดแล้วหรือไม่
@@ -719,7 +721,8 @@
         }
 
         // 2. Render Dynamic Content
-        renderTrendingProducts(); // **จุดแก้ไข:** เรียกฟังก์ชันนี้เพื่อสร้างบัตรสินค้า
+        renderNewArrivals(); // <--- เรียกใช้การเรนเดอร์สินค้ามาใหม่
+        renderTrendingProducts(); // เรียกใช้การเรนเดอร์สินค้าขายดี
 
         // 3. Setup UI Handlers
         toggleMobileMenu();
