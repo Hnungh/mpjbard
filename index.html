@@ -1278,6 +1278,37 @@
              carouselContainer.innerHTML = '<p style="padding: 20px; text-align: center;">No trending products available.</p>';
         }
     }
+   // index.html (ส่วนท้ายของไฟล์ ภายในแท็ก <script> หรือเพิ่มแท็กใหม่)
+
+// ============================================
+// WIRING UP PRODUCT CARDS
+// ============================================
+function wireUpProductCards() {
+    const productCards = document.querySelectorAll('.product-card');
+
+    productCards.forEach(card => {
+        // ดึง Product ID จาก data attribute
+        const productId = card.dataset.productId; 
+
+        if (productId) {
+            card.addEventListener('click', () => {
+                // สร้าง URL ที่ถูกต้อง: product.html?id=xxx
+                window.location.href = `product.html?id=${encodeURIComponent(productId)}`;
+            });
+            
+            // ทำให้การ์ดมี cursor: pointer
+            card.style.cursor = 'pointer'; 
+        } else {
+            console.error('Product Card is missing data-product-id attribute', card);
+        }
+    });
+}
+
+// ตรวจสอบให้แน่ใจว่าได้เรียกใช้ฟังก์ชันนี้เมื่อ DOM โหลดเสร็จแล้ว
+document.addEventListener('DOMContentLoaded', () => {
+    // ... โค้ด initialize อื่นๆ ...
+    wireUpProductCards(); // <-- เพิ่มบรรทัดนี้
+});
     
     // ===========================================
     // UI & EVENT HANDLERS
