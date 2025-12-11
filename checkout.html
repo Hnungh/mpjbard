@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="th">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="pageTitle">CHECKOUT - Nexus Wear</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=Bebas+Neue&amp;display=swap" rel="stylesheet">
+  
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <script src="/_sdk/analytics_sdk.js"></script>
+  
+  <style>
+        /* Global Reset and Base Styles (ใช้ร่วมกับไฟล์อื่น ๆ) */
+        body {
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            background: #FFFFFF;
+            color: #000000;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Layout */
+        .page-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 20px;
+        }
+
+        .brand-logo a {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            text-decoration: none;
+            color: #000000;
+        }
+
+        .checkout-container {
+            display: flex;
+            gap: 40px;
+            padding: 20px 0;
+        }
+
+        .checkout-form {
+            flex: 2;
+            padding-right: 20px;
+            border-right: 1px solid #e0e0e0;
+        }
+
+        .order-summary {
+            flex: 1;
+        }
+        
+        /* Form Styling */
+        .checkout-form h2, .order-summary h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 1px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #000000;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .checkout-btn:hover {
+            background-color: #333333;
+        }
+
+        /* Order Summary Styling */
+        .summary-details div {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+        
+        .summary-total {
+            border-top: 1px solid #000000;
+            padding-top: 15px;
+            margin-top: 15px;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        .summary-total span:last-child {
+            color: #E70000; /* Highlight final price */
+        }
+        
+        .item-list {
+            margin-bottom: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .item-list .item {
+            display: flex;
+            margin-bottom: 10px;
+            border-bottom: 1px dashed #e0e0e0;
+            padding-bottom: 10px;
+        }
+        
+        .item-list .item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+        
+        .item-list .item-details {
+            flex-grow: 1;
+        }
+        
+        .item-list .item-name {
+            font-weight: 500;
+        }
+        
+        .item-list .item-price {
+            font-size: 0.9rem;
+            color: #555;
+        }
+        
+        /* Toast Notification (Basic Styling) */
+        #toast {
+            visibility: hidden; 
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 2px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 17px;
+        }
+
+        #toast.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+        
+        /* Simple Animations for Toast */
+        @-webkit-keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 30px; opacity: 1; } }
+        @keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 30px; opacity: 1; } }
+        @-webkit-keyframes fadeout { from { bottom: 30px; opacity: 1; } to { bottom: 0; opacity: 0; } }
+        @keyframes fadeout { from { bottom: 30px; opacity: 1; } to { bottom: 0; opacity: 0; } }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .checkout-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .checkout-form {
+                padding-right: 0;
+                border-right: none;
+                border-bottom: 1px solid #e0e0e0;
+                padding-bottom: 20px;
+            }
+        }
+  </style>
+ </head>
+ <body>
+
+  <div id="toast"></div>
+
+  <div class="page-wrapper">
+    <header class="header-main">
+      <div class="brand-logo"><a href="index.html" id="brandLogo">NEXUS WEAR</a></div>
+    </header>
+
+    <main class="checkout-container">
+      
+      <section class="checkout-form">
+        <h2>SHIPPING & PAYMENT</h2>
+        
+        <form id="checkoutForm">
+          <h3>Shipping Address</h3>
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" required placeholder="John Doe">
+          </div>
+          <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" id="address" required placeholder="123 Street, City, State">
+          </div>
+          <div class="form-group">
+            <label for="zipCode">Zip Code</label>
+            <input type="text" id="zipCode" required placeholder="10110">
+          </div>
+          <div class="form-group">
+            <label for="country">Country</label>
+            <select id="country" required>
+                <option value="th">Thailand</option>
+                <option value="other">Other</option>
+            </select>
+          </div>
+          
+          <h3 style="margin-top: 30px;">Payment Method</h3>
+          <div class="form-group">
+            <label for="paymentMethod">Choose Payment</label>
+            <select id="paymentMethod" required>
+                <option value="cod">Cash on Delivery (COD)</option>
+                <option value="card">Credit Card (Mock)</option>
+            </select>
+          </div>
+          
+          <button type="submit" class="checkout-btn" id="placeOrderBtn">PLACE ORDER</button>
+        </form>
+        
+      </section>
+
+      <section class="order-summary">
+        <h2>ORDER SUMMARY</h2>
+        
+        <div class="item-list" id="cartSummaryList">
+          <p id="loadingMessage">Loading cart...</p>
+        </div>
+        
+        <div class="summary-details">
+          <div>
+            <span>Subtotal:</span>
+            <span id="subtotalAmount">0.00 THB</span>
+          </div>
+          <div>
+            <span>Shipping:</span>
+            <span id="shippingFee">50.00 THB</span>
+          </div>
+          <div class="summary-total">
+            <span>Total:</span>
+            <span id="totalAmount">50.00 THB</span>
+          </div>
+        </div>
+        
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    // Utility function to format currency
+    const formatCurrency = (amount) => {
+        return `${parseFloat(amount).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} THB`;
+    };
+    
+    // Utility function to show Toast
+    function showToast(message, type = 'info') {
+        const toast = document.getElementById('toast');
+        if (!toast) return;
+
+        toast.textContent = message;
+        
+        // Remove existing class and add type class if needed (basic styling)
+        toast.className = 'show'; 
+        
+        // Remove 'show' class after 3 seconds
+        setTimeout(function(){ 
+            toast.className = toast.className.replace("show", ""); 
+        }, 3000);
+    }
+    
+    // ===========================================
+    // CORE CHECKOUT LOGIC
+    // ===========================================
+    
+    // Global variable for cart items
+    let currentCartItems = [];
+    const SHIPPING_FEE = 50.00; // Mock shipping fee
+
+    /**
+     * ดึงข้อมูลตะกร้าสินค้าจาก Data SDK และแสดงผลในส่วนสรุปคำสั่งซื้อ
+     */
+    async function renderOrderSummary() {
+      if (!window.dataSdk) {
+        document.getElementById('loadingMessage').textContent = 'Data SDK is not available.';
+        return;
+      }
+      
+      currentCartItems = window.dataSdk.getCartItems();
+      const subtotal = window.dataSdk.getCartTotal();
+      const cartSummaryList = document.getElementById('cartSummaryList');
+      const subtotalEl = document.getElementById('subtotalAmount');
+      const totalEl = document.getElementById('totalAmount');
+      
+      cartSummaryList.innerHTML = ''; // Clear existing content
+      
+      if (currentCartItems.length === 0) {
+        cartSummaryList.innerHTML = '<p style="text-align: center; color: #555;">Your cart is empty. Nothing to checkout.</p>';
+        subtotalEl.textContent = formatCurrency(0);
+        totalEl.textContent = formatCurrency(0);
+        document.getElementById('placeOrderBtn').disabled = true;
+        document.getElementById('loadingMessage').style.display = 'none';
+        return;
+      }
+      
+      document.getElementById('loadingMessage').style.display = 'none';
+      
+      // 1. Render Items
+      currentCartItems.forEach(item => {
+        const itemEl = document.createElement('div');
+        itemEl.className = 'item';
+        itemEl.innerHTML = `
+          <img src="${item.image || 'placeholder.jpg'}" alt="${item.name}">
+          <div class="item-details">
+            <div class="item-name">${item.name}</div>
+            <div class="item-price">${formatCurrency(item.price)} x ${item.quantity}</div>
+            <div class="item-price">Total: ${formatCurrency(item.price * item.quantity)}</div>
+          </div>
+        `;
+        cartSummaryList.appendChild(itemEl);
+      });
+      
+      // 2. Render Totals
+      subtotalEl.textContent = formatCurrency(subtotal);
+      const total = subtotal + SHIPPING_FEE;
+      totalEl.textContent = formatCurrency(total);
+      document.getElementById('placeOrderBtn').disabled = false;
+    }
+    
+    /**
+     * ดำเนินการเมื่อกดปุ่ม PLACE ORDER
+     * @param {Event} e - Event object
+     */
+    async function placeOrder(e) {
+        e.preventDefault();
+        
+        if (currentCartItems.length === 0) {
+            showToast('Cannot place order: Cart is empty.', 'error');
+            return;
+        }
+
+        // 1. Tracking Analytics: เริ่มต้นการชำระเงิน
+        if (window.analyticsSdk) {
+            window.analyticsSdk.trackEvent('CheckoutCompleted', {
+                transaction_id: `TX-${Date.now()}`,
+                shipping_address: document.getElementById('address').value,
+                payment_method: document.getElementById('paymentMethod').value,
+                total_amount: window.dataSdk.getCartTotal() + SHIPPING_FEE,
+                items: currentCartItems.map(item => ({ id: item.id, quantity: item.quantity }))
+            });
+        }
+        
+        // 2. Data Logic: ล้างตะกร้าสินค้า
+        const clearResult = await window.dataSdk.clear();
+        
+        if (clearResult && clearResult.isOk) {
+            showToast('🎉 Order Placed Successfully! Cart Cleared.', 'success');
+            
+            // 3. UI Update & Redirection Mock (หลัง 2 วินาที)
+            setTimeout(() => {
+                // Redirect ไปหน้าขอบคุณ หรือหน้าแรก
+                window.location.href = 'index.html'; 
+            }, 2000); 
+            
+        } else {
+            showToast('Order placed, but failed to clear cart. Please check.', 'error');
+        }
+    }
+    
+    // ===========================================
+    // ELEMENT SDK CONFIG (Minimal)
+    // ===========================================
+
+    const defaultConfig = { 
+        page_title: 'CHECKOUT', 
+        brand_name: 'NEXUS WEAR', 
+    };
+
+    function handleConfigChange(config) {
+        document.getElementById('pageTitle').textContent = config.page_title || defaultConfig.page_title;
+        document.getElementById('brandLogo').textContent = config.brand_name || defaultConfig.brand_name;
+    }
+
+
+    // ===========================================
+    // INITIALIZATION
+    // ===========================================
+
+    async function initializeCheckoutSystem() {
+        // Initialize Data SDK and set up the change handler
+        // Note: For Checkout, we don't need a real-time handler since the cart only changes upon clearing.
+        if (window.dataSdk) {
+            await window.dataSdk.init({}); 
+        }
+        
+        // Initialize Analytics SDK
+        if (window.analyticsSdk) {
+            window.analyticsSdk.init();
+            window.analyticsSdk.trackPageView('Checkout Page');
+        }
+        
+        // Initialize Element SDK
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig: defaultConfig,
+                onConfigChange: handleConfigChange
+            });
+        }
+        
+        // Render data on load
+        renderOrderSummary();
+
+        // Attach event listener to the form
+        const checkoutForm = document.getElementById('checkoutForm');
+        if (checkoutForm) {
+            checkoutForm.addEventListener('submit', placeOrder);
+        }
+    }
+
+    // initialize on DOM ready
+    document.addEventListener('DOMContentLoaded', initializeCheckoutSystem);
+
+  </script>
+ </body>
+</html>
