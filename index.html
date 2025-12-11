@@ -14,7 +14,7 @@
   <script src="/_sdk/analytics_sdk.js"></script> 
   
   <style>
-        /* (CSS Styles are kept the same for brevity) */
+        /* (CSS Styles are kept the same for brevity - Your original styles here) */
         body {
             box-sizing: border-box;
         }
@@ -38,1405 +38,536 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        .page-wrapper {
-            width: 100%;
-            min-height: 100%;
-        }
-
-        /* Navigation */
-        .top-nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: #FFFFFF;
-            z-index: 1000;
-            border-bottom: 2px solid #000000;
-        }
-
-        .nav-content {
-            max-width: 1600px;
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 60px;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: #111111;
+            color: #FFFFFF;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid #FF00FF; /* Neon accent */
+        }
+
+        .navbar {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            height: 80px;
-        }
-
-        .logo-text {
-            font-family: 'Bebas Neue', cursive;
-            font-size: 28px;
-            font-weight: 400;
-            letter-spacing: 2px;
-            text-decoration: none;
-            color: #000000;
-            transition: all 0.3s ease;
-        }
-
-        .logo-text:hover {
-            transform: scale(1.05);
-        }
-
-        .main-nav-list {
-            display: flex;
-            gap: 48px;
-            list-style: none;
             align-items: center;
         }
 
-        .nav-link {
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+        .brand-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
             text-decoration: none;
-            color: #000000;
-            transition: all 0.3s ease;
-            position: relative;
+            color: #FFFFFF;
+            letter-spacing: 2px;
         }
 
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 0;
-            height: 3px;
-            background: #000000;
-            transition: width 0.3s ease;
+        .nav-links {
+            list-style: none;
+            display: flex;
         }
 
-        .nav-link:hover::after {
-            width: 100%;
+        .nav-links li a {
+            text-decoration: none;
+            color: #FFFFFF;
+            padding: 10px 15px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links li a:hover {
+            color: #FF00FF; /* Neon hover */
         }
 
         .nav-icons {
             display: flex;
-            gap: 8px;
             align-items: center;
         }
 
-        .icon-btn {
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: none;
-            border: none;
-            padding: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .nav-icons a {
+            color: #FFFFFF;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 1.2rem;
             position: relative;
         }
-
-        .icon-btn:hover {
-            transform: scale(1.15) rotate(5deg);
+        
+        .nav-icons a:hover {
+            color: #FF00FF;
         }
 
-        .icon-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* Cart Badge */
         .cart-badge {
             position: absolute;
-            top: 2px;
-            right: 2px;
-            background: #000000;
-            color: #FFFFFF;
-            font-size: 11px;
-            font-weight: 700;
-            min-width: 18px;
-            height: 18px;
+            top: -5px;
+            right: -10px;
+            background-color: #FF00FF;
+            color: #111111;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 5px;
-            pointer-events: none;
-            opacity: 0;
-            transform: scale(0);
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            padding: 2px 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            min-width: 20px;
+            text-align: center;
         }
-
-        .cart-badge.active {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .burger-menu {
+        
+        .hamburger {
             display: none;
             flex-direction: column;
-            gap: 5px;
             cursor: pointer;
-            background: none;
-            border: none;
-            padding: 8px;
-            position: relative;
-            width: 40px;
-            height: 40px;
-            justify-content: center;
         }
 
-        .burger-line {
-            height: 2.5px;
-            background: #000000;
-            transition: all 0.3s ease;
-            border-radius: 2px;
-        }
-
-        .burger-line:nth-child(1) {
-            width: 24px;
-        }
-
-        .burger-line:nth-child(2) {
-            width: 20px;
-        }
-
-        .burger-line:nth-child(3) {
-            width: 16px;
-        }
-
-        .burger-menu:hover .burger-line:nth-child(1) {
-            width: 26px;
-        }
-
-        .burger-menu:hover .burger-line:nth-child(2) {
-            width: 22px;
-        }
-
-        .burger-menu:hover .burger-line:nth-child(3) {
-            width: 18px;
-        }
-
-        .mobile-menu {
-            position: fixed;
-            top: 80px;
-            left: -100%;
-            width: 100%;
-            height: calc(100% - 80px);
-            background: #FFFFFF;
-            z-index: 999;
-            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow-y: auto;
-            border-top: 2px solid #000000;
-        }
-
-        .mobile-menu.active {
-            left: 0;
-        }
-
-        .mobile-nav-content {
-            padding: 60px 40px;
-        }
-
-        .mobile-nav-item {
-            list-style: none;
-            margin-bottom: 32px;
-        }
-
-        .mobile-nav-link {
-            font-family: 'Bebas Neue', cursive;
-            font-size: 48px;
-            font-weight: 400;
-            letter-spacing: 2px;
-            text-decoration: none;
-            color: #000000;
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #FFFFFF;
+            margin: 4px 0;
             transition: all 0.3s ease;
         }
 
-        .mobile-nav-link:hover {
-            color: #666666;
-        }
-
-        /* Hero Section */
-        .hero-section {
-            margin-top: 80px;
-            position: relative;
-            width: 100%;
-            background: #000000;
-            overflow: hidden;
-        }
-
-        .hero-container {
-            position: relative;
-            width: 100%;
-            height: 90%;
-            max-height: 900px;
-            min-height: 700px;
+        /* Main Hero Section */
+        .hero {
+            background: url('https://hnungh.github.io/mcl/img/hero-bg-2.jpg') no-repeat center center/cover;
+            height: 70vh;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .hero-bg-pattern {
-            position: absolute;
-            inset: 0;
-            opacity: 0.1;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
             text-align: center;
-            max-width: 1200px;
-            padding: 0 40px;
-        }
-
-        .hero-badge {
-            display: inline-block;
-            padding: 12px 28px;
-            background: #FFFFFF;
-            color: #000000;
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-bottom: 32px;
-            clip-path: polygon(8% 0%, 92% 0%, 100% 50%, 92% 100%, 8% 100%, 0% 50%);
-            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.25),
-                        0 4px 12px rgba(255, 255, 255, 0.15),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.5);
-            position: relative;
-        }
-
-        .hero-badge::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            clip-path: polygon(8% 0%, 92% 0%, 100% 50%, 92% 100%, 8% 100%, 0% 50%);
-            background: linear-gradient(135deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 50%);
-            pointer-events: none;
-        }
-
-        .hero-title {
-            font-family: 'Bebas Neue', cursive;
-            font-size: 120px;
-            font-weight: 400;
-            letter-spacing: 8px;
             color: #FFFFFF;
-            line-height: 1;
-            margin-bottom: 24px;
-            text-shadow: 4px 4px 0px rgba(255, 255, 255, 0.1);
+            position: relative;
+            /* เพิ่มสีดำโปร่งแสงซ้อนทับ */
+            box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.4); 
         }
 
-        .hero-subtitle {
-            font-size: 20px;
-            font-weight: 300;
-            color: #CCCCCC;
-            margin-bottom: 48px;
+        .hero-content h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 5rem;
+            margin-bottom: 10px;
             letter-spacing: 4px;
-            text-transform: uppercase;
+            text-shadow: 2px 2px 4px #FF00FF;
         }
 
-        .hero-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 16px;
-            padding: 20px 60px;
-            background: #FFFFFF;
-            color: #000000;
-            border: none;
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 3px;
-            text-transform: uppercase;
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #FF00FF;
+            color: #111111;
+            padding: 12px 30px;
             text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border: none;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s;
+            box-shadow: 0 0 10px #FF00FF;
+        }
+
+        .cta-button:hover {
+            background-color: #111111;
+            color: #FF00FF;
+            box-shadow: 0 0 15px #FF00FF, inset 0 0 5px #FF00FF;
+        }
+
+        /* Product & Collection Sections */
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            text-align: center;
+            margin: 60px 0 30px;
+            letter-spacing: 2px;
+            border-bottom: 2px solid #FF00FF;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+        
+        .section-header {
+            text-align: center;
+        }
+
+        .product-grid, .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding-bottom: 60px;
+        }
+
+        /* Product Card - CRUCIAL PART */
+        .product-card {
+            border: 1px solid #EEEEEE;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s;
+            background-color: #FFFFFF;
+            cursor: pointer;
+            display: block; /* Make the entire card a link block */
+            text-decoration: none; /* Remove underline from the link */
+            color: inherit; /* Inherit color */
+        }
+        
+        .product-card:hover {
+            border-color: #FF00FF;
+            box-shadow: 0 4px 15px rgba(255, 0, 255, 0.2);
+            transform: translateY(-5px);
+        }
+        
+        .product-image-container {
             position: relative;
             overflow: hidden;
-            clip-path: polygon(8% 0%, 92% 0%, 100% 50%, 92% 100%, 8% 100%, 0% 50%);
+            margin-bottom: 15px;
+            aspect-ratio: 4/5; /* Aspect ratio for product images */
         }
-
-        .hero-cta::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.2), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .hero-cta:hover {
-            transform: scale(1.08);
-            box-shadow: 0 8px 32px rgba(255, 255, 255, 0.3);
-        }
-
-        .hero-cta:hover::before {
-            left: 100%;
-        }
-
-        .hero-cta:active {
-            transform: scale(1.02);
-        }
-
-        /* Brand Video Section */
-        .brand-video-section {
-            padding: 60px 40px;
-            background: #FFFFFF;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .video-container {
-            width: 100%;
-            max-width: 1400px;
-            aspect-ratio: 16 / 9;
-            border: 3px solid #000000;
-            overflow: hidden;
-        }
-
-        .brand-video {
+        
+        .product-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.5s;
         }
 
-        /* Product Carousel */
-        .carousel-section {
-            padding: 80px 40px;
-            max-width: 1600px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-family: 'Bebas Neue', cursive;
-            font-size: 80px;
-            font-weight: 400;
-            letter-spacing: 4px;
-            text-align: center;
-            margin-bottom: 40px;
-            line-height: 1;
-        }
-
-        .carousel-container {
-            display: flex;
-            gap: 20px;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            padding-bottom: 20px;
-            -ms-overflow-style: none; /* IE and Edge */
-            scrollbar-width: none; /* Firefox */
-        }
-
-        .carousel-container::-webkit-scrollbar {
-            display: none;
-        }
-
-        .product-card {
-            flex: 0 0 300px; /* Fixed width for each card */
-            scroll-snap-align: start;
-            text-decoration: none;
-            color: #000000;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid #e0e0e0;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .product-image-container {
-            width: 100%;
-            height: 350px;
-            overflow: hidden;
-        }
-
-        .product-info {
-            padding: 15px;
-            background: #F8F8F8;
-            border-top: 1px solid #e0e0e0;
-        }
-
-        .product-name {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 5px;
+        .product-card:hover .product-image {
+            transform: scale(1.05);
         }
 
         .product-category {
-            font-size: 12px;
-            color: #777;
-            text-transform: uppercase;
-            margin-bottom: 10px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #FF00FF;
+            color: #111111;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #111111;
         }
 
         .product-price {
-            font-size: 18px;
+            font-size: 1.2rem;
+            color: #FF00FF;
             font-weight: 700;
-            color: #E70000;
         }
 
-        /* Collections Section */
-        .collections-section {
-            padding: 80px 40px;
-            max-width: 1600px;
-            margin: 0 auto;
-            background: #F5F5F5;
-        }
-
-        .collections-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
-
+        /* Collection Card */
         .collection-card {
             position: relative;
             overflow: hidden;
-            aspect-ratio: 1 / 1;
-            background: #000000;
+            aspect-ratio: 16/9;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid #000000;
         }
 
-        .collection-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .collection-image {
+        .collection-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.5;
-            transition: opacity 0.3s ease;
+            transition: transform 0.5s;
         }
 
-        .collection-card:hover .collection-image {
-            opacity: 0.7;
+        .collection-card:hover img {
+            transform: scale(1.05);
         }
 
-        .collection-text-overlay {
+        .collection-overlay {
             position: absolute;
-            inset: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #FFFFFF;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-        }
-
-        .collection-text-overlay svg {
-            width: 90%;
-            height: 90%;
-            position: absolute;
-            opacity: 0.8;
-            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.1));
-        }
-
-        .collection-info {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            text-align: left;
-            z-index: 10;
         }
 
         .collection-name {
-            font-family: 'Bebas Neue', cursive;
-            font-size: 40px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            color: #FFFFFF;
             letter-spacing: 2px;
-            line-height: 1;
-        }
-
-        .collection-count {
-            font-size: 14px;
-            font-weight: 600;
-            text-transform: uppercase;
-            margin-top: 5px;
-        }
-
-        /* About Section */
-        .about-section {
-            padding: 80px 40px;
-            max-width: 1600px;
-            margin: 0 auto;
-            display: flex;
-            gap: 40px;
-            align-items: center;
-        }
-
-        .about-text-content {
-            flex: 1;
-            padding-right: 40px;
-        }
-
-        .about-image-mock {
-            flex: 1;
-            aspect-ratio: 1 / 1;
-            background: #F5F5F5;
-            border: 3px solid #000000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .about-text-content h2 {
-            font-family: 'Bebas Neue', cursive;
-            font-size: 64px;
-            font-weight: 400;
-            letter-spacing: 3px;
-            color: #000000;
-            line-height: 1;
-            margin-bottom: 32px;
-        }
-
-        .about-text-content p {
-            font-size: 16px;
-            line-height: 1.8;
-            color: #333333;
-            margin-bottom: 24px;
-        }
-
-        .about-features {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-top: 40px;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: #000000;
-            padding: 20px;
-            color: #FFFFFF;
-            border-radius: 4px;
-        }
-
-        .feature-item h4 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .feature-item p {
-            font-size: 14px;
-            color: #CCCCCC;
-            margin-bottom: 0;
-        }
-
-        /* Drops Section */
-        .drops-section {
-            padding: 80px 40px;
-            max-width: 1600px;
-            margin: 0 auto;
-        }
-
-        .drops-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-        }
-
-        .drop-card {
-            position: relative;
-            aspect-ratio: 3 / 4;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .drop-card:hover {
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-            transform: translateY(-8px);
-        }
-
-        .drop-image-container {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-        }
-
-        .drop-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .drop-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 50%);
-            padding: 24px;
-            color: #FFFFFF;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            transition: background 0.3s ease;
-        }
-
-        .drop-card:hover .drop-overlay {
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.1) 50%);
-        }
-
-        .drop-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .drop-info-left {
-            flex: 1;
-        }
-
-        .drop-label {
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: #999999;
-            margin-bottom: 8px;
-        }
-
-        .drop-name {
-            font-family: 'Bebas Neue', cursive;
-            font-size: 24px;
-            font-weight: 400;
-            letter-spacing: 1px;
-            color: #FFFFFF;
-            margin-bottom: 12px;
-        }
-
-        .drop-price {
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        .drop-cta-btn {
-            background: #FFFFFF;
-            color: #000000;
-            padding: 10px 20px;
-            border: none;
-            font-weight: 600;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 12px;
-            border-radius: 4px;
-        }
-
-        .drop-cta-btn:hover {
-            background: #EEEEEE;
+            text-shadow: 2px 2px 4px #000000;
         }
 
         /* Footer */
-        .footer-main {
-            background: #F8F8F8;
-            padding: 60px 40px;
-            border-top: 1px solid #e0e0e0;
+        footer {
+            background-color: #111111;
+            color: #AAAAAA;
+            padding: 40px 0;
+            text-align: center;
+            border-top: 2px solid #FF00FF;
         }
 
-        .footer-container {
-            max-width: 1600px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 40px;
+        footer p {
+            margin: 5px 0;
+            font-size: 0.9rem;
         }
 
-        .footer-column h4 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-
-        .footer-column ul {
-            list-style: none;
-        }
-
-        .footer-column ul li {
-            margin-bottom: 10px;
-        }
-
-        .footer-column ul li a {
+        footer a {
+            color: #AAAAAA;
             text-decoration: none;
-            color: #555555;
-            font-size: 14px;
-            transition: color 0.3s ease;
+            transition: color 0.3s;
         }
 
-        .footer-column ul li a:hover {
-            color: #000000;
+        footer a:hover {
+            color: #FF00FF;
         }
 
-        .footer-brand p {
-            font-size: 14px;
-            color: #555555;
-            line-height: 1.6;
-            margin-top: 15px;
-        }
 
-        .footer-social-links {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .social-btn {
-            color: #000000;
-            transition: transform 0.3s ease;
-        }
-
-        .social-btn:hover {
-            transform: translateY(-3px);
-            color: #333333;
-        }
-
-        .footer-bottom {
-            max-width: 1600px;
-            margin: 20px auto 0;
-            padding-top: 20px;
-            border-top: 1px solid #e0e0e0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .copyright {
-            font-size: 13px;
-            color: #666666;
-        }
-
-        .payment-methods {
-            display: flex;
-            gap: 16px;
-            align-items: center;
-        }
-
-        /* Responsive */
-        @media (max-width: 1200px) {
-            .collections-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .drops-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 992px) {
-            .hero-title {
-                font-size: 90px;
-            }
-            .about-section {
-                flex-direction: column;
-                padding: 60px 24px;
-            }
-            .about-text-content {
-                padding-right: 0;
-            }
-            .collections-grid {
-                grid-template-columns: repeat(1, 1fr);
-                gap: 20px;
-            }
-            .drops-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
-            .footer-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .about-image-mock {
-                width: 100%;
-                max-width: 400px;
-            }
-        }
-        
+        /* Media Queries for Mobile */
         @media (max-width: 768px) {
-            .brand-video-section {
-                padding: 40px 24px;
-            }
-            .video-container {
-                border-width: 2px;
-            }
-            .nav-content {
-                padding: 0 24px;
-                height: 70px;
-            }
-            .logo-text {
-                font-size: 24px;
-            }
-            .main-nav-list {
+            .nav-links {
                 display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px; /* Adjust based on header height */
+                left: 0;
+                width: 100%;
+                background-color: #111111;
+                border-top: 1px solid #333333;
+                z-index: 999;
             }
-            .burger-menu {
+
+            .nav-links.active {
                 display: flex;
             }
-            .mobile-menu {
-                top: 70px;
-                height: calc(100% - 70px);
+
+            .nav-links li {
+                text-align: center;
+                border-bottom: 1px solid #333333;
             }
-            .hero-title {
-                font-size: 60px;
-                letter-spacing: 4px;
+            
+            .nav-links li:last-child {
+                border-bottom: none;
             }
-            .hero-subtitle {
-                font-size: 16px;
-                letter-spacing: 2px;
+
+            .nav-links li a {
+                display: block;
+                padding: 15px;
             }
-            .hero-cta {
-                padding: 15px 40px;
-                font-size: 12px;
+
+            .nav-icons {
+                order: 3; /* Move icons after logo */
             }
-            .carousel-section, .drops-section, .footer-main {
-                padding: 40px 24px;
+
+            .hamburger {
+                display: flex;
+                margin-left: 20px;
             }
+            
+            .hero {
+                height: 50vh;
+            }
+            
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+            
             .section-title {
-                font-size: 50px;
+                font-size: 2rem;
             }
-            .footer-bottom {
-                flex-direction: column;
-                gap: 15px;
-            }
-            .footer-container {
+            
+            .product-grid, .collection-grid {
                 grid-template-columns: 1fr;
             }
         }
   </style>
  </head>
  <body>
-
-  <div class="page-wrapper">
-    <nav class="top-nav">
-      <div class="nav-content">
-        <a href="#hero" class="logo-text" id="brandLogo">NEXUS WEAR</a>
-        
-        <ul class="main-nav-list">
-          <li><a href="#new" class="nav-link">NEW DROPS</a></li>
-          <li><a href="#trending" class="nav-link">TRENDING</a></li>
-          <li><a href="#collections" class="nav-link">COLLECTIONS</a></li>
-          <li><a href="#about" class="nav-link">ABOUT</a></li>
-        </ul>
-        
-        <div class="nav-icons">
-          <a href="cart.html" class="icon-btn" aria-label="Cart">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-            <span class="cart-badge" id="cartCountBadge">0</span>
-          </a>
-          <button class="burger-menu" id="burgerMenuBtn" aria-label="Open menu">
-            <div class="burger-line"></div>
-            <div class="burger-line"></div>
-            <div class="burger-line"></div>
-          </button>
-        </div>
-      </div>
-    </nav>
-    
-    <div class="mobile-menu" id="mobileMenu">
-      <ul class="mobile-nav-content">
-        <li class="mobile-nav-item"><a href="#new" class="mobile-nav-link">NEW DROPS</a></li>
-        <li class="mobile-nav-item"><a href="#trending" class="mobile-nav-link">TRENDING</a></li>
-        <li class="mobile-nav-item"><a href="#collections" class="mobile-nav-link">COLLECTIONS</a></li>
-        <li class="mobile-nav-item"><a href="#about" class="mobile-nav-link">ABOUT</a></li>
-      </ul>
-    </div>
-
-    <main>
-      
-      <section class="hero-section" id="hero">
-        <div class="hero-container">
-          <svg class="hero-bg-pattern" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><defs>
-            <pattern id="grid" width="100" height="100" patternunits="userSpaceOnUse">
-              <path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#grid)" />
-          <circle cx="400" cy="300" r="200" fill="rgba(255,255,255,0.03)" />
-          <circle cx="1500" cy="700" r="300" fill="rgba(255,255,255,0.03)" />
-          <rect x="800" y="200" width="400" height="400" fill="rgba(255,255,255,0.05)" />
-        </svg>
-          <div class="hero-content">
-            <span class="hero-badge" id="heroBadge">NEW ARRIVALS</span>
-            <h1 class="hero-title" id="heroTitle">UNLEASH THE VIBE</h1>
-            <p class="hero-subtitle" id="heroSubtitle">Y2K - Hip Hop - Streetwear</p>
-            <a href="#trending" class="hero-cta" id="heroCTA">SHOP NOW
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <section class="carousel-section" id="trending">
-        <h2 class="section-title">TRENDING NOW</h2>
-        <div class="carousel-container" id="productCarousel">
-            </div>
-      </section>
-      
-      <section class="collections-section" id="collections">
-        <h2 class="section-title">COLLECTIONS</h2>
-        <div class="collections-grid">
-          
-          <button class="collection-card" data-collection="Essential">
-            <div class="collection-text-overlay">
-              <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-                <defs>
-                  <pattern id="diagonal-stripes-1" patternUnits="userSpaceOnUse" width="10" height="10">
-                    <path d="M-1,1 l2,-2 M0,10 l10,-10 M9,11 l2,-2" stroke="rgba(255,255,255,0.3)" stroke-width="1" />
-                  </pattern>
-                </defs>
-                <rect x="0" y="0" width="200" height="200" fill="url(#diagonal-stripes-1)" />
-              </svg>
-            </div>
-            <div class="collection-info">
-              <h3 class="collection-name" id="collection1Name">ESSENTIALS</h3>
-              <p class="collection-count">30 Items</p>
-            </div>
-          </button>
-          
-          <button class="collection-card" data-collection="Limited">
-            <img src="https://hnungh.github.io/mcl/img/hoodie-grey.jpg" alt="Limited Drop Collection" class="collection-image" loading="lazy">
-            <div class="collection-text-overlay">
-              <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-                <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="Bebas Neue, cursive" font-size="100" font-weight="700" fill="rgba(255,255,255,0.15)"> LIMITED </text>
-              </svg>
-            </div>
-            <div class="collection-info">
-              <h3 class="collection-name" id="collection2Name">THE DROP</h3>
-              <p class="collection-count">8 Items</p>
-            </div>
-          </button>
-          
-          <button class="collection-card" data-collection="Streetwear">
-            <img src="https://hnungh.github.io/mcl/img/cargo-pants-olive.jpg" alt="Streetwear Collection" class="collection-image" loading="lazy">
-            <div class="collection-text-overlay">
-              <svg width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-                <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="Bebas Neue, cursive" font-size="100" font-weight="700" fill="rgba(255,255,255,0.15)"> STREET </text>
-              </svg>
-            </div>
-            <div class="collection-info">
-              <h3 class="collection-name" id="collection3Name">STREETWEAR</h3>
-              <p class="collection-count">55 Items</p>
-            </div>
-          </button>
-          
-        </div>
-      </section>
-
-      <section class="brand-video-section">
-        <div class="video-container">
-          <video class="brand-video" autoplay muted loop playsinline>
-              <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
-          </video>
-        </div>
-      </section>
-
-      <section class="drops-section" id="new">
-        <h2 class="section-title">NEW ARRIVALS</h2>
-        <div class="drops-grid">
+  
+  <header>
+    <div class="container">
+        <nav class="navbar">
+            <a href="#" class="brand-logo" id="brandLogo">NEXUS WEAR</a>
             
-          <a href="product.html?id=oversized-tee-black" class="drop-card" data-product-id="oversized-tee-black">
-            <div class="drop-image-container">
-              <img src="https://hnungh.github.io/mcl/img/oversized-tee-black.jpg" alt="Classic Black Oversized Tee" class="drop-image" loading="lazy">
-            </div>
-            <div class="drop-overlay">
-              <div class="drop-info">
-                <div class="drop-info-left">
-                  <div class="drop-label">TEE</div>
-                  <div class="drop-name">Classic Oversized Tee</div>
-                  <div class="drop-price">790.00 THB</div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#new-arrivals">NEW ARRIVALS</a></li>
+                <li><a href="#collections">COLLECTIONS</a></li>
+                <li><a href="#trending">TRENDING</a></li>
+            </ul>
+            
+            <div class="nav-icons">
+                <a href="cart.html" title="Shopping Cart">
+                    🛒
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </a>
+                <div class="hamburger" id="hamburger">
+                    <div></div>
+                    <div></div>
+                    <div></div>
                 </div>
-                <button class="drop-cta-btn">VIEW ITEM</button>
-              </div>
             </div>
-          </a>
-          
-          <a href="product.html?id=cargo-pants-olive" class="drop-card" data-product-id="cargo-pants-olive">
-            <div class="drop-image-container">
-              <img src="https://hnungh.github.io/mcl/img/cargo-pants-olive.jpg" alt="Military Olive Cargo Pants" class="drop-image" loading="lazy">
-            </div>
-            <div class="drop-overlay">
-              <div class="drop-info">
-                <div class="drop-info-left">
-                  <div class="drop-label">PANTS</div>
-                  <div class="drop-name">Military Cargo Pants</div>
-                  <div class="drop-price">1,590.00 THB</div>
-                </div>
-                <button class="drop-cta-btn">VIEW ITEM</button>
-              </div>
-            </div>
-          </a>
-          
-          <a href="product.html?id=hoodie-grey" class="drop-card" data-product-id="hoodie-grey">
-            <div class="drop-image-container">
-              <img src="https://hnungh.github.io/mcl/img/hoodie-grey.jpg" alt="Basic Pullover Hoodie" class="drop-image" loading="lazy">
-            </div>
-            <div class="drop-overlay">
-              <div class="drop-info">
-                <div class="drop-info-left">
-                  <div class="drop-label">HOODIE</div>
-                  <div class="drop-name">Basic Pullover Hoodie</div>
-                  <div class="drop-price">1,200.00 THB</div>
-                </div>
-                <button class="drop-cta-btn">VIEW ITEM</button>
-              </div>
-            </div>
-          </a>
+        </nav>
+    </div>
+  </header>
 
-          <a href="product.html?id=sunglasses-retro" class="drop-card" data-product-id="sunglasses-retro">
-            <div class="drop-image-container">
-              <img src="https://hnungh.github.io/mcl/img/sunglasses-retro.jpg" alt="Retro Square Sunglasses" class="drop-image" loading="lazy">
-            </div>
-            <div class="drop-overlay">
-              <div class="drop-info">
-                <div class="drop-info-left">
-                  <div class="drop-label">ACCESSORIES</div>
-                  <div class="drop-name">Retro Square Sunglasses</div>
-                  <div class="drop-price">890.00 THB</div>
-                </div>
-                <button class="drop-cta-btn">VIEW ITEM</button>
-              </div>
-            </div>
-          </a>
-          
-        </div>
+  <main>
+      <section class="hero">
+          <div class="hero-content">
+              <h1>NEW DROP: NEO-CHROME</h1>
+              <p>สัมผัสแฟชั่น Y2K สไตล์ฮิปฮอปยุคใหม่</p>
+              <a href="#new-arrivals" class="cta-button">SHOP NOW</a>
+          </div>
       </section>
 
-      <section class="about-section" id="about">
-        <div class="about-text-content">
-          <h2 id="aboutTitle">FROM THE STREETS TO THE NEXUS.</h2>
-          <p id="aboutParagraph1">We are Nexus Wear, the convergence point of classic Y2K nostalgia and modern hip hop streetwear. Our mission is to provide high-quality, authentic apparel that allows you to express your boldest self.</p>
-          <p id="aboutParagraph2">Every piece is designed with attention to detail and construction techniques that ensure longevity. We believe in creating timeless pieces that become part of your story.</p>
-          
-          <div class="about-features">
-            <div class="feature-item">
-              <div class="feature-icon">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              </div>
-              <div class="feature-text">
-                <h4>Premium Quality</h4>
-                <p>Top-tier materials and construction</p>
-              </div>
-            </div>
-            <div class="feature-item">
-              <div class="feature-icon">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
-              </div>
-              <div class="feature-text">
-                <h4>Fast Shipping</h4>
-                <p>Delivery within 3-5 business days</p>
-              </div>
-            </div>
+      <section id="new-arrivals" class="container">
+          <div class="section-header">
+              <h2 class="section-title">NEW ARRIVALS</h2>
+              <p>สินค้ามาใหม่ล่าสุด ดีไซน์เด่น พร้อมให้คุณจับจอง</p>
           </div>
-        </div>
-        <div class="about-image-mock">
-          <svg width="80%" height="80%" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="0" y="0" width="100" height="100" fill="#E0E0E0"/>
-            <text x="50" y="55" font-family="'Bebas Neue', cursive" font-size="20" fill="#333333" text-anchor="middle">BRAND PHOTO</text>
-            <rect x="10" y="10" width="80" height="80" stroke="#000000" stroke-width="2" fill="none"/>
-          </svg>
-        </div>
+          
+          <div class="product-grid" id="new-arrivals-container">
+             <a href="product.html?id=oversized-tee-black" class="product-card" data-product-id="oversized-tee-black">
+                 <div class="product-image-container">
+                    <img src="https://hnungh.github.io/mcl/img/oversized-tee-black.jpg" alt="Classic Black Oversized Tee" class="product-image">
+                    <span class="product-category">OVERSIZED TEE</span>
+                 </div>
+                 <div class="product-info">
+                    <h4 class="product-name">Classic Black Oversized Tee</h4>
+                    <p class="product-price">790 THB</p>
+                 </div>
+             </a>
+             <a href="product.html?id=cargo-pants-olive" class="product-card" data-product-id="cargo-pants-olive">
+                 <div class="product-image-container">
+                    <img src="https://hnungh.github.io/mcl/img/cargo-pants-olive.jpg" alt="Military Olive Cargo Pants" class="product-image">
+                    <span class="product-category">CARGO PANTS</span>
+                 </div>
+                 <div class="product-info">
+                    <h4 class="product-name">Military Olive Cargo Pants</h4>
+                    <p class="product-price">1,590 THB</p>
+                 </div>
+             </a>
+             </div>
       </section>
 
-    </main>
-    
-    <footer class="footer-main">
-      <div class="footer-container">
-        
-        <div class="footer-column footer-brand">
-          <h4>NEXUS WEAR</h4>
-          <p>The best destination for authentic Y2K and Hip Hop inspired streetwear. Shop our latest drops and collections.</p>
-          <div class="footer-social-links">
-            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Instagram">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-            </a>
-            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Facebook">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="#000000" stroke="none"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-            </a>
-            <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Twitter">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="#000000" stroke="none"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.78 4.25H5.953z"/></svg>
-            </a>
+      <section id="collections" class="container">
+          <div class="section-header">
+              <h2 class="section-title">FEATURED COLLECTIONS</h2>
+              <p>แรงบันดาลใจจากสตรีทแฟชั่นและยุค 90s</p>
           </div>
-        </div>
-        
-        <div class="footer-column">
-          <h4>HELP CENTER</h4>
-          <ul>
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">Shipping & Returns</a></li>
-            <li><a href="#">FAQ</a></li>
-            <li><a href="#">Sizing Guide</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-column">
-          <h4>SHOP</h4>
-          <ul>
-            <li><a href="#new">New Arrivals</a></li>
-            <li><a href="#trending">Trending</a></li>
-            <li><a href="#collections">Collections</a></li>
-            <li><a href="#">Sale</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-column">
-          <h4>LEGAL</h4>
-          <ul>
-            <li><a href="#">Terms of Service</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Accessibility</a></li>
-          </ul>
-        </div>
-        
-      </div>
+          
+          <div class="collection-grid">
+              <div class="collection-card">
+                  <img src="https://hnungh.github.io/mcl/img/collection-1.jpg" alt="Neon Streetwear">
+                  <div class="collection-overlay">
+                      <h3 class="collection-name" id="collection1Name">NEON STREETWEAR</h3>
+                  </div>
+              </div>
+              <div class="collection-card">
+                  <img src="https://hnungh.github.io/mcl/img/collection-2.jpg" alt="Grunge Aesthetics">
+                  <div class="collection-overlay">
+                      <h3 class="collection-name" id="collection2Name">GRUNGE AESTHETICS</h3>
+                  </div>
+              </div>
+              <div class="collection-card">
+                  <img src="https://hnungh.github.io/mcl/img/collection-3.jpg" alt="Cyberpunk Future">
+                  <div class="collection-overlay">
+                      <h3 class="collection-name" id="collection3Name">CYBERPUNK FUTURE</h3>
+                  </div>
+              </div>
+          </div>
+      </section>
+      
+      <section id="trending" class="container">
+          <div class="section-header">
+              <h2 class="section-title">TRENDING NOW</h2>
+              <p>สินค้าขายดีและกำลังเป็นที่นิยมในขณะนี้</p>
+          </div>
+          <div class="product-grid" id="trending-products-container">
+              <p style="text-align: center; grid-column: 1 / -1;">กำลังโหลดสินค้าขายดี...</p>
+          </div>
+      </section>
 
-      <div class="footer-bottom">
-        <p class="copyright">© <span id="currentYear">2023</span> Nexus Wear. All Rights Reserved.</p>
-        <div class="payment-methods">
-          <svg width="30" height="20" viewBox="0 0 38 24" fill="#000000" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" rx="3"/><path d="M7 6h6v12H7zM20 6h4v12h-4zM27 6h4v12h-4z" fill="#FFFFFF"/></svg>
-          <svg width="30" height="20" viewBox="0 0 38 24" fill="#000000" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" rx="3"/><path d="M14.7 18h-4.3c-1 0-1.8-.8-1.8-1.8V7.8c0-1 .8-1.8 1.8-1.8h4.3c1 0 1.8.8 1.8 1.8v8.4c0 1-.8 1.8-1.8 1.8zM27.2 18h-4.3c-1 0-1.8-.8-1.8-1.8V7.8c0-1 .8-1.8 1.8-1.8h4.3c1 0 1.8.8 1.8 1.8v8.4c0 1-.8 1.8-1.8 1.8z" fill="#FFFFFF"/></svg>
-          <svg width="30" height="20" viewBox="0 0 38 24" fill="#000000" xmlns="http://www.w3.org/2000/svg"><rect width="38" height="24" rx="3"/><path d="M10 12c0-1.7 1.3-3 3-3h12c1.7 0 3 1.3 3 3s-1.3 3-3 3H13c-1.7 0-3-1.3-3-3z" fill="#FFFFFF"/></svg>
-        </div>
+  </main>
+  
+  <footer>
+      <div class="container">
+          <p>&copy; <span id="currentYear">2023</span> <span id="footerBrand">NEXUS WEAR</span>. All Rights Reserved.</p>
+          <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
       </div>
-    </footer>
-
-  </div>
+  </footer>
 
   <script>
     // ===========================================
-    // UTILITY FUNCTIONS
+    // DATA & CART UTILITIES
     // ===========================================
-
-    /**
-     * อัปเดต Badge จำนวนสินค้าในตะกร้า
-     * @param {number} count - จำนวนสินค้าทั้งหมดในตะกร้า
-     */
-    function updateCartBadge(count) {
-        const badge = document.getElementById('cartCountBadge');
-        if (!badge) return;
-        
-        // Show count (up to 99)
-        badge.textContent = count > 99 ? '99+' : count; 
-        
-        if (count > 0) {
-            badge.classList.add('active');
-        } else {
-            badge.classList.remove('active');
-        }
-    }
-
-    /**
-     * สร้างองค์ประกอบ HTML สำหรับบัตรสินค้า
-     * @param {Object} product - ข้อมูลสินค้า
-     * @returns {HTMLAnchorElement} - องค์ประกอบ <a> ที่เป็นบัตรสินค้า
-     */
-    function createProductCard(product) {
-        const card = document.createElement('a');
-        // สร้างลิงก์ที่ชี้ไป product.html และส่งพารามิเตอร์ ID
-        card.href = `product.html?id=${product.id}`;
-        card.className = 'product-card';
-
-        const formatCurrency = (amount) => {
-            return `${parseFloat(amount).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} THB`;
-        };
-        
-        // ใช้รูปภาพจริงจาก mock data
-        const imageHtml = product.image ? 
-            `<div class="product-image-container"><img src="${product.image}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover;"></div>` : 
-            `<div class="product-image-container" style="background: #e0e0e0; display: flex; align-items: center; justify-content: center;"><span style="color: #777;">Image Missing</span></div>`;
-
-        card.innerHTML = `
-            ${imageHtml}
-            <div class="product-info">
-                <div class="product-category">${product.category}</div>
-                <div class="product-name">${product.name}</div>
-                <div class="product-price">${formatCurrency(product.price)}</div>
-            </div>
-        `;
-
-        return card;
-    }
-
-    /**
-     * ดึงข้อมูลสินค้า Trending และแสดงผลใน Carousel
-     */
-    function renderTrendingProducts() {
-        const carouselContainer = document.getElementById('productCarousel');
-        if (!carouselContainer || !window.dataUtility) return;
-
-        // ดึงสินค้าที่เป็น trending จาก Data Utility Mock
-        const trendingProducts = window.dataUtility.getTrendingProducts();
-        
-        carouselContainer.innerHTML = '';
-        if (trendingProducts && trendingProducts.length > 0) {
-            trendingProducts.forEach(product => {
-                carouselContainer.appendChild(createProductCard(product));
-            });
-        } else {
-             carouselContainer.innerHTML = '<p style="padding: 20px; text-align: center;">No trending products available.</p>';
-        }
-    }
-   // index.html (ส่วนท้ายของไฟล์ ภายในแท็ก <script> หรือเพิ่มแท็กใหม่)
-
-// ============================================
-// WIRING UP PRODUCT CARDS
-// ============================================
-function wireUpProductCards() {
-    const productCards = document.querySelectorAll('.product-card');
-
-    productCards.forEach(card => {
-        // ดึง Product ID จาก data attribute
-        const productId = card.dataset.productId; 
-
-        if (productId) {
-            card.addEventListener('click', () => {
-                // สร้าง URL ที่ถูกต้อง: product.html?id=xxx
-                window.location.href = `product.html?id=${encodeURIComponent(productId)}`;
-            });
-            
-            // ทำให้การ์ดมี cursor: pointer
-            card.style.cursor = 'pointer'; 
-        } else {
-            console.error('Product Card is missing data-product-id attribute', card);
-        }
-    });
-}
-
-// ตรวจสอบให้แน่ใจว่าได้เรียกใช้ฟังก์ชันนี้เมื่อ DOM โหลดเสร็จแล้ว
-document.addEventListener('DOMContentLoaded', () => {
-    // ... โค้ด initialize อื่นๆ ...
-    wireUpProductCards(); // <-- เพิ่มบรรทัดนี้
-});
-    
-    // ===========================================
-    // UI & EVENT HANDLERS
-    // ===========================================
-
-    /**
-     * จัดการการสลับ Mobile Menu
-     */
-    function toggleMobileMenu() {
-        const burgerBtn = document.getElementById('burgerMenuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-        
-        if (burgerBtn && mobileMenu) {
-            burgerBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('active');
-            });
-
-            // ปิดเมนูเมื่อคลิกลิงก์
-            document.querySelectorAll('.mobile-nav-link').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.remove('active');
-                });
-            });
-        }
-    }
-
-    /**
-     * จัดการการเลื่อนหน้าแบบ Smooth Scroll สำหรับลิงก์ Anchor
-     */
-    function setupSmoothScroll() {
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
-                if (href !== '#' && href.length > 1) {
-                    e.preventDefault();
-                    const target = document.querySelector(href);
-                    if (target) {
-                        // เลื่อนไปตำแหน่งที่ถูกต้อง โดยเว้นพื้นที่ด้านบนสำหรับ Fixed Header
-                        const headerHeight = document.querySelector('.top-nav').offsetHeight;
-                        const targetPosition = target.offsetTop - headerHeight;
-
-                        window.scrollTo({
-                            top: targetPosition,
-                            behavior: 'smooth'
-                        });
-                        
-                        // Analytics Tracking: Track scroll event
-                        if (window.analyticsSdk) {
-                            window.analyticsSdk.trackEvent('ScrollToSection', { section_id: href.substring(1) });
-                        }
-                    }
-                }
-            });
-        });
-    }
-
-    // ===========================================
-    // DATA SDK INTEGRATION
-    // ===========================================
+    // This function relies on MOCK_PRODUCTS_DATA being available from data_utility.js
     
     /**
-     * Initialise Data SDK และตั้งค่า Handler สำหรับการเปลี่ยนแปลงตะกร้าสินค้า
+     * ดึงจำนวนสินค้าในตะกร้าจาก Data SDK
+     */
+    function updateCartCountFromSDK() {
+        if (window.dataSdk) {
+            const count = window.dataSdk.getCartCount();
+            const badge = document.getElementById('cartBadge');
+            if (badge) {
+                badge.textContent = count > 99 ? '99+' : count;
+                badge.style.display = count > 0 ? 'inline-block' : 'none';
+            }
+        }
+    }
+    
+    /**
+     * Data SDK handler: อัปเดต UI เมื่อข้อมูลตะกร้ามีการเปลี่ยนแปลง
+     */
+    function dataChangedHandler(cart) {
+        // เมื่อตะกร้ามีการเปลี่ยนแปลง ให้เรียกอัปเดต Badge
+        updateCartCountFromSDK(); 
+    }
+    
+    /**
+     * เริ่มต้นใช้งาน Data SDK
      */
     async function initializeDataSdk() {
         if (window.dataSdk) {
-            await window.dataSdk.init({
-                // Handler ที่จะถูกเรียกทุกครั้งที่ข้อมูลตะกร้าสินค้ามีการเปลี่ยนแปลง
-                onDataChanged: (cartData) => {
-                    const count = cartData.reduce((total, item) => total + item.quantity, 0);
-                    updateCartBadge(count);
-                    
-                     // Analytics Tracking: Cart Updated
-                    if (window.analyticsSdk) {
-                         window.analyticsSdk.trackEvent('CartUpdated', {
-                            item_count: count,
-                         });
-                    }
-                }
-            });
-            // ดึงจำนวนสินค้าครั้งแรกเพื่ออัปเดต Badge ทันทีที่โหลดหน้า
-            updateCartBadge(window.dataSdk.getCartCount()); 
-        } else {
-            console.error("Data SDK not found. Cart badge functionality disabled.");
+            await window.dataSdk.init({ onDataChanged: dataChangedHandler });
+            updateCartCountFromSDK(); // อัปเดตครั้งแรก
         }
     }
-    
+
     // ===========================================
     // ELEMENT SDK CONFIG
     // ===========================================
-    
-    // Default Configuration สำหรับ Element SDK
     const defaultConfig = { 
+        page_title: 'Nexus Wear - Y2K Hip Hop Fashion', 
         brand_name: 'NEXUS WEAR', 
-        hero_title: 'UNLEASH THE VIBE',
-        hero_subtitle: 'Y2K - Hip Hop - Streetwear',
-        cta_button: 'SHOP NOW',
-        collection1: 'ESSENTIALS',
-        collection2: 'THE DROP',
-        collection3: 'STREETWEAR',
-        // Default colors and fonts
-        primary_color: '#000000',
-        secondary_color: '#FFFFFF',
-        font_family: 'Inter, sans-serif',
-        font_size: 16, // base size in px
+        collection1: 'NEON STREETWEAR',
+        collection2: 'GRUNGE AESTHETICS',
+        collection3: 'CYBERPUNK FUTURE',
+        // ... (other configs) ...
     };
 
-    // Handler ที่จะถูกเรียกเมื่อ Element SDK มีการเปลี่ยน Config
     function onConfigChange(config) {
-        const brandName = config.brand_name || defaultConfig.brand_name;
-        const heroTitle = config.hero_title || defaultConfig.hero_title;
-        const heroSubtitle = config.hero_subtitle || defaultConfig.hero_subtitle;
-        const ctaButton = config.cta_button || defaultConfig.cta_button;
+        const titleEl = document.getElementById('pageTitle');
+        if (titleEl) titleEl.textContent = config.page_title || defaultConfig.page_title;
+        
+        const logoEl = document.getElementById('brandLogo');
+        if (logoEl) logoEl.textContent = config.brand_name || defaultConfig.brand_name;
+        
+        const footerBrandEl = document.getElementById('footerBrand');
+        if (footerBrandEl) footerBrandEl.textContent = config.brand_name || defaultConfig.brand_name;
+        
         const col1 = config.collection1 || defaultConfig.collection1;
         const col2 = config.collection2 || defaultConfig.collection2;
         const col3 = config.collection3 || defaultConfig.collection3;
-        
-        // Update text content
-        const brandLogoEl = document.getElementById('brandLogo');
-        if (brandLogoEl) brandLogoEl.textContent = brandName;
-        
-        const heroTitleEl = document.getElementById('heroTitle');
-        if (heroTitleEl) heroTitleEl.textContent = heroTitle;
-        
-        const heroSubEl = document.getElementById('heroSubtitle');
-        if (heroSubEl) heroSubEl.textContent = heroSubtitle;
-        
-        const heroCTAEl = document.getElementById('heroCTA');
-        if (heroCTAEl) heroCTAEl.textContent = ctaButton;
         
         const col1El = document.getElementById('collection1Name');
         if (col1El) col1El.textContent = col1;
@@ -1448,6 +579,119 @@ document.addEventListener('DOMContentLoaded', () => {
         if (col3El) col3El.textContent = col3;
         
         // Note: For color/font changes, you would typically inject dynamic <style> tags here.
+    }
+
+    // ===========================================
+    // PRODUCT RENDERING LOGIC (The Fix)
+    // ===========================================
+
+    /**
+     * ช่วยจัดรูปแบบตัวเลขเป็นสกุลเงิน THB
+     * @param {number} amount - จำนวนเงิน
+     */
+    const formatCurrency = (amount) => {
+        // Ensure MOCK_PRODUCTS_DATA is available globally from data_utility.js
+        return `${parseFloat(amount).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} THB`;
+    };
+
+    /**
+     * สร้าง HTML element <a> ที่เป็นบัตรสินค้า
+     * **การแก้ไข:** ใช้ product.id ในการสร้างลิงก์ไปยัง product.html พร้อม Query Parameter ที่ถูกต้อง
+     * @param {Object} product - ข้อมูลสินค้าจาก MOCK_PRODUCTS_DATA
+     * @returns {HTMLAnchorElement} - บัตรสินค้าที่เป็นลิงก์ไปยัง product.html?id=...
+     */
+    function createProductCard(product) {
+        const card = document.createElement('a');
+        // V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V
+        card.href = `product.html?id=${encodeURIComponent(product.id)}`; // **จุดแก้ไข:** สร้างลิงก์ที่ถูกต้อง
+        // ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^
+        card.className = 'product-card';
+        card.setAttribute('data-product-id', product.id); 
+
+        card.innerHTML = `
+            <div class="product-image-container">
+                <img src="${product.image}" alt="${product.name}" class="product-image">
+                <span class="product-category">${product.category}</span>
+            </div>
+            <div class="product-info">
+                <h4 class="product-name">${product.name}</h4>
+                <p class="product-price">${formatCurrency(product.price)}</p>
+            </div>
+        `;
+
+        return card;
+    }
+
+    /**
+     * เรนเดอร์สินค้าที่กำลังเป็นที่นิยมลงในส่วน #trending-products-container
+     * **การแก้ไข:** ใช้ MOCK_PRODUCTS_DATA ในการสร้าง Product Card ที่มีลิงก์ถูกต้อง
+     */
+    function renderTrendingProducts() {
+        // ตรวจสอบว่า MOCK_PRODUCTS_DATA ถูกโหลดแล้วหรือไม่
+        if (typeof MOCK_PRODUCTS_DATA === 'undefined' || MOCK_PRODUCTS_DATA.length === 0) {
+            console.warn('MOCK_PRODUCTS_DATA is not available or empty. Cannot render trending products.');
+            return;
+        }
+
+        const container = document.getElementById('trending-products-container');
+        if (!container) {
+            console.error('Container #trending-products-container not found.');
+            return;
+        }
+
+        // ใช้สินค้า 4 รายการแรกจาก MOCK_PRODUCTS_DATA
+        const productsToRender = MOCK_PRODUCTS_DATA.slice(0, 4); 
+
+        container.innerHTML = ''; // เคลียร์เนื้อหาเก่า
+
+        productsToRender.forEach(product => {
+            container.appendChild(createProductCard(product));
+        });
+    }
+
+    // ===========================================
+    // UI HANDLERS
+    // ===========================================
+    
+    function toggleMobileMenu() {
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        
+        if (hamburger) {
+            hamburger.addEventListener('click', () => {
+                if (navLinks) navLinks.classList.toggle('active');
+            });
+        }
+    }
+    
+    function setupSmoothScroll() {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && href.length > 1) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+        
+        // Collection cards
+        const collectionCards = document.querySelectorAll('.collection-card');
+        collectionCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const nameEl = card.querySelector('.collection-name');
+                if (nameEl) {
+                    // console.log('View collection:', nameEl.textContent);
+                    // Redirect to a collection page if needed: window.location.href = `collections.html?name=${encodeURIComponent(nameEl.textContent)}`;
+                }
+            });
+        });
     }
 
     // ===========================================
@@ -1464,9 +708,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 onConfigChange: onConfigChange,
                 // mapToCapabilities จะถูกใช้สำหรับเครื่องมือแก้ไข UI ภายนอก
                 mapToCapabilities: (config) => ({
-                    recolorables: [
-                        // ... (omitted capabilities for brevity)
-                    ]
+                    // ... (omitted capabilities for brevity)
                 })
             });
         }
@@ -1477,8 +719,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // 2. Render Dynamic Content
-        renderTrendingProducts();
-        
+        renderTrendingProducts(); // **จุดแก้ไข:** เรียกฟังก์ชันนี้เพื่อสร้างบัตรสินค้า
+
         // 3. Setup UI Handlers
         toggleMobileMenu();
         setupSmoothScroll();
