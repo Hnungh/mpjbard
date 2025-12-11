@@ -31,581 +31,746 @@
         }
 
         /* Layout */
-        .page-wrapper {
+        .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background-color: #111111;
+            color: #FFFFFF;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid #FF00FF; 
         }
 
-        .header-main {
+        .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #e0e0e0;
-            margin-bottom: 20px;
         }
 
-        .brand-logo a {
+        .brand-logo {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 2.5rem;
+            font-size: 2rem;
             text-decoration: none;
-            color: #000000;
+            color: #FFFFFF;
+            letter-spacing: 2px;
         }
-        
-        .cart-icon {
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-icons a {
+            color: #FFFFFF;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 1.2rem;
             position: relative;
-            font-size: 1.5rem;
         }
         
         .cart-badge {
             position: absolute;
-            top: -10px;
+            top: -5px;
             right: -10px;
-            background-color: #E70000;
-            color: white;
+            background-color: #FF00FF;
+            color: #111111;
             border-radius: 50%;
             padding: 2px 6px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            line-height: 1;
+            font-size: 0.7rem;
+            font-weight: 700;
+            min-width: 20px;
             text-align: center;
         }
         
+        /* Product Detail Layout */
         .product-container {
             display: flex;
             gap: 40px;
+            padding: 60px 0;
         }
-        
+
         .product-gallery {
             flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
         }
-        
+
         .main-image {
             width: 100%;
-            height: auto;
-            max-height: 600px;
+            aspect-ratio: 4/5;
             object-fit: cover;
-            border: 1px solid #eee;
+            margin-bottom: 10px;
+            border: 1px solid #EEEEEE;
         }
-        
+
         .thumbnails {
             display: flex;
             gap: 10px;
             overflow-x: auto;
             padding-bottom: 10px;
         }
-        
-        .thumbnails img {
+
+        .thumbnail-image {
             width: 80px;
-            height: 80px;
+            height: 100px;
             object-fit: cover;
             cursor: pointer;
-            opacity: 0.7;
-            transition: opacity 0.2s;
-            border: 1px solid transparent;
+            border: 2px solid transparent;
+            transition: border-color 0.3s;
         }
         
-        .thumbnails img:hover, .thumbnails img.active {
-            opacity: 1;
-            border-color: #000;
+        .thumbnail-image.active {
+            border-color: #FF00FF;
         }
 
         .product-details {
             flex: 1;
         }
         
-        /* Details Styling */
-        .product-details h1 {
+        .product-name {
             font-family: 'Bebas Neue', sans-serif;
             font-size: 3rem;
             margin-bottom: 10px;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
-        
+
         .product-price {
             font-size: 2rem;
+            color: #FF00FF;
             font-weight: 700;
             margin-bottom: 20px;
         }
         
+        .product-description {
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            color: #444;
+        }
+
+        /* Options */
+        .options h4 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
         .option-group {
             margin-bottom: 20px;
         }
-        
-        .option-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
 
-        .option-selection button, .option-selection select {
-            padding: 10px 15px;
+        .size-option, .color-option {
+            display: inline-block;
+            border: 1px solid #CCCCCC;
+            padding: 8px 15px;
             margin-right: 10px;
-            border: 1px solid #ccc;
-            background-color: #fff;
             cursor: pointer;
             transition: all 0.2s;
-            border-radius: 4px;
+            font-weight: 500;
         }
         
-        .option-selection button.selected, .option-selection select:focus {
-            background-color: #000000;
-            color: #FFFFFF;
-            border-color: #000000;
+        .size-option.selected {
+            border-color: #FF00FF;
+            background-color: #FF00FF;
+            color: #111111;
         }
         
-        .color-option {
+        .color-selector {
             width: 30px;
             height: 30px;
             border-radius: 50%;
             display: inline-block;
-            margin-right: 8px;
+            margin-right: 10px;
             cursor: pointer;
-            border: 2px solid transparent;
-            vertical-align: middle;
+            border: 3px solid transparent;
         }
         
-        .color-option.selected {
-            border-color: #000000;
+        .color-selector.selected {
+            border-color: #FF00FF;
+            box-shadow: 0 0 5px #FF00FF;
         }
-
+        
+        /* Quantity */
         .quantity-control {
             display: flex;
             align-items: center;
-            gap: 10px;
+            margin-bottom: 30px;
         }
         
         .quantity-control button {
-            width: 35px;
-            height: 35px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
+            background-color: #EEEEEE;
+            border: 1px solid #CCCCCC;
+            padding: 5px 10px;
             font-size: 1.2rem;
             cursor: pointer;
-            border-radius: 4px;
         }
-        
+
         .quantity-input {
             width: 50px;
             text-align: center;
-            padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            border: 1px solid #CCCCCC;
+            border-left: none;
+            border-right: none;
+            height: 38px;
+            line-height: 38px;
             font-size: 1rem;
+            -moz-appearance: textfield; /* Hide arrows in Firefox */
+        }
+        
+        .quantity-input::-webkit-outer-spin-button,
+        .quantity-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
 
         /* Action Buttons */
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .add-to-cart-btn {
-            flex: 1;
-            padding: 15px 20px;
-            background-color: #000000;
-            color: #FFFFFF;
+        .action-buttons button {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
             border: none;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background-color 0.2s;
+            margin-bottom: 10px;
         }
 
-        .buy-now-btn {
-            flex: 1;
-            padding: 15px 20px;
-            background-color: #FFFFFF;
-            color: #000000;
-            border: 2px solid #000000;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background-color 0.2s, color 0.2s;
+        #addToCartBtn {
+            background-color: #111111;
+            color: #FFFFFF;
+            transition: background-color 0.3s;
         }
         
-        .add-to-cart-btn:hover { background-color: #333333; }
-        .buy-now-btn:hover { background-color: #f0f0f0; }
+        #addToCartBtn:hover {
+            background-color: #FF00FF;
+            color: #111111;
+        }
+        
+        #buyNowBtn {
+            background-color: #FFFFFF;
+            color: #111111;
+            border: 2px solid #111111;
+            transition: all 0.3s;
+        }
+        
+        #buyNowBtn:hover {
+            border-color: #FF00FF;
+            color: #FF00FF;
+        }
 
-        /* Description/Accordion */
-        .product-description-details {
+        /* Product Details Accordion */
+        .product-details-accordion {
             margin-top: 40px;
+            border-top: 1px solid #EEEEEE;
         }
         
         .detail-item {
-            border-top: 1px solid #e0e0e0;
+            border-bottom: 1px solid #EEEEEE;
         }
-        
+
         .detail-header {
             padding: 15px 0;
-            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
-        .detail-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
-            padding: 0 0;
-        }
-        
-        .detail-item.active .detail-content {
-            max-height: 500px; /* Adjust height based on expected content */
-            padding: 10px 0 20px 0;
-        }
-        
-        .detail-item.active .detail-header::after {
-            content: '-';
-        }
         
         .detail-header::after {
             content: '+';
             font-size: 1.5rem;
-            line-height: 1;
+            transition: transform 0.3s;
+        }
+
+        .detail-item.active .detail-header::after {
+            content: '−';
+            transform: rotate(180deg);
+        }
+
+        .detail-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 0;
         }
         
-        /* Toast Notification (Basic Styling) */
+        .detail-item.active .detail-content {
+            max-height: 300px; /* Adjust as needed for content height */
+            padding: 10px 0 20px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #111111;
+            color: #AAAAAA;
+            padding: 40px 0;
+            text-align: center;
+            border-top: 2px solid #FF00FF;
+        }
+
+        /* Toast Notification */
         #toast {
-            visibility: hidden; 
+            visibility: hidden;
             min-width: 250px;
+            margin-left: -125px;
             background-color: #333;
             color: #fff;
             text-align: center;
             border-radius: 2px;
             padding: 16px;
             position: fixed;
-            z-index: 1000;
+            z-index: 1010;
             left: 50%;
             bottom: 30px;
-            transform: translateX(-50%);
             font-size: 17px;
         }
-
+        
         #toast.show {
             visibility: visible;
             -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
             animation: fadein 0.5s, fadeout 0.5s 2.5s;
         }
         
-        /* Simple Animations for Toast */
-        @-webkit-keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 30px; opacity: 1; } }
-        @keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 30px; opacity: 1; } }
-        @-webkit-keyframes fadeout { from { bottom: 30px; opacity: 1; } to { bottom: 0; opacity: 0; } }
-        @keyframes fadeout { from { bottom: 30px; opacity: 1; } to { bottom: 0; opacity: 0; } }
-        
-        /* Responsive Adjustments */
+        @-webkit-keyframes fadein {
+            from {bottom: 0; opacity: 0;} 
+            to {bottom: 30px; opacity: 1;}
+        }
+
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+
+        @-webkit-keyframes fadeout {
+            from {bottom: 30px; opacity: 1;} 
+            to {bottom: 0; opacity: 0;}
+        }
+
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
+
+        /* Media Queries */
         @media (max-width: 768px) {
             .product-container {
                 flex-direction: column;
-                gap: 20px;
+                padding: 30px 0;
             }
-            .product-gallery, .product-details {
-                flex: none;
+            
+            .product-details {
+                order: -1; /* Move details section above gallery on mobile */
             }
-            .main-image {
-                max-height: 400px;
-            }
-            .action-buttons {
-                flex-direction: column;
-                gap: 10px;
+            
+            .product-name {
+                font-size: 2.5rem;
             }
         }
   </style>
  </head>
  <body>
+  
+  <header>
+    <div class="container">
+        <nav class="navbar">
+            <a href="index.html" class="brand-logo" id="brandLogo">NEXUS WEAR</a>
+            
+            <div class="nav-icons">
+                <a href="cart.html" title="Shopping Cart">
+                    🛒
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+  </header>
+
+  <main>
+      <section class="container">
+          <div class="product-container">
+              
+              <div class="product-gallery">
+                  <img src="https://via.placeholder.com/600x750?text=Loading..." alt="Main Product Image" class="main-image" id="mainProductImage">
+                  <div class="thumbnails" id="productThumbnails">
+                      </div>
+              </div>
+              
+              <div class="product-details">
+                  <span class="product-category" id="productCategory">LOADING...</span>
+                  <h1 class="product-name" id="productName">LOADING PRODUCT DETAILS</h1>
+                  <p class="product-price" id="productPrice">0 THB</p>
+                  
+                  <p class="product-description" id="productDescription">Loading product description...</p>
+
+                  <div class="options">
+                      <div class="option-group" id="sizeOptions">
+                          <h4>SIZE: <span id="selectedSize">S</span></h4>
+                          </div>
+                      
+                      <div class="option-group" id="colorOptions">
+                          <h4>COLOR: <span id="selectedColor">Black</span></h4>
+                          </div>
+                  </div>
+                  
+                  <div class="quantity-control">
+                      <button id="qtyDecrease">-</button>
+                      <input type="number" id="qtyInput" class="quantity-input" value="1" min="1" readonly>
+                      <button id="qtyIncrease">+</button>
+                  </div>
+
+                  <div class="action-buttons">
+                      <button id="addToCartBtn">ADD TO CART</button>
+                      <button id="buyNowBtn">BUY NOW</button>
+                  </div>
+                  
+                  <div class="product-details-accordion">
+                      <div class="detail-item">
+                          <div class="detail-header">รายละเอียดสินค้า</div>
+                          <div class="detail-content">
+                              <p id="detailContentDescription">รายละเอียดสินค้าเพิ่มเติม</p>
+                          </div>
+                      </div>
+                      <div class="detail-item">
+                          <div class="detail-header">การจัดส่งและคืนสินค้า</div>
+                          <div class="detail-content">
+                              <p>ส่งฟรีเมื่อสั่งครบ 1,500 บาท. รับเปลี่ยนหรือคืนสินค้าภายใน 7 วัน</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+  </main>
+  
+  <footer>
+      <div class="container">
+          <p>&copy; 2023 <span id="footerBrand">NEXUS WEAR</span>. All Rights Reserved.</p>
+          <p><a href="index.html">Back to Home</a></p>
+      </div>
+  </footer>
 
   <div id="toast"></div>
 
-  <div class="page-wrapper">
-    <header class="header-main">
-      <div class="brand-logo"><a href="index.html" id="brandLogo">NEXUS WEAR</a></div>
-      <div class="cart-icon">
-        <a href="cart.html">🛒</a>
-        <span class="cart-badge" id="cartCountBadge">0</span>
-      </div>
-    </header>
-
-    <main class="product-container">
-        
-      <section class="product-gallery">
-        <img id="mainProductImage" class="main-image" src="" alt="Main Product Image">
-        <div class="thumbnails" id="productThumbnails">
-          </div>
-      </section>
-
-      <section class="product-details">
-        <p class="product-category" id="productCategory"></p>
-        <h1 id="productName">Loading...</h1>
-        <p class="product-price" id="productPrice">0.00 THB</p>
-
-        <div class="option-group" id="sizeSelectionGroup" style="display: none;">
-          <label>SIZE:</label>
-          <div class="option-selection" id="sizeOptions">
-            </div>
-        </div>
-
-        <div class="option-group" id="colorSelectionGroup" style="display: none;">
-          <label>COLOR:</label>
-          <div class="option-selection" id="colorOptions">
-            </div>
-        </div>
-
-        <div class="option-group">
-            <label>QUANTITY:</label>
-            <div class="quantity-control">
-                <button id="qtyDec">-</button>
-                <input type="number" id="qtyInput" class="quantity-input" value="1" min="1">
-                <button id="qtyInc">+</button>
-            </div>
-        </div>
-
-        <div class="action-buttons">
-          <button class="add-to-cart-btn" id="addToCartBtn">ADD TO CART</button>
-          <button class="buy-now-btn" id="buyNowBtn">BUY NOW</button>
-        </div>
-        
-        <div class="product-description-details">
-            <div class="detail-item active">
-                <div class="detail-header">DESCRIPTION</div>
-                <div class="detail-content">
-                    <p id="productDescription">Loading...</p>
-                </div>
-            </div>
-            <div class="detail-item">
-                <div class="detail-header">SHIPPING & RETURNS</div>
-                <div class="detail-content">
-                    <p>Free standard shipping on all orders over ฿2,000. Easy 30-day returns.</p>
-                </div>
-            </div>
-        </div>
-        
-      </section>
-    </main>
-  </div>
-
   <script>
-    // Utility functions
+    // ===========================================
+    // GLOBAL STATE & UTILITIES
+    // ===========================================
+    let currentProductData = null;
+    let selectedSize = '';
+    let selectedColorName = '';
+    let selectedColorHex = '';
+    
+    /**
+     * ช่วยจัดรูปแบบตัวเลขเป็นสกุลเงิน THB
+     */
     const formatCurrency = (amount) => {
-        return `${parseFloat(amount).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} THB`;
+        return `${parseFloat(amount).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} THB`;
     };
 
-    function showToast(message, type = 'info') {
-        const toast = document.getElementById('toast');
-        if (!toast) return;
-        toast.textContent = message;
-        toast.className = 'show'; 
-        setTimeout(function(){ 
-            toast.className = toast.className.replace("show", ""); 
-        }, 3000);
+    /**
+     * แสดงข้อความ Toast Notification
+     */
+    function showToast(message, type = 'success') {
+      const toast = document.getElementById('toast');
+      if (!toast) return;
+
+      toast.textContent = message;
+      toast.className = 'show';
+      
+      // Set color based on type (simple example)
+      toast.style.backgroundColor = type === 'error' ? '#D32F2F' : '#333';
+      
+      setTimeout(function(){ 
+        toast.className = toast.className.replace('show', ''); 
+      }, 3000);
     }
     
-    // Global State
-    let currentProductData = null; 
-    let selectedSize = null;
-    let selectedColor = null;
-
-    // ===========================================
-    // CART BADGE & DATA SDK INTEGRATION
-    // ===========================================
-    
     /**
-     * อัปเดต Badge จำนวนสินค้าในตะกร้า
-     * @param {number} count - จำนวนสินค้าทั้งหมดในตะกร้า
+     * ดึงจำนวนสินค้าในตะกร้าจาก Data SDK
      */
-    function updateCartBadge(count) {
-        const badge = document.getElementById('cartCountBadge');
-        if (badge) {
-            badge.textContent = count > 99 ? '99+' : count;
-            badge.style.display = count > 0 ? 'block' : 'none';
+    function updateCartCountFromSDK() {
+        if (window.dataSdk) {
+            const count = window.dataSdk.getCartCount();
+            const badge = document.getElementById('cartBadge');
+            if (badge) {
+                badge.textContent = count > 99 ? '99+' : count;
+                badge.style.display = count > 0 ? 'inline-block' : 'none';
+            }
         }
     }
-
+    
     /**
-     * Initialise Data SDK และตั้งค่า Handler สำหรับการเปลี่ยนแปลงตะกร้าสินค้า
+     * Data SDK handler: อัปเดต UI เมื่อข้อมูลตะกร้ามีการเปลี่ยนแปลง
+     */
+    function dataChangedHandler(cart) {
+        updateCartCountFromSDK(); 
+    }
+    
+    /**
+     * เริ่มต้นใช้งาน Data SDK
      */
     async function initializeDataSdk() {
         if (window.dataSdk) {
-            await window.dataSdk.init({
-                onDataChanged: (cartData) => {
-                    const count = cartData.reduce((total, item) => total + item.quantity, 0);
-                    updateCartBadge(count);
-                }
-            });
-            // Initial load of the cart count
-            updateCartBadge(window.dataSdk.getCartCount()); 
-        } else {
-            console.error("Data SDK not found. Cart functionality disabled.");
+            await window.dataSdk.init({ onDataChanged: dataChangedHandler });
+            updateCartCountFromSDK();
         }
     }
-    
+
+
     // ===========================================
-    // PRODUCT DATA LOADING & RENDERING
+    // DATA UTILITY & RENDERING (The Fix is here)
     // ===========================================
     
     /**
-     * ดึง Product ID จาก URL และโหลดข้อมูลสินค้า
+     * ดึง Product ID จาก Query Parameter ใน URL
+     * **การแก้ไข:** ฟังก์ชันนี้จะถูกเรียกใช้ภายใน loadProductDataAndRender 
+     * เพื่อให้แน่ใจว่า MOCK_PRODUCTS_DATA ถูกโหลดแล้ว
+     * @returns {string | null} Product ID
      */
-    function getProductIdFromUrl() {
-      // Mocking: In a real app, this would use URLSearchParams
-      // For this mock, we use a fixed ID for the page
-      return 'oversized-tee-black'; // Default Product ID for mock
+    function getProductIdFromURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get('id'); 
+      
+      // Fallback: ถ้าไม่พบ ID ใน URL ให้ใช้ ID ของสินค้าแรกสุดเป็นค่าเริ่มต้น
+      if (!id && window.MOCK_PRODUCTS_DATA && window.MOCK_PRODUCTS_DATA.length > 0) {
+          return window.MOCK_PRODUCTS_DATA[0].id; 
+      }
+      
+      return id;
     }
 
+    /**
+     * เรนเดอร์รายละเอียดสินค้าลงในหน้า
+     * @param {Object} product - ข้อมูลสินค้า
+     */
+    function renderProductDetails(product) {
+        document.getElementById('productCategory').textContent = product.category.toUpperCase();
+        document.getElementById('productName').textContent = product.name;
+        document.getElementById('productPrice').textContent = formatCurrency(product.price);
+        document.getElementById('productDescription').textContent = product.description;
+        document.getElementById('detailContentDescription').textContent = product.description;
+        
+        // Main Image
+        const mainImageEl = document.getElementById('mainProductImage');
+        if (mainImageEl) {
+            mainImageEl.src = product.image;
+        }
+    }
+
+    /**
+     * โหลดข้อมูลสินค้าและเรนเดอร์รายละเอียด
+     * **การแก้ไข:** นำการดึง ID และการค้นหาสินค้ามาไว้ในฟังก์ชันนี้
+     */
     function loadProductDataAndRender() {
-        const productId = getProductIdFromUrl();
-        if (!productId || !window.dataUtility) {
-             document.getElementById('productName').textContent = 'Error: Data Utility or Product ID Missing';
-             return;
-        }
-        
-        const data = window.dataUtility.getProductById(productId);
-        
-        if (data) {
-            currentProductData = data;
-            renderProductDetails(data);
-            renderThumbnails(data.gallery_images);
-            renderOptions(data);
-        } else {
-            document.getElementById('productName').textContent = `Product ID "${productId}" not found.`;
-        }
-        
-        // Initialize Accordion after content load
-        initializeAccordion();
+      // ดึง Product ID ณ เวลาที่ฟังก์ชันถูกเรียก (หลัง SDK/Utility โหลด)
+      const currentProductId = getProductIdFromURL();
+      
+      console.log('Product ID:', currentProductId); 
+      
+      // ตรวจสอบว่ามี dataUtility และ productId หรือไม่
+      if (typeof window.dataUtility === 'undefined' || !currentProductId) {
+          // V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V
+          // **จุดแก้ไข:** แสดง Error message บนหน้าจอให้ชัดเจน
+          document.getElementById('productName').textContent = 'Error: Data Utility or Product ID Missing';
+          document.getElementById('pageTitle').textContent = 'Error';
+          document.querySelector('.product-container').innerHTML = `
+              <h1 style="text-align: center; padding: 100px;">
+                  Error: Data Utility or Product ID Missing.<br> 
+                  โปรดตรวจสอบว่าไฟล์ data_utility.js โหลดสำเร็จหรือไม่<br>
+                  หรือลิงก์จากหน้า Index มี Product ID (เช่น product.html?id=xxx)
+              </h1>
+          `;
+          // ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^
+          return;
+      }
+      
+      const product = window.dataUtility.getProductById(currentProductId);
+
+      if (!product) {
+        document.getElementById('productName').textContent = '404: PRODUCT NOT FOUND';
+        document.getElementById('pageTitle').textContent = '404';
+        document.querySelector('.product-container').innerHTML = `<h1 style="text-align: center; padding: 100px;">404: สินค้าไม่พบ ID: ${currentProductId}</h1>`;
+        return;
+      }
+      
+      currentProductData = product;
+      
+      // ตั้งค่าเริ่มต้นของตัวเลือกที่ถูกเลือก
+      selectedSize = product.available_sizes[0] || '';
+      selectedColorName = product.available_colors[0]?.name || '';
+      selectedColorHex = product.available_colors[0]?.hex || '';
+
+      renderProductDetails(product); 
+      renderThumbnails(product.gallery_images); 
+      renderOptions(product);
+      
+      initializeAccordion();
     }
-    
-    function renderProductDetails(data) {
-        document.getElementById('productCategory').textContent = data.category;
-        document.getElementById('productName').textContent = data.name;
-        document.getElementById('productPrice').textContent = formatCurrency(data.price);
-        document.getElementById('productDescription').textContent = data.description;
-        document.getElementById('mainProductImage').src = data.image;
-        document.getElementById('mainProductImage').alt = data.name;
-    }
+
+
+    // ===========================================
+    // RENDERING HELPERS
+    // ===========================================
 
     function renderThumbnails(images) {
-        const thumbContainer = document.getElementById('productThumbnails');
-        thumbContainer.innerHTML = '';
-        images.forEach((imgSrc, index) => {
-            const img = document.createElement('img');
-            img.src = imgSrc;
-            img.alt = `Product view ${index + 1}`;
-            img.className = 'product-thumbnail';
-            if (index === 0) {
-                img.classList.add('active'); // First image is active
-            }
-            thumbContainer.appendChild(img);
-        });
-        // Attach click listeners after rendering
-        attachThumbnailListeners();
+      const container = document.getElementById('productThumbnails');
+      if (!container) return;
+      container.innerHTML = '';
+
+      images.forEach((url, index) => {
+        const img = document.createElement('img');
+        img.src = url;
+        img.className = 'thumbnail-image';
+        img.alt = `Thumbnail ${index + 1}`;
+        img.setAttribute('data-index', index);
+        if (index === 0) {
+            img.classList.add('active');
+        }
+        container.appendChild(img);
+      });
+      wireUpThumbnails();
     }
     
-    function renderOptions(data) {
-        // --- Render Size Options ---
-        const sizeOptionsEl = document.getElementById('sizeOptions');
-        const sizeGroupEl = document.getElementById('sizeSelectionGroup');
-        sizeOptionsEl.innerHTML = '';
-        if (data.available_sizes && data.available_sizes.length > 0) {
-            sizeGroupEl.style.display = 'block';
-            data.available_sizes.forEach((size, index) => {
-                const btn = document.createElement('button');
-                btn.textContent = size;
-                btn.setAttribute('data-option-type', 'size');
-                btn.setAttribute('data-value', size);
-                sizeOptionsEl.appendChild(btn);
-                
-                // Select the first size by default
-                if (index === 0) {
-                    btn.classList.add('selected');
-                    selectedSize = size;
-                }
+    function renderOptions(product) {
+        const sizeContainer = document.getElementById('sizeOptions');
+        const colorContainer = document.getElementById('colorOptions');
+
+        // Render Sizes
+        if (sizeContainer) {
+            let sizeHtml = `<h4>SIZE: <span id="selectedSize">${selectedSize}</span></h4>`;
+            product.available_sizes.forEach(size => {
+                const isSelected = size === selectedSize ? ' selected' : '';
+                sizeHtml += `<span class="size-option${isSelected}" data-size="${size}">${size}</span>`;
             });
-        } else {
-             sizeGroupEl.style.display = 'none';
+            sizeContainer.innerHTML = sizeHtml;
+            
+            // Wire up size selection
+            sizeContainer.querySelectorAll('.size-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    sizeContainer.querySelectorAll('.size-option').forEach(s => s.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedSize = this.dataset.size;
+                    document.getElementById('selectedSize').textContent = selectedSize;
+                });
+            });
         }
         
-        // --- Render Color Options ---
-        const colorOptionsEl = document.getElementById('colorOptions');
-        const colorGroupEl = document.getElementById('colorSelectionGroup');
-        colorOptionsEl.innerHTML = '';
-        if (data.available_colors && data.available_colors.length > 0) {
-            colorGroupEl.style.display = 'block';
-            data.available_colors.forEach((color, index) => {
-                const span = document.createElement('span');
-                span.className = 'color-option';
-                span.style.backgroundColor = color.hex;
-                span.title = color.name;
-                span.setAttribute('data-option-type', 'color');
-                span.setAttribute('data-value', color.name);
-                colorOptionsEl.appendChild(span);
-                
-                // Select the first color by default
-                if (index === 0) {
-                    span.classList.add('selected');
-                    selectedColor = color.name;
-                }
+        // Render Colors
+        if (colorContainer) {
+            let colorHtml = `<h4>COLOR: <span id="selectedColor">${selectedColorName}</span></h4>`;
+            product.available_colors.forEach(color => {
+                const isSelected = color.name === selectedColorName ? ' selected' : '';
+                colorHtml += `<span class="color-selector${isSelected}" data-name="${color.name}" data-hex="${color.hex}" style="background-color: ${color.hex};" title="${color.name}"></span>`;
             });
-        } else {
-            colorGroupEl.style.display = 'none';
+            colorContainer.innerHTML = colorHtml;
+
+            // Wire up color selection
+            colorContainer.querySelectorAll('.color-selector').forEach(option => {
+                option.addEventListener('click', function() {
+                    colorContainer.querySelectorAll('.color-selector').forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedColorName = this.dataset.name;
+                    selectedColorHex = this.dataset.hex;
+                    document.getElementById('selectedColor').textContent = selectedColorName;
+                });
+            });
         }
-        
-        // Attach click listeners after rendering
-        attachOptionListeners();
     }
+
+
+    // ===========================================
+    // CART & ACTION LOGIC
+    // ===========================================
     
+    /**
+     * เพิ่มสินค้าลงในตะกร้าโดยใช้ Data SDK
+     */
+    async function addToCart() {
+      const qtyInput = document.getElementById('qtyInput');
+      const quantity = parseInt(qtyInput ? qtyInput.value : '1', 10);
+      
+      if (!currentProductData || !window.dataSdk) {
+          showToast('Initialization Error: Product Data or SDK Missing', 'error');
+          return { isOk: false, error: 'Initialization Error' };
+      }
+
+      if (!selectedSize || !selectedColorName) {
+          showToast('กรุณาเลือก Size และ Color', 'error');
+          return { isOk: false, error: 'Check options' };
+      }
+
+      const item = {
+          product_id: currentProductData.id,
+          name: currentProductData.name,
+          image: currentProductData.image,
+          price: currentProductData.price,
+          size: selectedSize,
+          color: selectedColorName,
+          color_hex: selectedColorHex,
+          quantity: quantity
+      };
+
+      const result = await window.dataSdk.addToCart(item);
+
+      if (result.isOk) {
+          showToast(`เพิ่ม ${quantity} ชิ้น (${selectedSize}, ${selectedColorName}) ลงในตะกร้าแล้ว`);
+          if (window.analyticsSdk) {
+              window.analyticsSdk.trackEvent('AddToCart', { product_id: item.product_id, size: item.size, color: item.color, quantity: item.quantity, price: item.price });
+          }
+      } else {
+          showToast(`Error: ${result.error}`, 'error');
+      }
+      
+      return result;
+    }
+
+
     // ===========================================
     // UI HANDLERS
     // ===========================================
-    
-    function handleOptionClick(e) {
-        const btn = e.target;
-        const type = btn.getAttribute('data-option-type');
-        const value = btn.getAttribute('data-value');
+
+    // Quantity Control Logic
+    function wireUpQuantityControl() {
+        const qtyInput = document.getElementById('qtyInput');
+        const increaseBtn = document.getElementById('qtyIncrease');
+        const decreaseBtn = document.getElementById('qtyDecrease');
         
-        if (!type || !value) return;
-
-        // Clear selection for the same group
-        document.querySelectorAll(`[data-option-type="${type}"]`).forEach(el => {
-            el.classList.remove('selected');
-        });
-
-        // Set new selection
-        btn.classList.add('selected');
-
-        if (type === 'size') {
-            selectedSize = value;
-        } else if (type === 'color') {
-            selectedColor = value;
+        if (qtyInput && increaseBtn) {
+            increaseBtn.addEventListener('click', () => {
+                qtyInput.value = Math.max(1, parseInt(qtyInput.value, 10) + 1);
+            });
+        }
+        
+        if (qtyInput && decreaseBtn) {
+            decreaseBtn.addEventListener('click', () => {
+                qtyInput.value = Math.max(1, parseInt(qtyInput.value, 10) - 1);
+            });
         }
     }
-    
-    function handleThumbnailClick(e) {
-      const img = e.target;
-      const mainImageEl = document.getElementById('mainProductImage');
-      
-      // Update main image source
-      if (img && mainImageEl) {
-        mainImageEl.src = img.src;
-      }
-      
-      // Update active state
-      document.querySelectorAll('.product-thumbnail').forEach(thumb => {
-          thumb.classList.remove('active');
+
+    // Thumbnail Switch Logic
+    function wireUpThumbnails() {
+      document.querySelectorAll('.thumbnail-image').forEach(img => {
+        img.addEventListener('click', function() {
+          // Remove active class from all
+          document.querySelectorAll('.thumbnail-image').forEach(i => i.classList.remove('active'));
+          // Add active class to clicked one
+          this.classList.add('active');
+          
+          // Change main image source
+          const mainImageEl = document.getElementById('mainProductImage');
+          if (img && mainImageEl) {
+            mainImageEl.src = img.src;
+          }
+        });
       });
-      img.classList.add('active');
     }
     
+    // Accordion Logic
     function initializeAccordion() {
         document.querySelectorAll('.detail-header').forEach(header => {
             header.addEventListener('click', () => {
@@ -615,117 +780,27 @@
         });
     }
 
-    /**
-     * เพิ่มสินค้าลงในตะกร้า
-     * @returns {Promise<Object>} Result of the add operation
-     */
-    async function addToCart() {
-        if (!window.dataSdk || !currentProductData) {
-            return { isOk: false, error: 'System not ready.' };
-        }
-        
-        const quantity = parseInt(document.getElementById('qtyInput').value || '1');
-        
-        // Validation
-        if (quantity < 1) {
-            showToast('Quantity must be at least 1.', 'error');
-            return { isOk: false, error: 'Invalid quantity.' };
-        }
 
-        // Prepare item object for Data SDK
-        const item = {
-            id: currentProductData.id,
-            name: currentProductData.name,
-            price: currentProductData.price,
-            image: currentProductData.image, // Use main image for cart list
-            quantity: quantity,
-            size: selectedSize,
-            color: selectedColor,
-            // Data SDK needs a backend ID logic, use utility function from data_sdk
-            __backendId: window.dataSdk.genBackendId({ id: currentProductData.id, size: selectedSize, color: selectedColor }) 
-        };
-        
-        const result = await window.dataSdk.add(item);
-        
-        if (result.isOk) {
-            showToast('✅ Added to cart!', 'success');
-            
-            // Analytics Tracking
-            if (window.analyticsSdk) {
-                window.analyticsSdk.trackEvent('AddToCart', {
-                    product_id: item.id,
-                    product_name: item.name,
-                    price: item.price,
-                    quantity: item.quantity,
-                    size: item.size,
-                    color: item.color
-                });
-            }
-        } else {
-             showToast(`Failed to add to cart: ${result.error}`, 'error');
-        }
-        return result;
-    }
-    
-    // ===========================================
-    // WIRE UP LISTENERS
-    // ===========================================
-
-    function attachThumbnailListeners() {
-        document.querySelectorAll('.product-thumbnail').forEach(img => {
-            img.removeEventListener('click', handleThumbnailClick);
-            img.addEventListener('click', handleThumbnailClick);
-        });
-    }
-
-    function attachOptionListeners() {
-        document.querySelectorAll('[data-option-type]').forEach(el => {
-            el.removeEventListener('click', handleOptionClick);
-            el.addEventListener('click', handleOptionClick);
-        });
-    }
-
+    // Hook up buttons
     function wireUpButtons() {
-        // Quantity Controls
-        document.getElementById('qtyInc').addEventListener('click', () => {
-            const input = document.getElementById('qtyInput');
-            input.value = parseInt(input.value) + 1;
-        });
-        document.getElementById('qtyDec').addEventListener('click', () => {
-            const input = document.getElementById('qtyInput');
-            const newValue = parseInt(input.value) - 1;
-            input.value = newValue > 0 ? newValue : 1;
-        });
+      // Quantity controls
+      wireUpQuantityControl();
 
-        // Add to Cart / Buy Now
-        const addBtn = document.getElementById('addToCartBtn');
-        if (addBtn) addBtn.addEventListener('click', addToCart);
+      const addBtn = document.getElementById('addToCartBtn');
+      if (addBtn) addBtn.addEventListener('click', addToCart);
       
-        const buyNowBtn = document.getElementById('buyNowBtn');
-        if (buyNowBtn) buyNowBtn.addEventListener('click', () => {
-          // Buy Now: Add to cart then redirect to cart page
-          addToCart().then((result) => {
-             if (result && result.isOk) {
-               window.location.href = 'cart.html';
-             }
-          });
+      const buyNowBtn = document.getElementById('buyNowBtn');
+      if (buyNowBtn) buyNowBtn.addEventListener('click', () => {
+        // Buy Now: Add to cart then redirect to cart page
+        addToCart().then((result) => {
+           if (result && result.isOk) {
+             window.location.href = 'cart.html';
+           } else if (result) {
+             showToast(`Buy Now failed: ${result.error || 'Check options'}`, 'error');
+           }
         });
+      });
     }
-    
-    // ===========================================
-    // ELEMENT SDK CONFIG
-    // ===========================================
-
-    const defaultConfig = { 
-        page_title: 'PRODUCT DETAIL', 
-        brand_name: 'NEXUS WEAR', 
-    };
-
-    function handleConfigChange(config) {
-        document.getElementById('pageTitle').textContent = config.page_title || defaultConfig.page_title;
-        document.getElementById('brandLogo').textContent = config.brand_name || defaultConfig.brand_name;
-    }
-
 
     // ===========================================
     // INITIALIZATION
@@ -733,7 +808,20 @@
 
     document.addEventListener('DOMContentLoaded', async () => {
       // 1. Initialize SDKs
-      await initializeDataSdk(); // Must be first to update cart badge
+      await initializeDataSdk(); // ต้องเริ่ม Data SDK ก่อนเพื่ออัปเดต Cart Badge ทันที
+
+      // Initialize Element SDK
+      const defaultConfig = { 
+        page_title: 'PRODUCT DETAIL', 
+        brand_name: 'NEXUS WEAR', 
+      };
+      
+      function handleConfigChange(config) {
+        document.getElementById('pageTitle').textContent = config.page_title || defaultConfig.page_title;
+        document.getElementById('brandLogo').textContent = config.brand_name || defaultConfig.brand_name;
+        const footerBrandEl = document.getElementById('footerBrand');
+        if (footerBrandEl) footerBrandEl.textContent = config.brand_name || defaultConfig.brand_name;
+      }
       
       if (window.elementSdk) {
             window.elementSdk.init({
@@ -747,7 +835,7 @@
       }
 
       // 2. Load Data and Render UI
-      loadProductDataAndRender();
+      loadProductDataAndRender(); // **จุดแก้ไข:** เรียกใช้ที่นี่เท่านั้น
       
       // 3. Wire up Event Listeners
       wireUpButtons();
