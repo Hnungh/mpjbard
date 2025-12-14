@@ -3,18 +3,12 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="pageTitle">Nexus Wear - Y2K Hip Hop Fashion</title>
+  <title>Nexus Wear - Y2K Hip Hop Fashion</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=Bebas+Neue&amp;display=swap" rel="stylesheet">
-  
-  <script src="_sdk/element_sdk.js"></script>
-  <script src="_sdk/data_sdk.js"></script>
-  <script src="_sdk/data_utility.js"></script>
-  <script src="_sdk/analytics_sdk.js"></script>
-  
   <style>
-        /* (CSS Styles are kept the same for brevity - Your original styles here) */
+        /* CSS เดิม */
         body {
             box-sizing: border-box;
         }
@@ -38,638 +32,1597 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Utility Classes */
-        .container {
+        .page-wrapper {
+            width: 100%;
+            min-height: 100%;
+        }
+
+        /* Navigation */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #FFFFFF;
+            z-index: 1000;
+            border-bottom: 2px solid #000000;
+        }
+
+        .nav-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .logo-text {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 28px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-decoration: none;
+            color: #000000;
+            transition: all 0.3s ease;
+        }
+
+        .logo-text:hover {
+            transform: scale(1.05);
+        }
+
+        .main-nav-list {
+            display: flex;
+            gap: 48px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: #000000;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: #000000;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: none;
+            border: none;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        .icon-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Cart Badge */
+        .cart-badge {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: #000000;
+            color: #FFFFFF;
+            font-size: 11px;
+            font-weight: 700;
+            min-width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 5px;
+            pointer-events: none;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .cart-badge.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .burger-menu {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 8px;
+            position: relative;
+            width: 40px;
+            height: 40px;
+            justify-content: center;
+        }
+
+        .burger-line {
+            height: 2.5px;
+            background: #000000;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .burger-line:nth-child(1) {
+            width: 24px;
+        }
+
+        .burger-line:nth-child(2) {
+            width: 20px;
+        }
+
+        .burger-line:nth-child(3) {
+            width: 16px;
+        }
+
+        .burger-menu:hover .burger-line:nth-child(1) {
+            width: 26px;
+        }
+
+        .burger-menu:hover .burger-line:nth-child(2) {
+            width: 22px;
+        }
+
+        .burger-menu:hover .burger-line:nth-child(3) {
+            width: 18px;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 80px;
+            left: -100%;
+            width: 100%;
+            height: calc(100% - 80px);
+            background: #FFFFFF;
+            z-index: 999;
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            border-top: 2px solid #000000;
+        }
+
+        .mobile-menu.active {
+            left: 0;
+        }
+
+        .mobile-nav-content {
+            padding: 60px 40px;
+        }
+
+        .mobile-nav-item {
+            list-style: none;
+            margin-bottom: 32px;
+        }
+
+        .mobile-nav-link {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 48px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-decoration: none;
+            color: #000000;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-nav-link:hover {
+            color: #666666;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            margin-top: 80px;
+            position: relative;
+            width: 100%;
+            background: #000000;
+            overflow: hidden;
+        }
+
+        .hero-container {
+            position: relative;
+            width: 100%;
+            height: 90%;
+            max-height: 900px;
+            min-height: 700px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-bg-pattern {
+            position: absolute;
+            inset: 0;
+            opacity: 0.1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 1200px;
+            padding: 0 40px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 12px 28px;
+            background: #FFFFFF;
+            color: #000000;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+            clip-path: polygon(8% 0%, 92% 0%, 100% 50%, 92% 100%, 8% 100%, 0% 50%);
+            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.25),
+                        0 4px 12px rgba(255, 255, 255, 0.15),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            position: relative;
+        }
+
+        .hero-badge::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            clip-path: polygon(8% 0%, 92% 0%, 100% 50%, 92% 100%, 8% 100%, 0% 50%);
+            background: linear-gradient(135deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 50%);
+            pointer-events: none;
+        }
+
+        .hero-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 120px;
+            font-weight: 400;
+            letter-spacing: 8px;
+            color: #FFFFFF;
+            line-height: 1;
+            margin-bottom: 24px;
+            text-shadow: 4px 4px 0px rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            font-weight: 300;
+            color: #CCCCCC;
+            margin-bottom: 48px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px 60px;
+            background: #FFFFFF;
+            color: #000000;
+            border: none;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            clip-path: polygon(8% 0%, 92% 0%, 100% 50%, 92% 100%, 8% 100%, 0% 50%);
+        }
+
+        .hero-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .hero-cta:hover {
+            transform: scale(1.08);
+            box-shadow: 0 8px 32px rgba(255, 255, 255, 0.3);
+        }
+
+        .hero-cta:hover::before {
+            left: 100%;
+        }
+
+        .hero-cta:active {
+            transform: scale(1.02);
+        }
+
+        /* Brand Video Section */
+        .brand-video-section {
+            padding: 60px 40px;
+            background: #FFFFFF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .video-container {
+            width: 100%;
+            max-width: 1400px;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            border: 3px solid #000000;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            position: relative;
+        }
+
+        .brand-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Featured Collections */
+        .collections-section {
+            padding: 120px 40px;
+            background: #F5F5F5;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-label {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #666666;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 72px;
+            font-weight: 400;
+            letter-spacing: 4px;
+            color: #000000;
+            line-height: 1;
+        }
+
+        .collections-grid {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .collection-card {
+            position: relative;
+            background: #FFFFFF;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 3px solid #000000;
+            padding: 0;
+            width: 100%;
+            text-align: left;
+        }
+
+        .collection-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 12px 12px 0px #000000;
+        }
+
+        .collection-card:active {
+            transform: translateY(-6px);
+            box-shadow: 6px 6px 0px #000000;
+        }
+
+        .collection-image {
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .collection-card:hover .collection-image svg {
+            transform: scale(1.1);
+        }
+
+        .collection-image svg {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .collection-info {
+            padding: 32px;
+            background: #FFFFFF;
+        }
+
+        .collection-name {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 36px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            color: #000000;
+            margin-bottom: 8px;
+        }
+
+        .collection-count {
+            font-size: 14px;
+            font-weight: 600;
+            color: #666666;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* New Drops */
+        .drops-section {
+            padding: 120px 40px 80px;
+            background: #000000;
+            color: #FFFFFF;
+        }
+
+        .drops-section .section-label {
+            color: #999999;
+        }
+
+        .drops-section .section-title {
+            color: #FFFFFF;
+        }
+
+        .drops-grid {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+        }
+
+        .drop-item {
+            background: #1A1A1A;
+            border: 2px solid #333333;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .drop-image {
+            width: 100%;
+            height: 350px;
+            overflow: hidden;
+            background: #2A2A2A;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .drop-image svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .drop-details {
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .drop-info-left {
+            flex: 1;
+        }
+
+        .drop-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #999999;
+            margin-bottom: 8px;
+        }
+
+        .drop-name {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 24px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            color: #FFFFFF;
+            margin-bottom: 12px;
+        }
+
+        .drop-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        .preorder-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #FFFFFF;
+            color: #000000;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            clip-path: polygon(6% 0%, 94% 0%, 100% 50%, 94% 100%, 6% 100%, 0% 50%);
+            flex-shrink: 0;
+            align-self: flex-end;
+            margin-bottom: 4px;
+        }
+
+        .preorder-btn:hover {
+            background: #000000;
+            color: #FFFFFF;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);
+        }
+
+        .preorder-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Trending Products Carousel */
+        .trending-section {
+            padding: 80px 0;
+            background: #000000;
+            overflow: hidden;
+        }
+
+        .trending-section .section-header {
+            padding: 0 40px;
+            margin-bottom: 60px;
+        }
+
+        .trending-section .section-label {
+            color: #999999;
+        }
+
+        .trending-section .section-title {
+            color: #FFFFFF;
+        }
+
+        .carousel-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 24px;
+            width: max-content;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+
+        .carousel-track[data-direction="left"] {
+            animation-name: scrollLeft;
+            animation-duration: 60s;
+        }
+
+        .carousel-track[data-direction="right"] {
+            animation-name: scrollRight;
+            animation-duration: 60s;
+        }
+
+        @keyframes scrollLeft {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        @keyframes scrollRight {
+            0% {
+                transform: translateX(-50%);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .carousel-track:hover {
+            animation-play-state: paused;
+        }
+
+        .product-card {
+            flex-shrink: 0;
+            width: 320px;
+            background: #1A1A1A;
+            border: 2px solid #333333;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 320px;
+            overflow: hidden;
+            background: #2A2A2A;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-image svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-category {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #999999;
+            margin-bottom: 8px;
+        }
+
+        .product-name {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 22px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            color: #FFFFFF;
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        /* About Brand */
+        .about-section {
+            padding: 120px 40px;
+            background: #FFFFFF;
+        }
+
+        .about-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
         }
 
-        /* Header & Navigation */
-        header {
-            background-color: #111111;
+        .about-visual {
+            position: relative;
+            height: 600px;
+            background: #F5F5F5;
+            border: 3px solid #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-text-content h2 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 64px;
+            font-weight: 400;
+            letter-spacing: 3px;
+            color: #000000;
+            line-height: 1;
+            margin-bottom: 32px;
+        }
+
+        .about-text-content p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #333333;
+            margin-bottom: 24px;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .feature-text h4 {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #000000;
+            margin-bottom: 4px;
+        }
+
+        .feature-text p {
+            font-size: 13px;
+            color: #666666;
+            margin: 0;
+        }
+
+        /* Footer */
+        .site-footer {
+            padding: 80px 40px 40px;
+            background: #000000;
             color: #FFFFFF;
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 2px solid #FF00FF; /* Neon accent */
         }
 
-        .navbar {
+        .footer-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr repeat(3, 1fr);
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand h3 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 48px;
+            font-weight: 400;
+            letter-spacing: 3px;
+            color: #FFFFFF;
+            margin-bottom: 24px;
+        }
+
+        .footer-brand p {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #999999;
+            margin-bottom: 32px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-btn {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #FFFFFF;
+            color: #000000;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            padding: 0;
+            text-decoration: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: #000000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .social-btn:hover::before {
+            opacity: 1;
+        }
+
+        .social-btn:active {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-btn svg {
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .social-btn:hover svg {
+            transform: scale(1.15);
+            stroke: #FFFFFF;
+            fill: #FFFFFF;
+        }
+
+        .footer-column h4 {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #FFFFFF;
+            margin-bottom: 24px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            font-size: 14px;
+            text-decoration: none;
+            color: #999999;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #FFFFFF;
+        }
+
+        .footer-bottom {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding-top: 40px;
+            border-top: 1px solid #333333;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .brand-logo {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 2rem;
-            text-decoration: none;
-            color: #FFFFFF;
-            letter-spacing: 2px;
+        .copyright {
+            font-size: 13px;
+            color: #666666;
         }
 
-        .nav-links {
-            list-style: none;
+        .payment-methods {
             display: flex;
-        }
-
-        .nav-links li a {
-            text-decoration: none;
-            color: #FFFFFF;
-            padding: 10px 15px;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links li a:hover {
-            color: #FF00FF; /* Neon hover */
-        }
-
-        .nav-icons {
-            display: flex;
+            gap: 16px;
             align-items: center;
         }
 
-        .nav-icons a {
-            color: #FFFFFF;
-            text-decoration: none;
-            margin-left: 20px;
-            font-size: 1.2rem;
-            position: relative;
-        }
-        
-        .nav-icons a:hover {
-            color: #FF00FF;
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .collections-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .drops-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
 
-        .cart-badge {
-            position: absolute;
-            top: -5px;
-            right: -10px;
-            background-color: #FF00FF;
-            color: #111111;
-            border-radius: 50%;
-            padding: 2px 6px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            min-width: 20px;
-            text-align: center;
-        }
-        
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-        }
-
-        .hamburger div {
-            width: 25px;
-            height: 3px;
-            background-color: #FFFFFF;
-            margin: 4px 0;
-            transition: all 0.3s ease;
-        }
-
-        /* Main Hero Section */
-        .hero {
-            background: url('https://hnungh.github.io/mcl/img/hero-bg-2.jpg') no-repeat center center/cover;
-            height: 70vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: #FFFFFF;
-            position: relative;
-            /* เพิ่มสีดำโปร่งแสงซ้อนทับ */
-            box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.4); 
-        }
-
-        .hero-content h1 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 5rem;
-            margin-bottom: 10px;
-            letter-spacing: 4px;
-            text-shadow: 2px 2px 4px #FF00FF;
-        }
-
-        .hero-content p {
-            font-size: 1.5rem;
-            margin-bottom: 30px;
-            font-weight: 300;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background-color: #FF00FF;
-            color: #111111;
-            padding: 12px 30px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1.1rem;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 0 10px #FF00FF;
-        }
-
-        .cta-button:hover {
-            background-color: #111111;
-            color: #FF00FF;
-            box-shadow: 0 0 15px #FF00FF, inset 0 0 5px #FF00FF;
-        }
-
-        /* Product & Collection Sections */
-        .section-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 3rem;
-            text-align: center;
-            margin: 60px 0 30px;
-            letter-spacing: 2px;
-            border-bottom: 2px solid #FF00FF;
-            display: inline-block;
-            padding-bottom: 5px;
-        }
-        
-        .section-header {
-            text-align: center;
-        }
-
-        .product-grid, .collection-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            padding-bottom: 60px;
-        }
-
-        /* Product Card - CRUCIAL PART */
-        .product-card {
-            border: 1px solid #EEEEEE;
-            padding: 15px;
-            text-align: center;
-            transition: all 0.3s;
-            background-color: #FFFFFF;
-            cursor: pointer;
-            display: block; /* Make the entire card a link block */
-            text-decoration: none; /* Remove underline from the link */
-            color: inherit; /* Inherit color */
-        }
-        
-        .product-card:hover {
-            border-color: #FF00FF;
-            box-shadow: 0 4px 15px rgba(255, 0, 255, 0.2);
-            transform: translateY(-5px);
-        }
-        
-        .product-image-container {
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 15px;
-            aspect-ratio: 4/5; /* Aspect ratio for product images */
-        }
-        
-        .product-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-
-        .product-card:hover .product-image {
-            transform: scale(1.05);
-        }
-
-        .product-category {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background-color: #FF00FF;
-            color: #111111;
-            padding: 5px 10px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .product-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: #111111;
-        }
-
-        .product-price {
-            font-size: 1.2rem;
-            color: #FF00FF;
-            font-weight: 700;
-        }
-
-        /* Collection Card */
-        .collection-card {
-            position: relative;
-            overflow: hidden;
-            aspect-ratio: 16/9;
-            cursor: pointer;
-        }
-
-        .collection-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-
-        .collection-card:hover img {
-            transform: scale(1.05);
-        }
-
-        .collection-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .collection-name {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 2.5rem;
-            color: #FFFFFF;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 4px #000000;
-        }
-
-        /* Footer */
-        footer {
-            background-color: #111111;
-            color: #AAAAAA;
-            padding: 40px 0;
-            text-align: center;
-            border-top: 2px solid #FF00FF;
-        }
-
-        footer p {
-            margin: 5px 0;
-            font-size: 0.9rem;
-        }
-
-        footer a {
-            color: #AAAAAA;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        footer a:hover {
-            color: #FF00FF;
-        }
-
-
-        /* Media Queries for Mobile */
         @media (max-width: 768px) {
-            .nav-links {
+            .brand-video-section {
+                padding: 40px 24px;
+            }
+
+            .video-container {
+                border-width: 2px;
+            }
+
+            .nav-content {
+                padding: 0 24px;
+                height: 70px;
+            }
+
+            .logo-text {
+                font-size: 24px;
+            }
+
+            .main-nav-list {
                 display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 70px; /* Adjust based on header height */
-                left: 0;
-                width: 100%;
-                background-color: #111111;
-                border-top: 1px solid #333333;
-                z-index: 999;
             }
 
-            .nav-links.active {
+            .burger-menu {
                 display: flex;
             }
 
-            .nav-links li {
-                text-align: center;
-                border-bottom: 1px solid #333333;
-            }
-            
-            .nav-links li:last-child {
-                border-bottom: none;
+            .mobile-menu {
+                top: 70px;
+                height: calc(100% - 70px);
             }
 
-            .nav-links li a {
-                display: block;
-                padding: 15px;
+            .hero-section {
+                margin-top: 70px;
             }
 
-            .nav-icons {
-                order: 3; /* Move icons after logo */
+            .hero-container {
+                height: 80%;
+                min-height: 600px;
             }
 
-            .hamburger {
-                display: flex;
-                margin-left: 20px;
+            .hero-title {
+                font-size: 64px;
+                letter-spacing: 4px;
             }
-            
-            .hero {
-                height: 50vh;
+
+            .hero-subtitle {
+                font-size: 16px;
             }
-            
-            .hero-content h1 {
-                font-size: 3rem;
-            }
-            
-            .hero-content p {
-                font-size: 1.2rem;
-            }
-            
+
             .section-title {
-                font-size: 2rem;
+                font-size: 48px;
             }
-            
-            .product-grid, .collection-grid {
+
+            .collections-section,
+            .drops-section,
+            .about-section {
+                padding: 80px 24px;
+            }
+
+            .collections-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .drops-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 48px;
+            }
+
+            .about-visual {
+                height: 400px;
+            }
+
+            .about-features {
                 grid-template-columns: 1fr;
             }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 24px;
+                text-align: center;
+            }
         }
-  </style>
+
+        @media (max-width: 480px) {
+            .drops-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title {
+                font-size: 48px;
+            }
+
+            .hero-cta {
+                padding: 18px 48px;
+                font-size: 12px;
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
-  
-  <header>
-    <div class="container">
-        <nav class="navbar">
-            <a href="#" class="brand-logo" id="brandLogo">NEXUS WEAR</a>
-            
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#new-arrivals">NEW ARRIVALS</a></li>
-                <li><a href="#collections">COLLECTIONS</a></li>
-                <li><a href="#trending">TRENDING</a></li>
-            </ul>
-            
-            <div class="nav-icons">
-                <a href="cart.html" title="Shopping Cart">
-                    🛒
-                    <span class="cart-badge" id="cartBadge">0</span>
-                </a>
-                <div class="hamburger" id="hamburger">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
-            </div>
-        </nav>
+  <div class="page-wrapper"><header class="top-nav" role="banner">
+    <nav class="nav-content"><a href="#home" class="logo-text" id="brandLogo">NEXUS WEAR</a>
+     <ul class="main-nav-list">
+      <li><a href="#new" class="nav-link">New Drops</a></li>
+      <li><a href="#collections" class="nav-link">Collections</a></li>
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+     </ul>
+     <div class="nav-icons"><a href="cart.html" class="icon-btn" aria-label="Cart" id="cartBtn">
+       <svg width="26" height="26" viewbox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1" /> <circle cx="20" cy="21" r="1" /> <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+       </svg><span class="cart-badge" id="cartBadge">0</span> </a> <button class="icon-btn" aria-label="Account">
+       <svg width="26" height="26" viewbox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /> <circle cx="12" cy="7" r="4" />
+       </svg></button> <button class="burger-menu" id="burgerBtn" aria-label="Menu"> <span class="burger-line"></span> <span class="burger-line"></span> <span class="burger-line"></span> </button>
+     </div>
+    </nav>
+   </header><div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-nav-content">
+     <ul>
+      <li class="mobile-nav-item"><a href="#new" class="mobile-nav-link">New Drops</a></li>
+      <li class="mobile-nav-item"><a href="#collections" class="mobile-nav-link">Collections</a></li>
+      <li class="mobile-nav-item"><a href="#about" class="mobile-nav-link">About</a></li>
+      <li class="mobile-nav-item"><a href="#contact" class="mobile-nav-link">Contact</a></li>
+     </ul>
     </div>
-  </header>
-
-  <main>
-      <section class="hero">
-          <div class="hero-content">
-              <h1>NEW DROP: NEO-CHROME</h1>
-              <p>สัมผัสแฟชั่น Y2K สไตล์ฮิปฮอปยุคใหม่</p>
-              <a href="#new-arrivals" class="cta-button">SHOP NOW</a>
-          </div>
-      </section>
-
-      <section id="new-arrivals" class="container">
-          <div class="section-header">
-              <h2 class="section-title">NEW ARRIVALS</h2>
-              <p>สินค้ามาใหม่ล่าสุด ดีไซน์เด่น พร้อมให้คุณจับจอง</p>
-          </div>
-          
-          <div class="product-grid" id="new-arrivals-container">
-             <p style="text-align: center; grid-column: 1 / -1;">กำลังโหลดสินค้ามาใหม่...</p>
-          </div>
-      </section>
-
-      <section id="collections" class="container">
-          <div class="section-header">
-              <h2 class="section-title">FEATURED COLLECTIONS</h2>
-              <p>แรงบันดาลใจจากสตรีทแฟชั่นและยุค 90s</p>
-          </div>
-          
-          <div class="collection-grid">
-              <div class="collection-card">
-                  <img src="https://hnungh.github.io/mcl/img/collection-1.jpg" alt="Neon Streetwear">
-                  <div class="collection-overlay">
-                      <h3 class="collection-name" id="collection1Name">NEON STREETWEAR</h3>
-                  </div>
-              </div>
-              <div class="collection-card">
-                  <img src="https://hnungh.github.io/mcl/img/collection-2.jpg" alt="Grunge Aesthetics">
-                  <div class="collection-overlay">
-                      <h3 class="collection-name" id="collection2Name">GRUNGE AESTHETICS</h3>
-                  </div>
-              </div>
-              <div class="collection-card">
-                  <img src="https://hnungh.github.io/mcl/img/collection-3.jpg" alt="Cyberpunk Future">
-                  <div class="collection-overlay">
-                      <h3 class="collection-name" id="collection3Name">CYBERPUNK FUTURE</h3>
-                  </div>
-              </div>
-          </div>
-      </section>
-      
-      <section id="trending" class="container">
-          <div class="section-header">
-              <h2 class="section-title">TRENDING NOW</h2>
-              <p>สินค้าขายดีและกำลังเป็นที่นิยมในขณะนี้</p>
-          </div>
-          <div class="product-grid" id="trending-products-container">
-              <p style="text-align: center; grid-column: 1 / -1;">กำลังโหลดสินค้าขายดี...</p>
-          </div>
-      </section>
-
-  </main>
-  
-  <footer>
-      <div class="container">
-          <p>&copy; <span id="currentYear">2023</span> <span id="footerBrand">NEXUS WEAR</span>. All Rights Reserved.</p>
-          <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+   </div><main>
+    <section class="hero-section" id="home">
+     <div class="hero-container">
+      <svg class="hero-bg-pattern" viewbox="0 0 1920 1080" preserveaspectratio="xMidYMid slice"><defs>
+        <pattern id="grid" width="100" height="100" patternunits="userSpaceOnUse">
+         <path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2" />
+        </pattern>
+       </defs> <rect width="100%" height="100%" fill="url(#grid)" /> <circle cx="400" cy="300" r="200" fill="rgba(255,255,255,0.03)" /> <circle cx="1500" cy="700" r="300" fill="rgba(255,255,255,0.03)" /> <rect x="800" y="200" width="400" height="400" fill="rgba(255,255,255,0.02)" transform="rotate(45 1000 400)" />
+      </svg>
+      <div class="hero-content">
+       <div class="hero-badge">
+        NEW COLLECTION 2024
+       </div>
+       <h1 class="hero-title" id="heroTitle">STREET CULTURE</h1>
+       <p class="hero-subtitle" id="heroSubtitle">Y2K • HIP HOP • URBAN STYLE</p><a href="https://www.canva.com" target="_blank" rel="noopener noreferrer" class="hero-cta"> <span id="heroCTA">SHOP NOW</span>
+        <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="5" y1="12" x2="19" y2="12" /> <polyline points="12 5 19 12 12 19"></polyline>
+        </svg></a>
       </div>
-  </footer>
-
+     </div>
+    </section><section class="collections-section" id="collections">
+     <div class="section-header">
+      <div class="section-label">
+       EXPLORE NOW
+      </div>
+      <h2 class="section-title">FEATURED COLLECTIONS</h2>
+     </div>
+     <div class="collections-grid"><button class="collection-card">
+       <div class="collection-image">
+        <svg viewbox="0 0 600 500" preserveaspectratio="xMidYMid slice"><defs>
+          <lineargradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+           <stop offset="0%" style="stop-color:#000000;stop-opacity:1" />
+           <stop offset="100%" style="stop-color:#333333;stop-opacity:1" />
+          </lineargradient>
+         </defs> <rect width="100%" height="100%" fill="url(#grad1)" /> <g opacity="0.3">
+          <path d="M150 200 L200 150 L250 200 L200 250 Z" fill="#FFFFFF" />
+          <path d="M350 300 L400 250 L450 300 L400 350 Z" fill="#FFFFFF" />
+          <circle cx="300" cy="250" r="80" fill="none" stroke="#FFFFFF" stroke-width="3" />
+         </g> <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="Bebas Neue, cursive" font-size="120" font-weight="700" fill="rgba(255,255,255,0.15)">
+          Y2K
+         </text>
+        </svg>
+       </div>
+       <div class="collection-info">
+        <h3 class="collection-name" id="collection1Name">Y2K ESSENTIALS</h3>
+        <p class="collection-count">48 Items</p>
+       </div></button> <button class="collection-card">
+       <div class="collection-image">
+        <svg viewbox="0 0 600 500" preserveaspectratio="xMidYMid slice"><defs>
+          <lineargradient id="grad2" x1="100%" y1="0%" x2="0%" y2="100%">
+           <stop offset="0%" style="stop-color:#333333;stop-opacity:1" />
+           <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+          </lineargradient>
+         </defs> <rect width="100%" height="100%" fill="url(#grad2)" /> <g opacity="0.3">
+          <rect x="150" y="100" width="300" height="300" fill="#FFFFFF" transform="rotate(20 300 250)" />
+         </g> <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="Bebas Neue, cursive" font-size="100" font-weight="700" fill="rgba(255,255,255,0.15)">
+          VINTAGE
+         </text>
+        </svg>
+       </div>
+       <div class="collection-info">
+        <h3 class="collection-name" id="collection2Name">HIP HOP CLASSICS</h3>
+        <p class="collection-count">32 Items</p>
+       </div></button> <button class="collection-card">
+       <div class="collection-image">
+        <svg viewbox="0 0 600 500" preserveaspectratio="xMidYMid slice"><defs>
+          <radialgradient id="grad3" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+           <stop offset="0%" style="stop-color:#000000;stop-opacity:1" />
+           <stop offset="100%" style="stop-color:#999999;stop-opacity:1" />
+          </radialgradient>
+         </defs> <rect width="100%" height="100%" fill="url(#grad3)" /> <g opacity="0.3">
+          <polygon points="300,100 500,400 100,400" fill="#FFFFFF" />
+         </g> <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="Bebas Neue, cursive" font-size="100" font-weight="700" fill="rgba(255,255,255,0.15)">
+          STREET
+         </text>
+        </svg>
+       </div>
+       <div class="collection-info">
+        <h3 class="collection-name" id="collection3Name">STREETWEAR</h3>
+        <p class="collection-count">55 Items</p>
+       </div></button>
+     </div>
+    </section><section class="brand-video-section">
+     <div class="video-container">
+      <video class="brand-video" autoplay muted loop playsinline><source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+       </video>
+     </div>
+    </section><section class="drops-section" id="new">
+     <div class="section-header">
+      <div class="section-label">
+       JUST DROPPED
+      </div>
+      <h2 class="section-title">NEW ARRIVALS</h2>
+     </div>
+     <div class="drops-grid">
+      <div class="drop-item">
+       <div class="drop-image"><img src="https://hnungh.github.io/mcl/img/oversized-tee-black.jpg" alt="Classic Black Oversized Tee" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+       </div>
+       <div class="drop-details">
+        <div class="drop-info-left">
+         <div class="drop-label">
+          GRAPHIC TEE
+         </div>
+         <div class="drop-name">
+          CLASSIC BLACK TEE
+         </div>
+         <div class="drop-price">
+          ฿790
+         </div>
+        </div><a href="product.html?id=p001" class="preorder-btn" onclick="event.stopPropagation()">VIEW PRODUCT</a>
+       </div>
+      </div>
+      <div class="drop-item">
+       <div class="drop-image"><img src="https://hnungh.github.io/mcl/img/cargo-pants-olive.jpg" alt="Military Olive Cargo Pants" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+       </div>
+       <div class="drop-details">
+        <div class="drop-info-left">
+         <div class="drop-label">
+          CARGO PANTS
+         </div>
+         <div class="drop-name">
+          MILITARY OLIVE
+         </div>
+         <div class="drop-price">
+          ฿1,590
+         </div>
+        </div><a href="product.html?id=p002" class="preorder-btn" onclick="event.stopPropagation()">VIEW PRODUCT</a>
+       </div>
+      </div>
+      <div class="drop-item">
+       <div class="drop-image"><img src="https://hnungh.github.io/mcl/img/hoodie-grey.jpg" alt="Stone Grey Pullover Hoodie" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+       </div>
+       <div class="drop-details">
+        <div class="drop-info-left">
+         <div class="drop-label">
+          HOODIE
+         </div>
+         <div class="drop-name">
+          OVERSIZE PULLOVER
+         </div>
+         <div class="drop-price">
+          ฿1,290
+         </div>
+        </div><a href="product.html?id=p003" class="preorder-btn" onclick="event.stopPropagation()">VIEW PRODUCT</a>
+       </div>
+      </div>
+      <div class="drop-item">
+       <div class="drop-image"><img src="https://hnungh.github.io/mcl/img/sunglasses-retro.jpg" alt="Retro Square Sunglasses" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+       </div>
+       <div class="drop-details">
+        <div class="drop-info-left">
+         <div class="drop-label">
+          ACCESSORIES
+         </div>
+         <div class="drop-name">
+          RETRO SUNGLASSES
+         </div>
+         <div class="drop-price">
+          ฿490
+         </div>
+        </div><a href="product.html?id=p004" class="preorder-btn" onclick="event.stopPropagation()">VIEW PRODUCT</a>
+       </div>
+      </div>
+     </div>
+    </section><section class="trending-section">
+     <div class="section-header">
+      <div class="section-label">
+       POPULAR PICKS
+      </div>
+      <h2 class="section-title">TRENDING NOW</h2>
+     </div>
+     <div class="carousel-wrapper">
+      <div class="carousel-track" data-direction="left">
+       </div>
+      <div class="carousel-track" data-direction="right" style="transform: translateX(-50%);">
+       </div>
+     </div>
+    </section><section class="about-section" id="about">
+     <div class="about-content">
+      <div class="about-visual">
+       <svg viewbox="0 0 600 600" preserveaspectratio="xMidYMid meet"><defs>
+         <pattern id="dot-pattern" width="20" height="20" patternunits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1.5" fill="#333333" />
+         </pattern>
+        </defs> <rect x="50" y="50" width="500" height="500" fill="url(#dot-pattern)" opacity="0.1" /> <rect x="100" y="100" width="400" height="400" fill="#FFFFFF" stroke="#000000" stroke-width="4" /> <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="Bebas Neue, cursive" font-size="100" font-weight="400" fill="#000000">
+         A
+        </text>
+       </svg>
+      </div>
+      <div class="about-text-content">
+       <h2>ABOUT NEXUS WEAR</h2>
+       <div class="section-label">
+        OUR VISION
+       </div>
+       <p>Nexus Wear is more than just clothing; it's a movement built on the foundation of urban culture and self-expression. We are deeply inspired by the raw energy of Y2K fashion, classic hip-hop aesthetics, and the fearless spirit of streetwear innovators. Our mission is to bridge the past and the future of street style, creating pieces that resonate with authenticity.</p>
+       <p id="footerTagline">Every drop is crafted using responsible sourcing and construction techniques that ensure longevity. We believe in creating timeless pieces that become part of your story.</p>
+       <div class="about-features">
+        <div class="feature-item">
+         <div class="feature-icon">
+          <svg width="28" height="28" viewbox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+         </div>
+         <div class="feature-text">
+          <h4>Premium Quality</h4>
+          <p>Top-tier materials and construction</p>
+         </div>
+        </div>
+        <div class="feature-item">
+         <div class="feature-icon">
+          <svg width="28" height="28" viewbox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /> <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+         </div>
+         <div class="feature-text">
+          <h4>Limited Drops</h4>
+          <p>Exclusive releases, limited quantities</p>
+         </div>
+        </div>
+        <div class="feature-item">
+         <div class="feature-icon">
+          <svg width="28" height="28" viewbox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" /> <polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline> <polyline points="7.5 19.79 7.5 14.6 3 12"></polyline> <polyline points="21 12 16.5 14.6 16.5 19.79"></polyline> <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline> <line x1="12" y1="22.08" x2="12" y2="12" />
+          </svg>
+         </div>
+         <div class="feature-text">
+          <h4>Fast Shipping</h4>
+          <p>Worldwide delivery in 3-7 days</p>
+         </div>
+        </div>
+        <div class="feature-item">
+         <div class="feature-icon">
+          <svg width="28" height="28" viewbox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+          </svg>
+         </div>
+         <div class="feature-text">
+          <h4>Secure Payments</h4>
+          <p>Trusted gateways for peace of mind</p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section>
+   </main><footer class="site-footer" id="contact">
+    <div class="footer-content">
+     <div class="footer-brand">
+      <h3 id="footerBrand">NEXUS WEAR</h3>
+      <p>Nexus Wear is a brand built on the spirit of urban culture. We deliver authentic street style directly to you, focusing on quality, exclusivity, and timeless design.</p>
+      <div class="social-links"><a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Instagram">
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="#000000" stroke="none"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.148 3.228-1.667 4.772-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.849 0-3.205.012-3.584.069-4.849.148-3.227 1.667-4.77 4.919-4.918 1.265-.058 1.644-.07 4.849-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.201-6.78 2.623-6.981 6.981-.058 1.281-.072 1.689-.072 4.948 0 3.259.014 3.668.072 4.948.201 4.357 2.623 6.78 6.981 6.981 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.201 6.78-2.623 6.981-6.981.058-1.28.072-1.689.072-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.623-6.78-6.98-6.981-1.281-.058-1.689-.072-4.948-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4c0 2.21-1.791 4-4 4zm7.5-9.352c0 .852-.693 1.545-1.545 1.545s-1.545-.693-1.545-1.545c0-.851.693-1.545 1.545-1.545s1.545.694 1.545 1.545z" />
+        </svg></a> <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Facebook">
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="#000000" stroke="none"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33V21.878C18.343 21.128 22 16.991 22 12z" />
+        </svg></a> <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Twitter">
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="#000000" stroke="none"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+        </svg></a> <a href="https://t.me" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Telegram">
+        <svg width="20" height="20" viewbox="0 0 24 24" fill="#000000" stroke="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.43.19.16.16.07.28-.05.41-.86.95-1.78 1.95-2.6 2.87-.29.33-.53.56-.74.74l-.06.05c-.12.08-.2.14-.2.15s.03.04.14 0c.74-.29 2.05-.8 3.01-1.18 1.15-.45 2.21-.86 2.39-.93.3-.12.55-.26.66-.46.12-.2.13-.47.03-.66-.1-.18-.32-.26-.71-.38z" />
+        </svg></a>
+      </div>
+     </div>
+     <div class="footer-column">
+      <h4>SHOP</h4>
+      <ul class="footer-links">
+       <li><a href="#new">New Arrivals</a></li>
+       <li><a href="#collections">Collections</a></li>
+       <li><a href="#">Sale</a></li>
+       <li><a href="product.html?id=p001">Best Sellers</a></li>
+      </ul>
+     </div>
+     <div class="footer-column">
+      <h4>SUPPORT</h4>
+      <ul class="footer-links">
+       <li><a href="#">FAQs</a></li>
+       <li><a href="#">Shipping</a></li>
+       <li><a href="#">Returns</a></li>
+       <li><a href="#">Size Guide</a></li>
+      </ul>
+     </div>
+     <div class="footer-column">
+      <h4>LEGAL</h4>
+      <ul class="footer-links">
+       <li><a href="#">Terms of Service</a></li>
+       <li><a href="#">Privacy Policy</a></li>
+       <li><a href="#">Cookie Policy</a></li>
+      </ul>
+     </div>
+    </div>
+    <div class="footer-bottom">
+     <p class="copyright">© 2024 NEXUS WEAR. All Rights Reserved.</p>
+     <div class="payment-methods">
+      <svg width="40" height="24" viewbox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="24" rx="3" fill="#333333" /> <path d="M7 8.5C7 7.67157 7.67157 7 8.5 7H31.5C32.3284 7 33 7.67157 33 8.5V15.5C33 16.3284 32.3284 17 31.5 17H8.5C7.67157 17 7 16.3284 7 15.5V8.5Z" stroke="#FFFFFF" stroke-width="2" /> <line x1="12" y1="11" x2="16" y2="11" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" /> <line x1="18" y1="11" x2="22" y2="11" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
+       </svg>
+      <svg width="40" height="24" viewbox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="24" rx="3" fill="#333333" /> <path d="M10 8L20 16L30 8" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /> <path d="M10 16L20 8L30 16" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+       </svg>
+      <svg width="40" height="24" viewbox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="24" rx="3" fill="#333333" /> <circle cx="12" cy="12" r="5" fill="#FFFFFF" /> <path d="M28 12C28 14.7614 25.7614 17 23 17C20.2386 17 18 14.7614 18 12C18 9.23858 20.2386 7 23 7C25.7614 7 28 9.23858 28 12Z" fill="#FFFFFF" /> <path d="M36 12C36 14.7614 33.7614 17 31 17C28.2386 17 26 14.7614 26 12C26 9.23858 28.2386 7 31 7C33.7614 7 36 9.23858 36 12Z" fill="#FFFFFF" />
+       </svg>
+     </div>
+    </div>
+   </footer>
+  </div>
   <script>
-    // ===========================================
-    // DATA & CART UTILITIES
-    // ===========================================
-    // This function relies on MOCK_PRODUCTS_DATA being available from data_utility.js
+    // ====================================================================
+    // 1. MOCK PRODUCT DATA (ใช้สำหรับทุกหน้า: index, product)
+    //    - ใช้ ID และข้อมูลพื้นฐานสำหรับแสดงผลและส่งต่อไปยัง product.html
+    // ====================================================================
+    const MOCK_PRODUCTS_DATA = [
+        { id: 'p001', name: 'Vintage Hip Hop Tee', price: 790, description: 'เสื้อยืดสไตล์ Hip Hop วินเทจ, คอตตอน 100%', image: 'https://hnungh.github.io/mcl/img/oversized-tee-black.jpg', category: 'GRAPHIC TEE', available_sizes: ['S', 'M', 'L', 'XL'], available_colors: [{ name: 'Black', hex: '#000000' }] },
+        { id: 'p002', name: 'Street Cargo Pants', price: 1590, description: 'กางเกงคาร์โก้ทรงหลวมสไตล์ Military, ผ้าทนทาน', image: 'https://hnungh.github.io/mcl/img/cargo-pants-olive.jpg', category: 'CARGO PANTS', available_sizes: ['S', 'M', 'L', 'XL'], available_colors: [{ name: 'Olive', hex: '#6B8E23' }, { name: 'Black', hex: '#000000' }] },
+        { id: 'p003', name: 'Oversize Pullover Hoodie', price: 1290, description: 'ฮู้ดดี้สวมหัวทรง Oversize ให้ความอบอุ่นและความเท่', image: 'https://hnungh.github.io/mcl/img/hoodie-grey.jpg', category: 'HOODIE', available_sizes: ['M', 'L', 'XL'], available_colors: [{ name: 'Grey', hex: '#999999' }] },
+        { id: 'p004', name: 'Retro Square Sunglasses', price: 490, description: 'แว่นตากันแดดทรงสี่เหลี่ยมสไตล์ย้อนยุค เฟรมหนาและเลนส์คุณภาพสูง ปกป้องดวงตาจากแสงแดดได้ดี', image: 'https://hnungh.github.io/mcl/img/sunglasses-retro.jpg', category: 'SUNGLASSES', available_sizes: ['One Size'], available_colors: [{ name: 'Black', hex: '#000000' }, { name: 'Tortoise', hex: '#824510' }] },
+        // สำหรับ Trending Carousel
+        { id: 'product-005', name: 'Product 5 (Trending)', price: 1000, image: 'https://hnungh.github.io/mcl/img/cargo-pants-olive.jpg', category: 'PANTS' },
+        { id: 'product-006', name: 'Product 6 (Trending)', price: 2000, image: 'https://hnungh.github.io/mcl/img/hoodie-grey.jpg', category: 'HOODIE' },
+        { id: 'product-007', name: 'Product 7 (Trending)', price: 3000, image: 'https://hnungh.github.io/mcl/img/oversized-tee-black.jpg', category: 'TEE' },
+        { id: 'product-008', name: 'Product 8 (Trending)', price: 4000, image: 'https://hnungh.github.io/mcl/img/sunglasses-retro.jpg', category: 'ACCESSORIES' }
+    ];
     
+    // ====================================================================
+    // 2. CART SYSTEM - LOCAL STORAGE IMPLEMENTATION (แทนที่ Data SDK)
+    //    - โครงสร้าง Cart: [{product_id, name, price, qty, selected_size, selected_color}, ...]
+    // ====================================================================
+    const CART_STORAGE_KEY = 'my_static_shop_cart';
+
     /**
-     * ดึงจำนวนสินค้าในตะกร้าจาก Data SDK
+     * ดึงรายการสินค้าทั้งหมดจาก localStorage
+     * @returns {Array<Object>} รายการสินค้าในตะกร้า
      */
-    function updateCartCountFromSDK() {
-        if (window.dataSdk) {
-            const count = window.dataSdk.getCartCount();
-            const badge = document.getElementById('cartBadge');
-            if (badge) {
-                badge.textContent = count > 99 ? '99+' : count;
-                badge.style.display = count > 0 ? 'inline-block' : 'none';
+    function getCart() {
+        const cartJson = localStorage.getItem(CART_STORAGE_KEY);
+        try {
+            return cartJson ? JSON.parse(cartJson) : [];
+        } catch (e) {
+            console.error("Error parsing cart from localStorage:", e);
+            return [];
+        }
+    }
+
+    /**
+     * บันทึกรายการสินค้าในตะกร้าลงใน localStorage
+     * @param {Array<Object>} cart - รายการสินค้าที่ต้องการบันทึก
+     */
+    function saveCart(cart) {
+        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+        updateCartBadge(); // อัปเดต Badge ทุกครั้งที่มีการเปลี่ยนแปลง
+    }
+
+    /**
+     * เพิ่มสินค้าเข้าระบบตะกร้า (ใช้ใน product.html)
+     */
+    function addToCart(productId, name, price, qty = 1, size = '', color = '') {
+        const cart = getCart();
+        
+        // ตรวจสอบว่ามีสินค้ารายการนี้อยู่แล้วหรือไม่ (ตาม ID, Size, Color)
+        const existingItem = cart.find(item => 
+            item.product_id === productId &&
+            item.selected_size === size &&
+            item.selected_color === color
+        );
+
+        if (existingItem) {
+            existingItem.qty += qty;
+        } else {
+            cart.push({ 
+                product_id: productId, 
+                name, 
+                price, 
+                qty, 
+                selected_size: size, 
+                selected_color: color 
+            });
+        }
+
+        saveCart(cart);
+        console.log(`[Cart] Added ${qty} x ${name} to cart.`);
+        return { success: true };
+    }
+
+    /**
+     * ลบสินค้าออกจากตะกร้า (ใช้ใน cart.html)
+     */
+    function removeFromCart(itemIndex) {
+        const cart = getCart();
+        if (itemIndex >= 0 && itemIndex < cart.length) {
+            cart.splice(itemIndex, 1);
+            saveCart(cart);
+            return { success: true };
+        }
+        return { success: false, error: 'Item index not found' };
+    }
+
+    /**
+     * อัปเดตจำนวนสินค้า (ใช้ใน cart.html)
+     */
+    function updateCartQty(itemIndex, newQty) {
+        let cart = getCart();
+        newQty = parseInt(newQty, 10);
+        
+        // ถ้าจำนวนน้อยกว่า 1 ให้ลบออกจากตะกร้า
+        if (isNaN(newQty) || newQty < 1) {
+            return removeFromCart(itemIndex);
+        }
+
+        if (itemIndex >= 0 && itemIndex < cart.length) {
+            cart[itemIndex].qty = newQty;
+            saveCart(cart);
+            return { success: true };
+        }
+        return { success: false, error: 'Item index not found' };
+    }
+
+    /**
+     * ดึงรายการสินค้าทั้งหมดในตะกร้า
+     */
+    function getCartItems() {
+        return getCart();
+    }
+
+    /**
+     * คำนวณจำนวนสินค้าทั้งหมดในตะกร้า (รวมชิ้น)
+     */
+    function getCartCount() {
+        return getCart().reduce((total, item) => total + (item.qty || 0), 0);
+    }
+
+    /**
+     * คำนวณราคารวมทั้งหมด
+     */
+    function getCartTotal() {
+        return getCart().reduce((total, item) => total + (item.price * (item.qty || 0)), 0);
+    }
+
+    /**
+     * ล้างตะกร้าสินค้าทั้งหมด
+     */
+    function clearCart() {
+        localStorage.removeItem(CART_STORAGE_KEY);
+        updateCartBadge();
+        console.log("[Cart] Cart cleared.");
+        return { success: true };
+    }
+
+    // ฟังก์ชันสำหรับอัปเดต Badge จำนวนสินค้า
+    function updateCartBadge() {
+        const totalItems = getCartCount();
+        const badgeElement = document.getElementById('cartBadge');
+        
+        if (badgeElement) {
+            badgeElement.textContent = totalItems > 0 ? totalItems : '0';
+            // ใช้ class 'active' เพื่อจัดการ visibility ตาม CSS ที่มีอยู่
+            if (totalItems > 0) {
+                badgeElement.classList.add('active');
+            } else {
+                badgeElement.classList.remove('active');
             }
         }
     }
-    
-    /**
-     * Data SDK handler: อัปเดต UI เมื่อข้อมูลตะกร้ามีการเปลี่ยนแปลง
-     */
-    function dataChangedHandler(cart) {
-        // เมื่อตะกร้ามีการเปลี่ยนแปลง ให้เรียกอัปเดต Badge
-        updateCartCountFromSDK(); 
-    }
-    
-    /**
-     * เริ่มต้นใช้งาน Data SDK
-     */
-    async function initializeDataSdk() {
-        if (window.dataSdk) {
-            await window.dataSdk.init({ onDataChanged: dataChangedHandler });
-            updateCartCountFromSDK(); // อัปเดตครั้งแรก
-        }
-    }
 
-    // ===========================================
-    // ELEMENT SDK CONFIG
-    // ===========================================
-    const defaultConfig = { 
-        page_title: 'Nexus Wear - Y2K Hip Hop Fashion', 
-        brand_name: 'NEXUS WEAR', 
-        collection1: 'NEON STREETWEAR',
-        collection2: 'GRUNGE AESTHETICS',
-        collection3: 'CYBERPUNK FUTURE',
-        // ... (other configs) ...
-    };
-
-    function onConfigChange(config) {
-        const titleEl = document.getElementById('pageTitle');
-        if (titleEl) titleEl.textContent = config.page_title || defaultConfig.page_title;
-        
-        const logoEl = document.getElementById('brandLogo');
-        if (logoEl) logoEl.textContent = config.brand_name || defaultConfig.brand_name;
-        
-        const footerBrandEl = document.getElementById('footerBrand');
-        if (footerBrandEl) footerBrandEl.textContent = config.brand_name || defaultConfig.brand_name;
-        
-        const col1 = config.collection1 || defaultConfig.collection1;
-        const col2 = config.collection2 || defaultConfig.collection2;
-        const col3 = config.collection3 || defaultConfig.collection3;
-        
-        const col1El = document.getElementById('collection1Name');
-        if (col1El) col1El.textContent = col1;
-        
-        const col2El = document.getElementById('collection2Name');
-        if (col2El) col2El.textContent = col2;
-        
-        const col3El = document.getElementById('collection3Name');
-        if (col3El) col3El.textContent = col3;
-        
-        // Note: For color/font changes, you would typically inject dynamic <style> tags here.
-    }
-
-    // ===========================================
-    // PRODUCT RENDERING LOGIC
-    // ===========================================
+    // ====================================================================
+    // 3. CAROUSEL LISTING - DYNAMIC IMPLEMENTATION (ใช้ฟังก์ชันเดิม, แต่ใช้ MOCK_PRODUCTS_DATA ใหม่)
+    // ====================================================================
 
     /**
-     * ช่วยจัดรูปแบบตัวเลขเป็นสกุลเงิน THB
-     * @param {number} amount - จำนวนเงิน
-     */
-    const formatCurrency = (amount) => {
-        // Ensure MOCK_PRODUCTS_DATA is available globally from data_utility.js
-        return `${parseFloat(amount).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',')} THB`;
-    };
-
-    /**
-     * สร้าง HTML element <a> ที่เป็นบัตรสินค้า
-     * @param {Object} product - ข้อมูลสินค้าจาก MOCK_PRODUCTS_DATA
-     * @returns {HTMLAnchorElement} - บัตรสินค้าที่เป็นลิงก์ไปยัง product.html?id=...
+     * สร้างองค์ประกอบ HTML สำหรับบัตรสินค้า
      */
     function createProductCard(product) {
-        const card = document.createElement('a');
-        card.href = `product.html?id=${encodeURIComponent(product.id)}`; 
-        card.className = 'product-card';
-        card.setAttribute('data-product-id', product.id); 
-
+        const card = document.createElement('a'); 
+        // สร้างลิงก์ที่ชี้ไป product.html และส่งพารามิเตอร์ ID
+        card.href = `product.html?id=${product.id}`;
+        card.className = 'product-card'; 
+        
+        // ใช้รูปภาพจริงจาก mock data
+        const imageHtml = product.image ? `<img src="${product.image}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg viewBox=\\'0 0 320 320\\' preserveAspectRatio=\\'xMidYMid meet\\'><rect width=\\'100%\\' height=\\'100%\\' fill=\\'#2A2A2A\\' /><text x=\\'50%\\' y=\\'50%\\' text-anchor=\\'middle\\' dominant-baseline=\\'middle\\' font-family=\\'Bebas Neue\\' font-size=\\'60\\' fill=\\'#999999\\'>IMG</text></svg>'">` : '<svg viewBox="0 0 320 320" preserveAspectRatio="xMidYMid meet"><rect width="100%" height="100%" fill="#2A2A2A" /><text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="Bebas Neue" font-size="60" fill="#999999">IMG</text></svg>';
+        
         card.innerHTML = `
-            <div class="product-image-container">
-                <img src="${product.image}" alt="${product.name}" class="product-image">
-                <span class="product-category">${product.category}</span>
+            <div class="product-image">
+                ${imageHtml}
             </div>
             <div class="product-info">
-                <h4 class="product-name">${product.name}</h4>
-                <p class="product-price">${formatCurrency(product.price)}</p>
+                <div class="product-category"> ${product.category || 'PRODUCT'} </div>
+                <div class="product-name"> ${product.name} </div>
+                <div class="product-price"> ฿${product.price.toLocaleString('th-TH')} </div>
             </div>
         `;
-
         return card;
     }
 
     /**
-     * เรนเดอร์สินค้ามาใหม่ลงในส่วน #new-arrivals-container
+     * สร้างและตั้งค่า Carousel โดยใช้ข้อมูลจาก MOCK_PRODUCTS_DATA
      */
-    function renderNewArrivals() {
-        if (typeof MOCK_PRODUCTS_DATA === 'undefined' || MOCK_PRODUCTS_DATA.length === 0) {
-            console.warn('MOCK_PRODUCTS_DATA is not available or empty. Cannot render new arrivals.');
-            return;
-        }
+    function setupInfiniteCarousel() {
+        const tracks = document.querySelectorAll('.carousel-track');
+        // กรองเฉพาะสินค้าที่มีข้อมูลครบถ้วนสำหรับ Trending (Price, Name, Image)
+        const trendingProducts = MOCK_PRODUCTS_DATA.filter(p => p.price && p.name && p.image); 
+        // ใช้ข้อมูลสินค้าเดิม ซ้ำสองครั้งเพื่อให้เกิดการเลื่อนแบบวนซ้ำ (Infinite loop)
+        const productsToDisplay = trendingProducts.concat(trendingProducts);
 
-        const container = document.getElementById('new-arrivals-container');
-        if (!container) {
-            console.error('Container #new-arrivals-container not found.');
-            return;
-        }
+        if (productsToDisplay.length === 0) return;
 
-        // ใช้สินค้า 2 รายการแรกจาก MOCK_PRODUCTS_DATA สำหรับ New Arrivals
-        const productsToRender = MOCK_PRODUCTS_DATA.slice(0, 2); 
-
-        container.innerHTML = ''; // เคลียร์เนื้อหาเก่า
-
-        productsToRender.forEach(product => {
-            container.appendChild(createProductCard(product));
-        });
-    }
-
-    /**
-     * เรนเดอร์สินค้าที่กำลังเป็นที่นิยมลงในส่วน #trending-products-container
-     */
-    function renderTrendingProducts() {
-        // ตรวจสอบว่า MOCK_PRODUCTS_DATA ถูกโหลดแล้วหรือไม่
-        if (typeof MOCK_PRODUCTS_DATA === 'undefined' || MOCK_PRODUCTS_DATA.length === 0) {
-            console.warn('MOCK_PRODUCTS_DATA is not available or empty. Cannot render trending products.');
-            return;
-        }
-
-        const container = document.getElementById('trending-products-container');
-        if (!container) {
-            console.error('Container #trending-products-container not found.');
-            return;
-        }
-
-        // ใช้สินค้า 4 รายการแรกจาก MOCK_PRODUCTS_DATA
-        const productsToRender = MOCK_PRODUCTS_DATA.slice(0, 4); 
-
-        container.innerHTML = ''; // เคลียร์เนื้อหาเก่า
-
-        productsToRender.forEach(product => {
-            container.appendChild(createProductCard(product));
-        });
-    }
-
-    // ===========================================
-    // UI HANDLERS
-    // ===========================================
-    
-    function toggleMobileMenu() {
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
-        
-        if (hamburger) {
-            hamburger.addEventListener('click', () => {
-                if (navLinks) navLinks.classList.toggle('active');
+        tracks.forEach((track, index) => {
+            // ล้างเนื้อหาเดิมใน HTML ออกก่อน
+            track.innerHTML = '';
+            productsToDisplay.forEach(product => {
+                const card = createProductCard(product);
+                track.appendChild(card);
             });
-        }
+        });
     }
-    
-    function setupSmoothScroll() {
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
+
+    // ====================================================================
+    // 4. INITIALIZATION & EXPORT
+    // ====================================================================
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // อัปเดต Badge จำนวนสินค้าใน Navbar
+        updateCartBadge(); 
+
+        // รันฟังก์ชันสร้าง Carousel
+        setupInfiniteCarousel();
+
+        // Mobile menu toggle logic
+        const burgerBtn = document.getElementById('burgerBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const toggleMenu = () => {
+            mobileMenu.classList.toggle('active');
+            burgerBtn.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : 'auto';
+        };
+        burgerBtn.addEventListener('click', toggleMenu);
+        mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', toggleMenu));
+
+
+        // Smooth scroll for nav links
+        const navLinks = document.querySelectorAll('a[href^="#"]');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
                 if (href !== '#' && href.length > 1) {
                     e.preventDefault();
                     const target = document.querySelector(href);
@@ -682,55 +1635,35 @@
                 }
             });
         });
-        
+
         // Collection cards
         const collectionCards = document.querySelectorAll('.collection-card');
         collectionCards.forEach(card => {
             card.addEventListener('click', () => {
                 const nameEl = card.querySelector('.collection-name');
                 if (nameEl) {
-                    // console.log('View collection:', nameEl.textContent);
                     // Redirect to a collection page if needed: window.location.href = `collections.html?name=${encodeURIComponent(nameEl.textContent)}`;
                 }
             });
         });
-    }
 
-    // ===========================================
-    // INITIALIZATION
-    // ===========================================
-
-    document.addEventListener('DOMContentLoaded', async () => {
-        // 1. Initialize SDKs
-        await initializeDataSdk(); // ต้องเริ่ม Data SDK ก่อนเพื่ออัปเดต Cart Badge ทันที
-
-        if (window.elementSdk) {
-            window.elementSdk.init({
-                defaultConfig: defaultConfig,
-                onConfigChange: onConfigChange,
-                // mapToCapabilities จะถูกใช้สำหรับเครื่องมือแก้ไข UI ภายนอก
-                mapToCapabilities: (config) => ({
-                    // ... (omitted capabilities for brevity)
-                })
-            });
-        }
-        
-        if (window.analyticsSdk) {
-            window.analyticsSdk.init();
-            window.analyticsSdk.trackPageView('Home Page');
-        }
-
-        // 2. Render Dynamic Content
-        renderNewArrivals(); // <--- เรียกใช้การเรนเดอร์สินค้ามาใหม่
-        renderTrendingProducts(); // เรียกใช้การเรนเดอร์สินค้าขายดี
-
-        // 3. Setup UI Handlers
-        toggleMobileMenu();
-        setupSmoothScroll();
-        
-        // Set current year in footer
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
     });
-  </script>
+    
+    // ===========================================
+    // GLOBAL CART FUNCTIONS (สำหรับใช้ในหน้าอื่น)
+    // ===========================================
+    
+    // ทำให้ฟังก์ชัน Cart, Mock Data และ Utility ต่างๆ เข้าถึงได้จากหน้าอื่น
+    window.nexusCart = {
+        addToCart,
+        removeFromCart,
+        updateCartQty,
+        getCartItems,
+        getCartCount,
+        getCartTotal,
+        clearCart,
+        MOCK_PRODUCTS: MOCK_PRODUCTS_DATA
+    };
+    </script>
  </body>
-</html>
+ </html>
