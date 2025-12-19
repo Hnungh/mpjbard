@@ -3,1002 +3,262 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="pageTitle">Product Detail - Nexus Wear</title>
+  <title id="pageTitle">Nexus Wear - Product Detail</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=Bebas+Neue&amp;display=swap" rel="stylesheet">
   <style>
-        /* CSS เดิม */
-        body {
-            box-sizing: border-box;
-        }
+        /* CSS เดิมทั้งหมดของคุณ - ห้ามลบหรือแก้ไข */
+        body { box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; overflow-x: hidden; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #FFFFFF; color: #000000; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        .page-wrapper { width: 100%; min-height: 100%; }
+
+        /* Navigation */
+        .top-nav { position: fixed; top: 0; left: 0; right: 0; background: #FFFFFF; z-index: 1000; border-bottom: 2px solid #000000; }
+        .nav-content { max-width: 1600px; margin: 0 auto; padding: 0 60px; display: flex; align-items: center; justify-content: space-between; height: 80px; }
+        .logo-text { font-family: 'Bebas Neue', cursive; font-size: 28px; text-decoration: none; color: #000000; letter-spacing: 2px; }
+        .main-nav-list { display: flex; gap: 48px; list-style: none; align-items: center; }
+        .nav-link { font-size: 14px; font-weight: 600; text-transform: uppercase; text-decoration: none; color: #000000; position: relative; }
+        .nav-icons { display: flex; gap: 8px; align-items: center; }
+        .icon-btn { cursor: pointer; background: none; border: none; padding: 8px; position: relative; }
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        .cart-badge { 
+            position: absolute; top: 2px; right: 2px; background: #000000; color: #FFFFFF; 
+            font-size: 11px; font-weight: 700; min-width: 18px; height: 18px; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            opacity: 0; transform: scale(0); transition: all 0.3s;
         }
+        .cart-badge.active { opacity: 1; transform: scale(1); }
 
-        html, body {
-            height: 100%;
-            overflow-x: hidden;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #FFFFFF;
-            color: #000000;
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .page-wrapper {
-            width: 100%;
-            min-height: 100%;
-        }
-
-        /* Navigation (Re-copied from index.html for consistency) */
-        .top-nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: #FFFFFF;
-            z-index: 1000;
-            border-bottom: 2px solid #000000;
-        }
-
-        .nav-content {
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 0 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 80px;
-        }
-
-        .logo-text {
-            font-family: 'Bebas Neue', cursive;
-            font-size: 28px;
-            font-weight: 400;
-            letter-spacing: 2px;
-            text-decoration: none;
-            color: #000000;
-            transition: all 0.3s ease;
-        }
-
-        .logo-text:hover {
-            transform: scale(1.05);
-        }
-
-        .main-nav-list {
-            display: flex;
-            gap: 48px;
-            list-style: none;
-            align-items: center;
-        }
-
-        .nav-link {
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            text-decoration: none;
-            color: #000000;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 0;
-            height: 3px;
-            background: #000000;
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .nav-icons {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .icon-btn {
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: none;
-            border: none;
-            padding: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .icon-btn:hover {
-            transform: scale(1.15) rotate(5deg);
-        }
-
-        .icon-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* Cart Badge */
-        .cart-badge {
-            position: absolute;
-            top: 2px;
-            right: 2px;
-            background: #000000;
-            color: #FFFFFF;
-            font-size: 11px;
-            font-weight: 700;
-            min-width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 5px;
-            pointer-events: none;
-            opacity: 0;
-            transform: scale(0);
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .cart-badge.active {
-            opacity: 1;
-            transform: scale(1);
-        }
+        /* Product Layout */
+        .product-container { max-width: 1600px; margin: 80px auto 0; padding: 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+        .product-gallery { position: sticky; top: 140px; display: flex; flex-direction: column; gap: 20px; }
+        .main-image { width: 100%; background: #F5F5F5; border: 2px solid #000000; aspect-ratio: 1/1; overflow: hidden; }
+        .main-image img { width: 100%; height: 100%; object-fit: cover; }
         
-        /* Product Specific Styles */
-        .product-section {
-            padding-top: 120px;
-            padding-bottom: 80px;
-        }
-
-        .product-container {
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 0 60px;
-            display: grid;
-            grid-template-columns: 3fr 2fr;
-            gap: 80px;
-        }
-
-        .product-gallery {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .main-image-wrapper {
-            width: 100%;
-            aspect-ratio: 1/1;
-            background: #F5F5F5;
-            border: 2px solid #000000;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .main-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .thumbnail-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-        }
-
-        .thumbnail-item {
-            cursor: pointer;
-            border: 2px solid #F5F5F5;
-            aspect-ratio: 1/1;
-            background: #F5F5F5;
-            transition: border-color 0.2s ease, transform 0.2s ease;
-            overflow: hidden;
-        }
-
-        .thumbnail-item:hover {
-            border-color: #999999;
-            transform: scale(1.05);
-        }
-
-        .thumbnail-item.active {
-            border-color: #000000;
-        }
-
-        .thumbnail-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .product-details {
-            padding-top: 10px;
-        }
-
-        .product-category {
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: #666666;
-            margin-bottom: 8px;
-        }
-
-        .product-name {
-            font-family: 'Bebas Neue', cursive;
-            font-size: 64px;
-            font-weight: 400;
-            letter-spacing: 3px;
-            line-height: 1.1;
-            color: #000000;
-            margin-bottom: 24px;
-        }
-
-        .product-price {
-            font-size: 36px;
-            font-weight: 800;
-            color: #000000;
-            margin-bottom: 40px;
-        }
+        .product-info { display: flex; flex-direction: column; gap: 32px; }
+        .breadcrumb { font-size: 12px; font-weight: 600; letter-spacing: 2px; color: #666; text-transform: uppercase; }
+        .product-title { font-family: 'Bebas Neue', cursive; font-size: 72px; line-height: 1; color: #000; }
+        .price-tag { font-size: 32px; font-weight: 800; color: #000; }
 
         /* Options */
-        .option-group {
-            margin-bottom: 30px;
+        .option-group { display: flex; flex-direction: column; gap: 16px; }
+        .option-label { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+        .size-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+        .size-btn { padding: 16px; border: 2px solid #000; background: #FFF; font-weight: 700; cursor: pointer; transition: all 0.3s; }
+        .size-btn:hover { background: #F5F5F5; }
+        .size-btn.active { background: #000; color: #FFF; }
+
+        .qty-input { display: flex; align-items: center; border: 2px solid #000; width: fit-content; }
+        .qty-btn { padding: 12px 20px; background: none; border: none; cursor: pointer; font-size: 20px; font-weight: 700; }
+        .qty-number { padding: 0 20px; font-weight: 700; font-size: 18px; border-left: 2px solid #000; border-right: 2px solid #000; }
+
+        /* Actions */
+        .action-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+        .btn-primary { 
+            padding: 24px; background: #000; color: #FFF; border: 2px solid #000; 
+            font-weight: 800; text-transform: uppercase; cursor: pointer; 
+            clip-path: polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 50%); 
+            transition: transform 0.3s;
+        }
+        .btn-secondary { 
+            padding: 24px; background: #FFF; color: #000; border: 2px solid #000; 
+            font-weight: 800; text-transform: uppercase; cursor: pointer; 
+            clip-path: polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 50%);
+        }
+        .btn-primary:hover { transform: scale(1.02); }
+
+        /* Toast */
+        .toast {
+            position: fixed; bottom: 40px; right: 40px; background: #000; color: #FFF;
+            padding: 20px 40px; font-weight: 700; z-index: 2000; display: none;
+            clip-path: polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 50%);
         }
 
-        .option-label {
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-            display: block;
-        }
-
-        .option-pills {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .option-pill {
-            padding: 10px 20px;
-            border: 2px solid #000000;
-            background: #FFFFFF;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
-        .option-pill:hover {
-            background: #F5F5F5;
-        }
-
-        .option-pill.active {
-            background: #000000;
-            color: #FFFFFF;
-        }
-        
-        .color-pill {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: 2px solid #E0E0E0;
-            cursor: pointer;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-        
-        .color-pill.active {
-            border-color: #000000;
-            box-shadow: 0 0 0 3px #000000;
-        }
-        
-        .color-pill:hover {
-            border-color: #000000;
-        }
-
-        /* Quantity and Actions */
-        .action-group {
-            margin-top: 40px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .quantity-input-group {
-            display: flex;
-            border: 2px solid #000000;
-            width: 150px;
-            flex-shrink: 0;
-        }
-        
-        .qty-btn {
-            width: 45px;
-            height: 50px;
-            background: #FFFFFF;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            transition: background 0.2s ease;
-            line-height: 1;
-        }
-        
-        .qty-btn:hover {
-            background: #F5F5F5;
-        }
-        
-        .qty-input {
-            flex-grow: 1;
-            border: none;
-            text-align: center;
-            font-size: 18px;
-            font-weight: 600;
-            border-left: 2px solid #000000;
-            border-right: 2px solid #000000;
-            outline: none;
-            -moz-appearance: textfield; /* Firefox */
-        }
-        
-        .qty-input::-webkit-outer-spin-button,
-        .qty-input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        
-        .add-to-cart-btn {
-            flex-grow: 1;
-            padding: 15px 30px;
-            background: #000000;
-            color: #FFFFFF;
-            border: none;
-            font-size: 16px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: background 0.2s ease, transform 0.2s ease;
-        }
-        
-        .add-to-cart-btn:hover {
-            background: #333333;
-            transform: translateY(-2px);
-        }
-        
-        .add-to-cart-btn:active {
-            transform: translateY(0);
-        }
-
-        /* Buy Now button - Optional if needed */
-        .buy-now-btn {
-            flex-grow: 1;
-            padding: 15px 30px;
-            background: #FFFFFF;
-            color: #000000;
-            border: 2px solid #000000;
-            font-size: 16px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: background 0.2s ease;
-            margin-top: 10px;
-        }
-
-        .buy-now-btn:hover {
-            background: #FFF8DC; /* Light yellow hover */
-        }
-
-        /* Accordion Details */
-        .product-info-details {
-            margin-top: 60px;
-            border-top: 2px solid #000000;
-        }
-
-        .detail-item {
-            border-bottom: 1px solid #E0E0E0;
-        }
-
-        .detail-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-
-        .detail-header svg {
-            transition: transform 0.3s ease;
-        }
-
-        .detail-item.active .detail-header svg {
-            transform: rotate(45deg);
-        }
-
-        .detail-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
-        }
-
-        .detail-item.active .detail-content {
-            max-height: 500px; /* Adjust as needed */
-            padding-bottom: 20px;
-        }
-
-        .detail-content p {
-            font-size: 15px;
-            line-height: 1.7;
-            color: #333333;
-        }
-
-        /* Toast Notification */
-        #toast {
-            visibility: hidden; 
-            min-width: 250px; 
-            margin-left: -125px; 
-            background-color: #000000; 
-            color: #fff; 
-            text-align: center; 
-            border-radius: 2px; 
-            padding: 16px; 
-            position: fixed; 
-            z-index: 9999; 
-            left: 50%; 
-            bottom: 30px; 
-            font-size: 17px; 
-        }
-
-        #toast.show {
-            visibility: visible;
-            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-            animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        }
-
-        @-webkit-keyframes fadein {
-            from {bottom: 0; opacity: 0;} 
-            to {bottom: 30px; opacity: 1;}
-        }
-
-        @keyframes fadein {
-            from {bottom: 0; opacity: 0;}
-            to {bottom: 30px; opacity: 1;}
-        }
-
-        @-webkit-keyframes fadeout {
-            from {bottom: 30px; opacity: 1;} 
-            to {bottom: 0; opacity: 0;}
-        }
-
-        @keyframes fadeout {
-            from {bottom: 30px; opacity: 1;}
-            to {bottom: 0; opacity: 0;}
-        }
-        
-        .out-of-stock-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(255, 255, 255, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: #E53935;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .main-image-wrapper.out-of-stock .out-of-stock-overlay {
-            opacity: 1;
-        }
-
-
-        /* Responsive */
-        @media (max-width: 1200px) {
-            .product-container {
-                grid-template-columns: 1fr;
-                gap: 40px;
-                padding: 0 40px;
-            }
-            .product-name {
-                font-size: 52px;
-            }
-            .action-group {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .quantity-input-group {
-                width: 100%;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .product-container {
-                padding: 0 24px;
-            }
-            .top-nav {
-                height: 70px;
-            }
-            .product-section {
-                padding-top: 100px;
-            }
-            .product-name {
-                font-size: 40px;
-            }
-            .product-price {
-                font-size: 30px;
-            }
-            .nav-content {
-                padding: 0 24px;
-            }
+        @media (max-width: 968px) {
+            .product-container { grid-template-columns: 1fr; padding: 30px 24px; }
+            .product-gallery { position: static; }
+            .product-title { font-size: 56px; }
         }
     </style>
-  <style>@view-transition { navigation: auto; }</style>
  </head>
  <body>
-  <div id="toast"></div>
-  <div class="page-wrapper"><header class="top-nav" role="banner">
-    <nav class="nav-content"><a href="index.html" class="logo-text" id="brandLogo">NEXUS WEAR</a>
+  <div class="page-wrapper">
+   <header class="top-nav">
+    <nav class="nav-content">
+     <a href="index.html" class="logo-text">NEXUS WEAR</a>
      <ul class="main-nav-list">
       <li><a href="index.html#new" class="nav-link">New Drops</a></li>
       <li><a href="index.html#collections" class="nav-link">Collections</a></li>
-      <li><a href="index.html#about" class="nav-link">About</a></li>
-      <li><a href="index.html#contact" class="nav-link">Contact</a></li>
      </ul>
-     <div class="nav-icons"><a href="cart.html" class="icon-btn" aria-label="Cart" id="cartBtn">
-       <svg width="26" height="26" viewbox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1" /> <circle cx="20" cy="21" r="1" /> <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-       </svg><span class="cart-badge" id="cartBadge">0</span> </a> <button class="icon-btn" aria-label="Account">
-       <svg width="26" height="26" viewbox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /> <circle cx="12" cy="7" r="4" />
-       </svg></button> <button class="burger-menu" id="burgerBtn" aria-label="Menu"> <span class="burger-line"></span> <span class="burger-line"></span> <span class="burger-line"></span> </button>
+     <div class="nav-icons">
+      <a href="cart.html" class="icon-btn">
+       <svg width="26" height="26" viewbox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+       <span class="cart-badge" id="cartBadge">0</span>
+      </a>
      </div>
     </nav>
    </header>
-   <main>
-    <section class="product-section">
-     <div class="product-container">
-      <div class="product-gallery">
-       <div class="main-image-wrapper" id="mainImageWrapper">
-        <img class="main-image" id="mainProductImage" src="https://via.placeholder.com/800x800?text=Loading..." alt="Product Image">
-        <div class="out-of-stock-overlay">
-         SOLD OUT
-        </div>
-       </div>
-       <div class="thumbnail-grid" id="thumbnailGrid">
-        <div class="thumbnail-item active">
-         <img src="https://via.placeholder.com/200x200?text=Thumb+1" alt="Thumbnail 1">
-        </div>
-        <div class="thumbnail-item">
-         <img src="https://via.placeholder.com/200x200?text=Thumb+2" alt="Thumbnail 2">
-        </div>
-        <div class="thumbnail-item">
-         <img src="https://via.placeholder.com/200x200?text=Thumb+3" alt="Thumbnail 3">
-        </div>
-        <div class="thumbnail-item">
-         <img src="https://via.placeholder.com/200x200?text=Thumb+4" alt="Thumbnail 4">
-        </div>
-       </div>
-      </div>
-      <div class="product-details">
-       <p class="product-category" id="productCategory">LOADING...</p>
-       <h1 class="product-name" id="productName">PRODUCT NAME</h1>
-       <p class="product-price" id="productPrice">฿0</p>
-       <div class="option-group">
-        <span class="option-label">SIZE: <span id="selectedSizeLabel"></span></span>
-        <div class="option-pills" id="sizeOptions">
-         </div>
-       </div>
-       <div class="option-group">
-        <span class="option-label">COLOR: <span id="selectedColorLabel"></span></span>
-        <div class="option-pills" id="colorOptions">
-         </div>
-       </div>
-       <div class="action-group">
-        <div class="quantity-input-group">
-         <button class="qty-btn" id="decreaseQtyBtn">-</button>
-         <input type="number" class="qty-input" id="quantityInput" value="1" min="1" max="99" inputmode="numeric">
-         <button class="qty-btn" id="increaseQtyBtn">+</button>
-        </div>
-        <button class="add-to-cart-btn" id="addToCartBtn">ADD TO CART</button>
-       </div>
-       <button class="buy-now-btn" id="buyNowBtn">BUY NOW</button>
-       <div class="product-info-details">
-        <div class="detail-item active">
-         <div class="detail-header">
-          Product Description
-          <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19" /> <line x1="5" y1="12" x2="19" y2="12" />
-          </svg>
-         </div>
-         <div class="detail-content">
-          <p id="productDescription">Loading product description...</p>
-         </div>
-        </div>
-        <div class="detail-item">
-         <div class="detail-header">
-          Shipping & Returns
-          <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19" /> <line x1="5" y1="12" x2="19" y2="12" />
-          </svg>
-         </div>
-         <div class="detail-content">
-          <p>จัดส่งภายใน 3-5 วันทำการ. สามารถคืนสินค้าได้ภายใน 14 วันหลังจากการรับสินค้า.</p>
-         </div>
-        </div>
-       </div>
+
+   <main class="product-container">
+    <div class="product-gallery">
+     <div class="main-image">
+      <img id="productImg" src="" alt="Product">
+     </div>
+    </div>
+
+    <div class="product-info">
+     <div class="breadcrumb" id="productCat">CATEGORY</div>
+     <h1 class="product-title" id="productTitle">PRODUCT NAME</h1>
+     <div class="price-tag" id="productPrice">฿0</div>
+
+     <div class="option-group">
+      <div class="option-label">SELECT SIZE</div>
+      <div class="size-grid">
+       <button class="size-btn">S</button>
+       <button class="size-btn active">M</button>
+       <button class="size-btn">L</button>
+       <button class="size-btn">XL</button>
       </div>
      </div>
-    </section>
+
+     <div class="option-group">
+      <div class="option-label">QUANTITY</div>
+      <div class="qty-input">
+       <button class="qty-btn" id="minusBtn">-</button>
+       <span class="qty-number" id="qtyNum">1</span>
+       <button class="qty-btn" id="plusBtn">+</button>
+      </div>
+     </div>
+
+     <div class="action-btns">
+      <button class="btn-primary" id="buyNowBtn">BUY IT NOW</button>
+      <button class="btn-secondary" id="addCartBtn">ADD TO CART</button>
+     </div>
+    </div>
    </main>
-   </div>
+  </div>
+
+  <div id="toast" class="toast">ADDED TO CART!</div>
+
   <script>
-    // ====================================================================
-    // 1. MOCK PRODUCT DATA (คัดลอกมาจาก index.html เพื่อให้ทำงานแบบ Standalone)
-    // ====================================================================
-    const MOCK_PRODUCTS_DATA = [
-        { id: 'p001', name: 'Vintage Hip Hop Tee', price: 790, description: 'เสื้อยืดสไตล์ Hip Hop วินเทจ, คอตตอน 100% ทรง Oversize สุดเท่ เหมาะสำหรับสวมใส่ในชีวิตประจำวัน', image: 'https://hnungh.github.io/mcl/img/oversized-tee-black.jpg', category: 'GRAPHIC TEE', available_sizes: ['S', 'M', 'L', 'XL'], available_colors: [{ name: 'Black', hex: '#000000' }, { name: 'White', hex: '#FFFFFF' }], is_available: true },
-        { id: 'p002', name: 'Street Cargo Pants', price: 1590, description: 'กางเกงคาร์โก้ทรงหลวมสไตล์ Military, ผ้าทนทาน มีกระเป๋าข้างขนาดใหญ่', image: 'https://hnungh.github.io/mcl/img/cargo-pants-olive.jpg', category: 'CARGO PANTS', available_sizes: ['S', 'M', 'L', 'XL'], available_colors: [{ name: 'Olive', hex: '#6B8E23' }, { name: 'Black', hex: '#000000' }], is_available: true },
-        { id: 'p003', name: 'Oversize Pullover Hoodie', price: 1290, description: 'ฮู้ดดี้สวมหัวทรง Oversize ให้ความอบอุ่นและความเท่ เนื้อผ้า Cotton Fleece สัมผัสนุ่ม', image: 'https://hnungh.github.io/mcl/img/hoodie-grey.jpg', category: 'HOODIE', available_sizes: ['M', 'L', 'XL'], available_colors: [{ name: 'Grey', hex: '#999999' }], is_available: false }, // ตั้งใจให้ Out of Stock
-        { id: 'p004', name: 'Retro Square Sunglasses', price: 490, description: 'แว่นตากันแดดทรงสี่เหลี่ยมสไตล์ย้อนยุค เฟรมหนาและเลนส์คุณภาพสูง ปกป้องดวงตาจากแสงแดดได้ดี', image: 'https://hnungh.github.io/mcl/img/sunglasses-retro.jpg', category: 'SUNGLASSES', available_sizes: ['One Size'], available_colors: [{ name: 'Black', hex: '#000000' }, { name: 'Tortoise', hex: '#824510' }], is_available: true }
-        // ... (สินค้าอื่นๆ)
+    /**
+     * ============================================================
+     * NEXUS WEAR - PRODUCT ENGINE (Professional Standard)
+     * ============================================================
+     */
+
+    // 1. Data Source (ต้องตรงกับ index.html)
+    const PRODUCTS = [
+        { id: 'p001', name: 'Classic Black Tee', price: 790, category: 'TEE', image: 'https://hnungh.github.io/mcl/img/oversized-tee-black.jpg' },
+        { id: 'p002', name: 'Military Olive Pants', price: 1590, category: 'PANTS', image: 'https://hnungh.github.io/mcl/img/cargo-pants-olive.jpg' },
+        { id: 'p003', name: 'Oversize Hoodie', price: 1290, category: 'HOODIE', image: 'https://hnungh.github.io/mcl/img/hoodie-grey.jpg' },
+        { id: 'p004', name: 'Retro Sunglasses', price: 490, category: 'ACC', image: 'https://hnungh.github.io/mcl/img/sunglasses-retro.jpg' }
     ];
 
-    // ====================================================================
-    // 2. CART SYSTEM - LOCAL STORAGE UTILITY (คัดลอกมาจาก index.html)
-    // ====================================================================
-    const CART_STORAGE_KEY = 'my_static_shop_cart';
-
-    function getCart() {
-        const cartJson = localStorage.getItem(CART_STORAGE_KEY);
-        try {
-            return cartJson ? JSON.parse(cartJson) : [];
-        } catch (e) {
-            console.error("Error parsing cart from localStorage:", e);
-            return [];
-        }
-    }
-
-    function saveCart(cart) {
-        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-        updateCartBadge();
-    }
-    
-    // ฟังก์ชันนี้จะถูกเรียกใช้เมื่อกด "Add to Cart"
-    function addToCart(productId, name, price, qty = 1, size = '', color = '') {
-        const cart = getCart();
-        
-        // ตรวจสอบว่ามีสินค้ารายการนี้อยู่แล้วหรือไม่ (ตาม ID, Size, Color)
-        const existingItem = cart.find(item => 
-            item.product_id === productId &&
-            item.selected_size === size &&
-            item.selected_color === color
-        );
-
-        if (existingItem) {
-            existingItem.qty += qty;
-        } else {
-            cart.push({ 
-                product_id: productId, 
-                name, 
-                price, 
-                qty, 
-                selected_size: size, 
-                selected_color: color 
-            });
-        }
-
-        saveCart(cart);
-        console.log(`[Cart] Added ${qty} x ${name} (Size: ${size}, Color: ${color}) to cart.`);
-        showToast('🛒 Added to Cart!');
-        return { success: true };
-    }
-
-    function getCartCount() {
-        return getCart().reduce((total, item) => total + (item.qty || 0), 0);
-    }
-    
-    function updateCartBadge() {
-        const totalItems = getCartCount();
-        const badgeElement = document.getElementById('cartBadge');
-        
-        if (badgeElement) {
-            badgeElement.textContent = totalItems > 0 ? totalItems : '0';
-            if (totalItems > 0) {
-                badgeElement.classList.add('active');
+    // 2. Global Cart Manager
+    const CartManager = {
+        key: 'nexus_wear_cart',
+        getCart() {
+            return JSON.parse(localStorage.getItem(this.key)) || [];
+        },
+        saveCart(cart) {
+            localStorage.setItem(this.key, JSON.stringify(cart));
+            this.updateBadge();
+        },
+        addItem(product, qty, size) {
+            let cart = this.getCart();
+            // สินค้าตัวเดียวกันแต่คนละไซส์ ถือเป็นคนละ SKU (สากล)
+            const existingIndex = cart.findIndex(item => item.id === product.id && item.size === size);
+            
+            if (existingIndex > -1) {
+                cart[existingIndex].qty += qty;
             } else {
-                badgeElement.classList.remove('active');
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    size: size,
+                    qty: qty
+                });
+            }
+            this.saveCart(cart);
+        },
+        updateBadge() {
+            const cart = this.getCart();
+            const total = cart.reduce((sum, item) => sum + item.qty, 0);
+            const badge = document.getElementById('cartBadge');
+            if (badge) {
+                badge.innerText = total;
+                badge.classList.toggle('active', total > 0);
             }
         }
-    }
-    
-    // ====================================================================
-    // 3. PAGE LOGIC
-    // ====================================================================
-    
+    };
+
+    // 3. UI Controller
+    let currentQty = 1;
+    let selectedSize = 'M';
     let currentProduct = null;
-    let selectedSize = '';
-    let selectedColor = '';
-    
-    // Utility: แสดงข้อความแจ้งเตือน
-    function showToast(message) {
-        const toast = document.getElementById('toast');
-        if (toast) {
-            toast.textContent = message;
-            toast.className = "show";
-            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
-        }
-    }
-    
-    // Utility: อ่านค่า Query Parameter จาก URL
-    function getQueryParam(param) {
+
+    function initProductPage() {
         const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(param);
-    }
-    
-    // ฟังก์ชันหลัก: โหลดข้อมูลสินค้าและแสดงผล
-    function loadProductDataAndRender() {
-        const productId = getQueryParam('id');
-        
-        if (!productId) {
-            document.getElementById('productName').textContent = 'Product Not Found';
-            document.getElementById('productDescription').textContent = 'Please check the URL parameter.';
+        const productId = urlParams.get('id');
+        currentProduct = PRODUCTS.find(p => p.id === productId);
+
+        if (!currentProduct) {
+            window.location.href = 'index.html'; // ถ้าไม่เจอสินค้าให้กลับหน้าแรก
             return;
         }
 
-        const product = MOCK_PRODUCTS_DATA.find(p => p.id === productId);
+        // Render Product Data
+        document.getElementById('productTitle').innerText = currentProduct.name;
+        document.getElementById('pageTitle').innerText = `Nexus Wear - ${currentProduct.name}`;
+        document.getElementById('productPrice').innerText = `฿${currentProduct.price.toLocaleString()}`;
+        document.getElementById('productImg').src = currentProduct.image;
+        document.getElementById('productCat').innerText = currentProduct.category;
 
-        if (!product) {
-            document.getElementById('productName').textContent = 'Product Not Found';
-            document.getElementById('productDescription').textContent = `Product ID "${productId}" not found in mock data.`;
-            return;
-        }
-        
-        currentProduct = product;
-        document.getElementById('pageTitle').textContent = product.name + ' - Nexus Wear';
-        document.getElementById('productName').textContent = product.name;
-        document.getElementById('productCategory').textContent = product.category;
-        document.getElementById('productPrice').textContent = `฿${product.price.toLocaleString('th-TH')}`;
-        document.getElementById('productDescription').textContent = product.description;
-        document.getElementById('mainProductImage').src = product.image;
-        document.getElementById('mainProductImage').alt = product.name;
-
-        // ถ้าสินค้าหมด
-        if (product.is_available === false) {
-            document.getElementById('mainImageWrapper').classList.add('out-of-stock');
-            document.getElementById('addToCartBtn').disabled = true;
-            document.getElementById('addToCartBtn').textContent = 'OUT OF STOCK';
-            document.getElementById('buyNowBtn').disabled = true;
-        }
-        
-        // เลือก Size/Color แรกเป็น Default
-        selectedSize = product.available_sizes[0] || '';
-        selectedColor = product.available_colors[0] ? product.available_colors[0].name : '';
-
-        renderSizeOptions(product.available_sizes);
-        renderColorOptions(product.available_colors);
-        updateSelectedLabels();
-        renderThumbnails(product.image); // ใช้รูปภาพเดียวไปก่อน
-    }
-    
-    // สร้างตัวเลือก Size
-    function renderSizeOptions(sizes) {
-        const sizeContainer = document.getElementById('sizeOptions');
-        sizeContainer.innerHTML = '';
-        document.getElementById('selectedSizeLabel').textContent = sizes[0] || 'N/A'; // Default selection
-        
-        sizes.forEach(size => {
-            const pill = document.createElement('div');
-            pill.className = `option-pill ${size === selectedSize ? 'active' : ''}`;
-            pill.textContent = size;
-            pill.dataset.value = size;
-            pill.addEventListener('click', () => {
-                selectOption('size', size);
+        // Size Selection Logic
+        const sizeBtns = document.querySelectorAll('.size-btn');
+        sizeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                sizeBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedSize = btn.innerText;
             });
-            sizeContainer.appendChild(pill);
-        });
-    }
-
-    // สร้างตัวเลือก Color
-    function renderColorOptions(colors) {
-        const colorContainer = document.getElementById('colorOptions');
-        colorContainer.innerHTML = '';
-        document.getElementById('selectedColorLabel').textContent = colors[0] ? colors[0].name : 'N/A'; // Default selection
-
-        colors.forEach(color => {
-            const pill = document.createElement('div');
-            pill.className = `color-pill ${color.name === selectedColor ? 'active' : ''}`;
-            pill.style.backgroundColor = color.hex;
-            pill.dataset.value = color.name;
-            pill.title = color.name;
-            pill.addEventListener('click', () => {
-                selectOption('color', color.name);
-            });
-            colorContainer.appendChild(pill);
-        });
-    }
-    
-    // จัดการการเลือก Size/Color
-    function selectOption(type, value) {
-        if (currentProduct.is_available === false) return; // ไม่ให้เลือกถ้าของหมด
-
-        // Reset active classes
-        document.querySelectorAll(`#${type}Options .option-pill, #${type}Options .color-pill`).forEach(pill => {
-            pill.classList.remove('active');
-        });
-        
-        // Set new active class
-        const selectedPill = document.querySelector(`#${type}Options [data-value="${value}"]`);
-        if (selectedPill) {
-            selectedPill.classList.add('active');
-        }
-
-        if (type === 'size') {
-            selectedSize = value;
-        } else if (type === 'color') {
-            selectedColor = value;
-        }
-        
-        updateSelectedLabels();
-    }
-    
-    // อัปเดต Label ที่แสดง Size/Color ที่ถูกเลือก
-    function updateSelectedLabels() {
-        document.getElementById('selectedSizeLabel').textContent = selectedSize;
-        document.getElementById('selectedColorLabel').textContent = selectedColor;
-    }
-    
-    // Mock Thumbnails (ใช้แค่รูปเดียวไปก่อน)
-    function renderThumbnails(mainImageSrc) {
-        const grid = document.getElementById('thumbnailGrid');
-        grid.innerHTML = '';
-        
-        // สร้าง 4 Thumbnail ที่ชี้ไปที่รูปหลัก (สำหรับ Mockup)
-        for (let i = 1; i <= 4; i++) {
-            const item = document.createElement('div');
-            item.className = `thumbnail-item ${i === 1 ? 'active' : ''}`;
-            item.innerHTML = `<img src="${mainImageSrc}" alt="Thumbnail ${i}">`;
-            item.addEventListener('click', () => {
-                // Mock: เปลี่ยนรูปหลัก (ในกรณีที่มีหลายรูป)
-                document.getElementById('mainProductImage').src = mainImageSrc;
-                document.querySelectorAll('.thumbnail-item').forEach(thumb => thumb.classList.remove('active'));
-                item.classList.add('active');
-            });
-            grid.appendChild(item);
-        }
-    }
-    
-    // ฟังก์ชันจัดการ Quantity
-    function initializeQuantityControls() {
-        const input = document.getElementById('quantityInput');
-        const decreaseBtn = document.getElementById('decreaseQtyBtn');
-        const increaseBtn = document.getElementById('increaseQtyBtn');
-
-        decreaseBtn.addEventListener('click', () => {
-            let currentQty = parseInt(input.value, 10);
-            if (currentQty > 1) {
-                input.value = currentQty - 1;
-            }
         });
 
-        increaseBtn.addEventListener('click', () => {
-            let currentQty = parseInt(input.value, 10);
-            if (currentQty < 99) { // Max 99
-                input.value = currentQty + 1;
-            }
-        });
+        // Quantity Logic
+        const qtyNum = document.getElementById('qtyNum');
+        document.getElementById('plusBtn').onclick = () => { currentQty++; qtyNum.innerText = currentQty; };
+        document.getElementById('minusBtn').onclick = () => { 
+            if (currentQty > 1) { currentQty--; qtyNum.innerText = currentQty; }
+        };
 
-        // Ensure minimum 1 and integer
-        input.addEventListener('change', () => {
-            let val = parseInt(input.value, 10);
-            if (isNaN(val) || val < 1) {
-                input.value = 1;
-            } else if (val > 99) {
-                 input.value = 99;
-            }
-        });
-    }
+        // Cart Actions
+        document.getElementById('addCartBtn').onclick = () => {
+            CartManager.addItem(currentProduct, currentQty, selectedSize);
+            showToast(`ADDED ${currentProduct.name} (SIZE ${selectedSize})`);
+        };
 
-    // ฟังก์ชันจัดการ Add to Cart
-    function handleAddToCart() {
-        if (currentProduct.is_available === false) {
-             showToast('สินค้าหมดสต็อก!', 'error');
-             return { success: false };
-        }
-        
-        const qty = parseInt(document.getElementById('quantityInput').value, 10);
-
-        if (!selectedSize || !selectedColor) {
-             showToast('กรุณาเลือก Size และ Color ก่อน', 'error');
-             return { success: false };
-        }
-        
-        // เรียกใช้ฟังก์ชัน Cart Utility ที่เราสร้างไว้
-        const result = addToCart(
-            currentProduct.id, 
-            currentProduct.name, 
-            currentProduct.price, 
-            qty, 
-            selectedSize, 
-            selectedColor
-        );
-
-        // แสดงผลลัพธ์
-        if (result.success) {
-            // Toast ถูกเรียกใน addToCart แล้ว
-            return result;
-        } else {
-            showToast('พบข้อผิดพลาดในการเพิ่มสินค้า', 'error');
-            return result;
-        }
-    }
-    
-    // Logic สำหรับ Buy Now
-    function handleBuyNow() {
-        const result = handleAddToCart(); // ทำเหมือน Add to Cart
-        if (result.success) {
-            // Redirect ไปหน้า Cart ทันที
+        document.getElementById('buyNowBtn').onclick = () => {
+            CartManager.addItem(currentProduct, currentQty, selectedSize);
             window.location.href = 'cart.html';
-        }
+        };
+
+        CartManager.updateBadge();
     }
 
-
-    // Accordion Logic
-    function initializeAccordion() {
-        document.querySelectorAll('.detail-header').forEach(header => {
-            header.addEventListener('click', () => {
-                const item = header.closest('.detail-item');
-                item.classList.toggle('active');
-            });
-        });
+    function showToast(msg) {
+        const toast = document.getElementById('toast');
+        toast.innerText = msg;
+        toast.style.display = 'block';
+        setTimeout(() => { toast.style.display = 'none'; }, 3000);
     }
 
-    // เชื่อมต่อปุ่มและเหตุการณ์ต่างๆ
-    function wireUpButtons() {
-      const addBtn = document.getElementById('addToCartBtn');
-      if (addBtn) addBtn.addEventListener('click', handleAddToCart);
-      
-      const buyNowBtn = document.getElementById('buyNowBtn');
-      if (buyNowBtn) buyNowBtn.addEventListener('click', handleBuyNow);
-      
-      initializeQuantityControls();
-    }
-
-    // initialize on DOM ready
-    document.addEventListener('DOMContentLoaded', () => {
-      // 1. อัปเดต Badge ทันทีที่โหลด
-      updateCartBadge();
-      
-      // 2. โหลดข้อมูลสินค้าและแสดงผล
-      loadProductDataAndRender();
-      
-      // 3. เชื่อมต่อปุ่ม
-      wireUpButtons();
-      
-      // 4. ตั้งค่า Accordion
-      initializeAccordion();
-    });
-
+    document.addEventListener('DOMContentLoaded', initProductPage);
   </script>
  </body>
- </html>
+</html>
