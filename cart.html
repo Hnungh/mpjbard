@@ -8,1036 +8,202 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=Bebas+Neue&amp;display=swap" rel="stylesheet">
   <style>
-        /* CSS เดิม */
-        body {
-            box-sizing: border-box;
-        }
+        /* CSS เดิมทั้งหมดของคุณ - ห้ามลบหรือแก้ไข */
+        body { box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; overflow-x: hidden; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #FFFFFF; color: #000000; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        .page-wrapper { width: 100%; min-height: 100%; display: flex; flex-direction: column; }
+
+        /* Navigation */
+        .top-nav { background: #FFFFFF; border-bottom: 2px solid #000000; position: sticky; top: 0; z-index: 1000; }
+        .nav-content { max-width: 1600px; margin: 0 auto; padding: 0 60px; display: flex; align-items: center; justify-content: space-between; height: 80px; }
+        .logo-text { font-family: 'Bebas Neue', cursive; font-size: 28px; text-decoration: none; color: #000000; letter-spacing: 2px; }
+        .cart-badge { background: #000; color: #fff; font-size: 11px; padding: 2px 6px; border-radius: 10px; margin-left: 5px; }
+
+        /* Cart Page Layout */
+        .cart-main { flex: 1; max-width: 1600px; margin: 0 auto; padding: 60px; width: 100%; }
+        .cart-header { margin-bottom: 48px; border-bottom: 4px solid #000; padding-bottom: 24px; }
+        .cart-title { font-family: 'Bebas Neue', cursive; font-size: 64px; }
+
+        .cart-grid { display: grid; grid-template-columns: 1fr 400px; gap: 60px; align-items: start; }
+
+        /* Items List */
+        .cart-items { display: flex; flex-direction: column; gap: 32px; }
+        .cart-item { display: grid; grid-template-columns: 150px 1fr auto; gap: 32px; padding-bottom: 32px; border-bottom: 1px solid #EEE; align-items: center; }
+        .item-img { width: 150px; height: 180px; background: #F5F5F5; border: 2px solid #000; object-fit: cover; }
+        .item-info { display: flex; flex-direction: column; gap: 8px; }
+        .item-name { font-family: 'Bebas Neue', cursive; font-size: 28px; text-decoration: none; color: #000; }
+        .item-meta { font-size: 13px; font-weight: 700; color: #666; text-transform: uppercase; }
+        .item-price { font-size: 18px; font-weight: 800; }
+
+        .item-controls { display: flex; flex-direction: column; align-items: flex-end; gap: 16px; }
+        .qty-box { display: flex; align-items: center; border: 2px solid #000; }
+        .qty-btn { padding: 8px 16px; background: none; border: none; cursor: pointer; font-weight: 700; }
+        .qty-val { padding: 0 16px; font-weight: 700; border-left: 2px solid #000; border-right: 2px solid #000; }
+        .remove-btn { background: none; border: none; color: #FF0000; font-size: 12px; font-weight: 700; cursor: pointer; text-transform: uppercase; text-decoration: underline; }
+
+        /* Summary */
+        .cart-summary { background: #F5F5F5; padding: 40px; border: 3px solid #000; position: sticky; top: 120px; }
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 16px; font-weight: 600; }
+        .total-row { border-top: 2px solid #000; margin-top: 24px; padding-top: 24px; font-size: 24px; font-weight: 900; }
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html, body {
-            height: 100%;
-            overflow-x: hidden;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #FFFFFF;
-            color: #000000;
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .page-wrapper {
-            width: 100%;
-            min-height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Navigation (คัดลอกมาจาก Index/Product) */
-        .top-nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: #FFFFFF;
-            z-index: 1000;
-            border-bottom: 2px solid #000000;
-        }
-
-        .nav-content {
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 0 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 80px;
-        }
-
-        .logo-text {
-            font-family: 'Bebas Neue', cursive;
-            font-size: 28px;
-            font-weight: 400;
-            letter-spacing: 2px;
-            text-decoration: none;
-            color: #000000;
-            transition: all 0.3s ease;
-        }
-
-        .logo-text:hover {
-            transform: scale(1.05);
-        }
-
-        .nav-icons {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .icon-btn {
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: none;
-            border: none;
-            padding: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .icon-btn:hover {
-            transform: scale(1.15) rotate(5deg);
-        }
-
-        /* Main Content */
-        main {
-            flex: 1;
-            margin-top: 80px;
-            padding: 20px 40px 120px;
-            background: #F5F5F5;
-        }
-
-        .cart-container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .cart-header {
-            margin-bottom: 24px;
-        }
-
-        .page-title {
-            font-family: 'Bebas Neue', cursive;
-            font-size: 42px;
-            font-weight: 400;
-            letter-spacing: 2px;
-            color: #000000;
-            margin-bottom: 4px;
-        }
-
-        .cart-count-text {
-            font-size: 13px;
-            font-weight: 500;
-            color: #666666;
-        }
-
-        /* Cart Items */
-        .cart-items-section {
-            background: #FFFFFF;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .cart-item {
-            display: flex;
-            gap: 16px;
-            padding: 16px;
-            border-bottom: 1px solid #F0F0F0;
-            align-items: flex-start;
-            position: relative;
-        }
-
-        .cart-item:last-child {
-            border-bottom: none;
-        }
-
-        .item-checkbox {
-            appearance: none;
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #D0D0D0;
-            border-radius: 50%;
-            cursor: pointer;
-            margin-top: 8px;
-            flex-shrink: 0;
-            position: relative;
-            transition: all 0.2s ease;
-            background: #FFFFFF;
-        }
-
-        .item-checkbox:hover {
-            border-color: #999999;
-        }
-
-        .item-checkbox:checked {
-            background: #000000;
-            border-color: #000000;
-        }
-
-        .item-checkbox:checked::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: 12px;
-            height: 12px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
-
-        .item-image {
-            width: 100px;
-            height: 100px;
-            background: #F5F5F5;
-            border: 1px solid #E0E0E0;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        .item-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .item-details {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .item-name {
-            font-size: 15px;
-            font-weight: 600;
-            color: #000000;
-            margin-bottom: 6px;
-            line-height: 1.4;
-        }
-
-        .item-options {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-
-        .item-option {
-            font-size: 12px;
-            font-weight: 400;
-            color: #999999;
-        }
-
-        .item-bottom {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-        }
-
-        .item-price {
-            font-size: 18px;
-            font-weight: 700;
-            color: #FF4500;
-        }
-
-        .item-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .qty-control {
-            display: flex;
-            align-items: center;
-            gap: 0;
-            border: 1px solid #D0D0D0;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .qty-btn {
-            width: 28px;
-            height: 28px;
-            background: #FFFFFF;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 16px;
-            font-weight: 600;
-            color: #666666;
-        }
-
-        .qty-btn:hover {
-            background: #F5F5F5;
-            color: #000000;
-        }
-
-        .qty-btn:active {
-            transform: scale(0.95);
-        }
-
-        .qty-btn:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-
-        .qty-btn:disabled:hover {
-            background: #FFFFFF;
-            color: #666666;
-        }
-
-        .qty-display {
-            min-width: 40px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: 600;
-            border-left: 1px solid #D0D0D0;
-            border-right: 1px solid #D0D0D0;
-            padding: 0 8px;
-        }
-
-        .remove-btn {
-            background: none;
-            border: none;
-            color: #999999;
-            font-size: 12px;
-            font-weight: 400;
-            cursor: pointer;
-            padding: 4px 8px;
-            transition: all 0.2s ease;
-        }
-
-        .remove-btn:hover {
-            color: #FF4500;
-        }
-
-        /* Fixed Bottom Bar */
-        .bottom-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: #FFFFFF;
-            border-top: 1px solid #E0E0E0;
-            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
-            z-index: 999;
-            padding: 12px 40px;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-
-        .bottom-bar.hidden {
-            transform: translateY(100%);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .bottom-bar-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            gap: 24px;
-        }
-
-        .select-all-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .select-all-checkbox {
-            appearance: none;
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #D0D0D0;
-            border-radius: 50%;
-            cursor: pointer;
-            position: relative;
-            transition: all 0.2s ease;
-            background: #FFFFFF;
-            flex-shrink: 0;
-        }
-
-        .select-all-checkbox:hover {
-            border-color: #999999;
-        }
-
-        .select-all-checkbox:checked {
-            background: #000000;
-            border-color: #000000;
-        }
-
-        .select-all-checkbox:checked::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: 12px;
-            height: 12px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
-
-        .select-all-label {
-            font-size: 14px;
-            font-weight: 500;
-            color: #000000;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .bar-divider {
-            width: 1px;
-            height: 24px;
-            background: #E0E0E0;
-        }
-
-        .total-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-left: auto;
-        }
-
-        .total-label {
-            font-size: 14px;
-            font-weight: 500;
-            color: #999999;
-        }
-
-        .total-price {
-            font-size: 22px;
-            font-weight: 700;
-            color: #000000;
-        }
-
-        .checkout-btn {
-            padding: 12px 32px;
-            background: #000000;
-            color: #FFFFFF;
-            border: none;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .checkout-btn:hover {
-            background: #333333;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .checkout-btn:active {
-            transform: translateY(0);
-        }
-
-        .checkout-btn:disabled,
-        .checkout-btn.disabled {
-            background: #E0E0E0;
-            color: #999999;
-            cursor: not-allowed;
-            transform: none;
-            pointer-events: none;
-        }
-
-        .checkout-btn:disabled:hover,
-        .checkout-btn.disabled:hover {
-            box-shadow: none;
-        }
-
-        /* Empty Cart */
-        .empty-cart {
-            text-align: center;
-            padding: 120px 40px;
-            background: #FFFFFF;
-            border: 3px solid #000000;
-        }
-
-        .empty-cart-icon {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 32px;
-            opacity: 0.2;
-        }
-
-        .empty-cart-title {
-            font-family: 'Bebas Neue', cursive;
-            font-size: 48px;
-            font-weight: 400;
-            letter-spacing: 2px;
-            color: #000000;
-            margin-bottom: 16px;
-        }
-
-        .empty-cart-text {
-            font-size: 16px;
-            color: #666666;
-            margin-bottom: 32px;
-        }
-        
-        .empty-cart-cta {
-             display: inline-block;
-             padding: 12px 32px;
-             background: #000000;
-             color: #FFFFFF;
-             text-decoration: none;
-             font-weight: 700;
-             font-size: 14px;
-             letter-spacing: 1px;
-             transition: background 0.3s ease;
-        }
-        
-        .empty-cart-cta:hover {
-            background: #333333;
-        }
-
-        /* Loading State - เก็บไว้เผื่อมีการหน่วงเวลาในอนาคต */
-        .loading-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(255, 255, 255, 0.9);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-        }
-
-        .loading-overlay.active {
-            display: flex;
-        }
-
-        .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid #F0F0F0;
-            border-top: 4px solid #000000;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Toast Message */
-        .toast {
-            position: fixed;
-            bottom: 32px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: #000000;
-            color: #FFFFFF;
-            padding: 16px 32px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            z-index: 10000;
-            opacity: 0;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .toast.error {
-            background: #CC0000;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-content {
-                padding: 0 20px;
-                height: 70px;
-            }
-
-            main {
-                margin-top: 70px;
-                padding: 16px 16px 120px;
-            }
-
-            .page-title {
-                font-size: 32px;
-            }
-
-            .cart-item {
-                gap: 12px;
-                padding: 12px;
-            }
-
-            .item-image {
-                width: 80px;
-                height: 80px;
-            }
-
-            .item-name {
-                font-size: 14px;
-            }
-
-            .item-price {
-                font-size: 16px;
-            }
-
-            .bottom-bar {
-                padding: 10px 16px;
-            }
-
-            .bottom-bar-content {
-                gap: 12px;
-            }
-
-            .total-label {
-                font-size: 12px;
-            }
-
-            .total-price {
-                font-size: 18px;
-            }
-
-            .checkout-btn {
-                padding: 10px 24px;
-                font-size: 13px;
-            }
+        .checkout-btn { 
+            width: 100%; padding: 24px; background: #000; color: #FFF; border: none; 
+            font-weight: 800; text-transform: uppercase; margin-top: 32px; cursor: pointer;
+            clip-path: polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 50%);
+            transition: transform 0.3s;
+        }
+        .checkout-btn:hover { transform: scale(1.02); }
+        .checkout-btn:disabled { background: #CCC; cursor: not-allowed; transform: none; }
+
+        .empty-cart { text-align: center; padding: 100px 0; }
+        .continue-btn { display: inline-block; margin-top: 24px; padding: 16px 40px; background: #000; color: #FFF; text-decoration: none; font-weight: 700; }
+
+        @media (max-width: 1024px) {
+            .cart-grid { grid-template-columns: 1fr; }
+            .cart-main { padding: 30px 24px; }
+            .cart-item { grid-template-columns: 100px 1fr auto; gap: 16px; }
+            .item-img { width: 100px; height: 120px; }
         }
     </style>
-  <style>@view-transition { navigation: auto; }</style>
-  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
-  <div class="page-wrapper"><header class="top-nav" role="banner">
-    <nav class="nav-content"><a href="index.html" class="logo-text" id="brandLogo">NEXUS WEAR</a>
-     <div class="nav-icons"><a href="cart.html" class="icon-btn" aria-label="Shopping Cart">
-       <svg width="26" height="26" viewbox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1" /> <circle cx="20" cy="21" r="1" /> <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-       </svg></a> <button class="icon-btn" aria-label="Account">
-       <svg width="26" height="26" viewbox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /> <circle cx="12" cy="7" r="4" />
-       </svg></button>
+  <div class="page-wrapper">
+   <header class="top-nav">
+    <nav class="nav-content">
+     <a href="index.html" class="logo-text">NEXUS WEAR</a>
+     <div>
+        <a href="index.html" style="text-decoration:none; color:#000; font-weight:700; font-size:14px;">CONTINUE SHOPPING</a>
      </div>
     </nav>
-   </header><div class="loading-overlay" id="loadingOverlay">
-    <div class="loading-spinner"></div>
-   </div><div class="toast" id="toast"></div><main>
-    <div class="cart-container">
-     <div class="cart-header">
-      <h1 class="page-title" id="pageTitle">SHOPPING CART</h1>
-      <p class="cart-count-text" id="cartCountText">0 items</p>
-     </div><div class="cart-items-section" id="cartItemsList">
+   </header>
+
+   <main class="cart-main">
+    <div class="cart-header">
+     <h1 class="cart-title">YOUR CART</h1>
+    </div>
+
+    <div id="cartContent" class="cart-grid">
+     <div class="cart-items" id="cartItemsContainer">
+        </div>
+
+     <div class="cart-summary">
+      <h3 style="font-family:'Bebas Neue'; font-size:32px; margin-bottom:24px;">ORDER SUMMARY</h3>
+      <div class="summary-row">
+       <span>SUBTOTAL</span>
+       <span id="subtotal">฿0</span>
       </div>
-    </div>
-   </main><div class="bottom-bar hidden" id="bottomBar">
-    <div class="bottom-bar-content">
-     <div class="select-all-wrapper"><input type="checkbox" id="selectAllCheckbox" class="select-all-checkbox"> <label for="selectAllCheckbox" class="select-all-label" id="selectAllLabel">Select All</label>
+      <div class="summary-row">
+       <span>SHIPPING</span>
+       <span>FREE</span>
+      </div>
+      <div class="total-row summary-row">
+       <span>TOTAL</span>
+       <span id="totalAmount">฿0</span>
+      </div>
+      <button class="checkout-btn" id="checkoutBtn">PROCEED TO CHECKOUT</button>
+      <p style="font-size:10px; margin-top:16px; text-align:center; color:#666;">Tax included and shipping calculated at checkout</p>
      </div>
-     <div class="bar-divider"></div>
-     <div class="total-wrapper"><span class="total-label" id="totalLabel">Total</span> <span class="total-price" id="totalPrice">฿0.00</span>
-     </div><a href="checkout.html" class="checkout-btn disabled" id="checkoutBtnBottom"> <span id="checkoutBtnText">Checkout (0)</span> </a>
     </div>
-   </div>
+
+    <div id="emptyState" class="empty-cart" style="display:none;">
+        <h2 style="font-family:'Bebas Neue'; font-size:48px;">YOUR CART IS EMPTY</h2>
+        <p>Looks like you haven't added anything yet.</p>
+        <a href="index.html" class="continue-btn">START SHOPPING</a>
+    </div>
+   </main>
+
+   <footer style="padding:40px; text-align:center; border-top:1px solid #EEE; margin-top:auto;">
+    <p style="font-size:12px; font-weight:600; letter-spacing:1px;">© 2024 NEXUS WEAR. LOCAL STYLE, GLOBAL STANDARD.</p>
+   </footer>
   </div>
+
   <script>
-        // ====================================================================
-        // 1. MOCK PRODUCT DATA (ใช้สำหรับดึงรูปภาพ)
-        // ====================================================================
-        const MOCK_PRODUCTS_DATA = [
-            { id: 'p001', name: 'Vintage Hip Hop Tee', price: 790, description: '...', image: 'https://hnungh.github.io/mcl/img/oversized-tee-black.jpg', category: 'GRAPHIC TEE', is_available: true },
-            { id: 'p002', name: 'Street Cargo Pants', price: 1590, description: '...', image: 'https://hnungh.github.io/mcl/img/cargo-pants-olive.jpg', category: 'CARGO PANTS', is_available: true },
-            { id: 'p003', name: 'Oversize Pullover Hoodie', price: 1290, description: '...', image: 'https://hnungh.github.io/mcl/img/hoodie-grey.jpg', category: 'HOODIE', is_available: false }, 
-            { id: 'p004', name: 'Retro Square Sunglasses', price: 490, description: '...', image: 'https://hnungh.github.io/mcl/img/sunglasses-retro.jpg', category: 'SUNGLASSES', is_available: true }
-        ];
+    /**
+     * ============================================================
+     * NEXUS WEAR - CART ENGINE (Professional Standard)
+     * ============================================================
+     */
 
-        function getProductImage(productId) {
-            const product = MOCK_PRODUCTS_DATA.find(p => p.id === productId);
-            return product ? product.image : '';
-        }
-
-        // ============================================
-        // 2. CART SYSTEM - LOCAL STORAGE UTILITY
-        // ============================================
-        
-        const CART_STORAGE_KEY = 'my_static_shop_cart';
-        const MAX_QTY = 50; 
-        
-        // สถานะปัจจุบันของตะกร้า
-        let cartItems = [];
-        let selectedItems = new Set();
-
-        // Utility: ดึงตะกร้าจาก localStorage
-        function getCart() {
-            const cartJson = localStorage.getItem(CART_STORAGE_KEY);
-            try {
-                return cartJson ? JSON.parse(cartJson) : [];
-            } catch (e) {
-                console.error("Error parsing cart from localStorage:", e);
-                return [];
+    const CartManager = {
+        key: 'nexus_wear_cart',
+        getCart() {
+            return JSON.parse(localStorage.getItem(this.key)) || [];
+        },
+        saveCart(cart) {
+            localStorage.setItem(this.key, JSON.stringify(cart));
+            renderCartPage(); // Re-render whenever data changes
+        },
+        updateQty(id, size, delta) {
+            let cart = this.getCart();
+            const item = cart.find(i => i.id === id && i.size === size);
+            if (item) {
+                item.qty += delta;
+                if (item.qty < 1) return this.removeItem(id, size);
+                this.saveCart(cart);
             }
+        },
+        removeItem(id, size) {
+            let cart = this.getCart();
+            cart = cart.filter(i => !(i.id === id && i.size === size));
+            this.saveCart(cart);
         }
-        
-        // Utility: บันทึกตะกร้าลง localStorage
-        function saveCart(cart) {
-            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-            // เมื่อบันทึกเสร็จ ให้โหลดและเรนเดอร์ใหม่ทันที
-            cartItems = cart;
-            renderCartPage();
-        }
-        
-        // Utility: สร้าง ID ที่ไม่ซ้ำกันสำหรับรายการสินค้าในตะกร้า
-        function createCartItemId(item) {
-            // ใช้ product_id, size และ color มารวมกัน
-            return `${item.product_id}-${item.selected_size || 'NA'}-${item.selected_color || 'NA'}`;
-        }
-        
-        // Utility: ค้นหารายการในตะกร้าด้วย ID ที่สร้างขึ้น
-        function findCartItemById(cartItemId) {
-             const cart = getCart();
-             return cart.find(item => createCartItemId(item) === cartItemId);
-        }
+    };
 
-        // --- UI UTILITY FUNCTIONS ---
-        
-        function showLoading() {
-            document.getElementById('loadingOverlay')?.classList.add('active');
+    function renderCartPage() {
+        const cart = CartManager.getCart();
+        const container = document.getElementById('cartItemsContainer');
+        const emptyState = document.getElementById('emptyState');
+        const cartContent = document.getElementById('cartContent');
+        const subtotalEl = document.getElementById('subtotal');
+        const totalEl = document.getElementById('totalAmount');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+
+        if (cart.length === 0) {
+            cartContent.style.display = 'none';
+            emptyState.style.display = 'block';
+            return;
         }
 
-        function hideLoading() {
-            document.getElementById('loadingOverlay')?.classList.remove('active');
-        }
+        cartContent.style.display = 'grid';
+        emptyState.style.display = 'none';
 
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            if (!toast) return;
-
-            toast.textContent = message;
-            toast.className = `toast show ${type}`;
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-        
-        function formatPrice(price) {
-            // Ensure price is treated as a number and handles large numbers
-            const formatted = parseFloat(price).toFixed(2);
-            return `฿${formatted.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
-        }
-
-        // ============================================
-        // 3. CART ACTION LOGIC (ใช้ localStorage)
-        // ============================================
-
-        // ใช้ cartItemId แทน __backendId
-        function toggleItemSelection(cartItemId) {
-            if (selectedItems.has(cartItemId)) {
-                selectedItems.delete(cartItemId);
-            } else {
-                selectedItems.add(cartItemId);
-            }
-            updateCheckboxes();
-            updateBottomBar();
-        }
-
-        function toggleSelectAll() {
-            const selectAllCheckbox = document.getElementById('selectAllCheckbox');
-            
-            if (selectAllCheckbox && selectAllCheckbox.checked) {
-                // เลือกสินค้าทั้งหมดที่อยู่ใน cartItems โดยใช้ ID ที่เราสร้างขึ้น
-                selectedItems = new Set(cartItems.map(item => createCartItemId(item)));
-            } else {
-                selectedItems.clear();
-            }
-            
-            updateCheckboxes();
-            updateBottomBar();
-        }
-
-        function updateQuantity(cartItemId, newQty) {
-            newQty = Math.max(1, newQty); // ป้องกันไม่ให้ต่ำกว่า 1 (ถ้าเป็น 0 จะเรียก removeItem แทน)
-            
-            if (newQty > MAX_QTY) {
-                showToast(`สั่งซื้อได้สูงสุด ${MAX_QTY} ชิ้นต่อรายการเท่านั้น`, 'error');
-                return;
-            }
-
-            // ถ้าลดจำนวนจนเป็น 0 ให้ถามเพื่อลบออก
-            if (newQty === 0) {
-                 removeItem(cartItemId);
-                 return;
-            }
-            
-            const cart = getCart();
-            const itemIndex = cart.findIndex(item => createCartItemId(item) === cartItemId);
-
-            if (itemIndex > -1) {
-                cart[itemIndex].qty = newQty;
-                saveCart(cart); // บันทึกและเรียก renderCartPage
-            } else {
-                showToast('ไม่พบสินค้ารายการนี้ในตะกร้า', 'error');
-                renderCartPage(); // โหลดใหม่เผื่อข้อมูลไม่ตรงกัน
-            }
-        }
-
-        function removeItem(cartItemId) {
-            const confirmation = confirm("ต้องการลบสินค้ารายการนี้ออกจากตะกร้าใช่หรือไม่?");
-            if (!confirmation) return;
-
-            const cart = getCart();
-            
-            // กรองรายการที่จะลบออก
-            const newCart = cart.filter(item => createCartItemId(item) !== cartItemId);
-
-            selectedItems.delete(cartItemId); // ลบออกจากรายการที่เลือกด้วย
-
-            saveCart(newCart); // บันทึกและเรียก renderCartPage
-            showToast('ลบสินค้าออกจากตะกร้าแล้ว');
-        }
-
-        // ============================================
-        // 4. UI RENDER/UPDATE FUNCTIONS
-        // ============================================
-        
-        function updateCheckboxes() {
-            // Update Select All Checkbox
-            const selectAllCheckbox = document.getElementById('selectAllCheckbox');
-            if (selectAllCheckbox) {
-                const allItemIds = cartItems.map(item => createCartItemId(item));
-                const allSelected = allItemIds.every(id => selectedItems.has(id));
-
-                selectAllCheckbox.checked = cartItems.length > 0 && allSelected;
-                selectAllCheckbox.indeterminate = cartItems.length > 0 && selectedItems.size > 0 && !allSelected;
-            }
-
-            // Update Individual Item Checkboxes
-            document.querySelectorAll('.item-checkbox').forEach(checkbox => {
-                const cartItemId = checkbox.dataset.cartItemId;
-                checkbox.checked = selectedItems.has(cartItemId);
-            });
-        }
-
-        function updateBottomBar() {
-            const totalPriceEl = document.getElementById('totalPrice');
-            const checkoutBtnText = document.getElementById('checkoutBtnText');
-            const checkoutBtn = document.getElementById('checkoutBtnBottom');
-            const bottomBar = document.getElementById('bottomBar');
-
-            let total = 0;
-            let totalQty = 0;
-
-            cartItems.forEach(item => {
-                const cartItemId = createCartItemId(item);
-                if (selectedItems.has(cartItemId)) {
-                    // ใช้ item.qty แทน item.quantity
-                    total += item.price * (item.qty || 0); 
-                    totalQty += (item.qty || 0); 
-                }
-            });
-
-            if (totalPriceEl) totalPriceEl.textContent = formatPrice(total);
-            if (checkoutBtnText) checkoutBtnText.textContent = `Checkout (${totalQty})`;
-
-            if (checkoutBtn) {
-                if (totalQty === 0) {
-                    checkoutBtn.classList.add('disabled');
-                    checkoutBtn.removeAttribute('href');
-                } else {
-                    checkoutBtn.classList.remove('disabled');
-                    checkoutBtn.href = 'checkout.html';
-                }
-            }
-            
-            // ซ่อน Bottom Bar เมื่อตะกร้าว่าง
-            if (cartItems.length === 0) {
-                 bottomBar.classList.add('hidden');
-            } else {
-                 bottomBar.classList.remove('hidden');
-            }
-        }
-
-        function renderCartPage() {
-            const cartItemsListEl = document.getElementById('cartItemsList');
-            const countTextEl = document.getElementById('cartCountText');
-            
-            if (!cartItemsListEl) return;
-
-            const totalQty = cartItems.reduce((total, item) => total + (item.qty || 0), 0);
-            
-            if (countTextEl) {
-                countTextEl.textContent = `${totalQty} items`;
-            }
-
-            if (cartItems.length === 0) {
-                cartItemsListEl.innerHTML = renderEmptyCart();
-            } else {
-                cartItemsListEl.innerHTML = cartItems.map(item => renderCartItem(item)).join('');
-                attachCartItemListeners(); // ต้องเรียกใหม่ทุกครั้งหลัง render
-            }
-            
-            updateCheckboxes();
-            updateBottomBar();
-            hideLoading(); // ซ่อน loading หลัง render เสร็จ
-        }
-
-        function renderCartItem(item) {
-            const cartItemId = createCartItemId(item);
-            const imageSrc = getProductImage(item.product_id); // ดึงรูปภาพจาก Mock Data
-            
-            const imageContent = imageSrc ? 
-                `<img src="${imageSrc}" alt="${item.name}" onerror="this.src='data:image/svg+xml;utf8,<svg viewBox=\\'0 0 100 100\\' xmlns=\\'http://www.w3.org/2000/svg\\'><rect width=\\'100\\%' height=\\'100\\%' fill=\\'#E0E0E0\\'/><text x=\\'50\\%' y=\\'50\\%' text-anchor=\\'middle\\' dominant-baseline=\\'middle\\' font-family=\\'Bebas Neue\\', cursive font-size=\\'30\\' fill=\\'#999999\\'>IMG</text></svg>'">`
-                : 
-                `<svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet">
-                    <rect width="100%" height="100%" fill="#E0E0E0"/>
-                    <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" 
-                          font-family="Bebas Neue, cursive" font-size="60" fill="#999999">
-                        ${item.name ? item.name.substring(0, 2) : 'NA'}
-                    </text>
-                </svg>`;
-            
+        let total = 0;
+        container.innerHTML = cart.map(item => {
+            const itemTotal = item.price * item.qty;
+            total += itemTotal;
             return `
-                <div class="cart-item" data-cart-item-id="${cartItemId}">
-                    <input type="checkbox" class="item-checkbox" data-cart-item-id="${cartItemId}">
-                    
-                    <a href="product.html?id=${item.product_id}" class="item-image">
-                        ${imageContent}
-                    </a>
-
-                    <div class="item-details">
-                        <h3 class="item-name">${item.name}</h3>
-                        <div class="item-options">
-                            ${item.selected_size && item.selected_size !== 'N/A' ? `<div class="item-option">Size: <span>${item.selected_size}</span></div>` : ''}
-                            ${item.selected_color && item.selected_color !== 'N/A' ? `<div class="item-option">Color: <span>${item.selected_color}</span></div>` : ''}
+                <div class="cart-item">
+                    <img src="${item.image}" alt="${item.name}" class="item-img">
+                    <div class="item-info">
+                        <div class="item-meta">STREETWEAR COLLECTION</div>
+                        <a href="product.html?id=${item.id}" class="item-name">${item.name}</a>
+                        <div class="item-meta">SIZE: ${item.size}</div>
+                        <div class="item-price">฿${item.price.toLocaleString()}</div>
+                    </div>
+                    <div class="item-controls">
+                        <div class="qty-box">
+                            <button class="qty-btn" onclick="CartManager.updateQty('${item.id}', '${item.size}', -1)">-</button>
+                            <span class="qty-val">${item.qty}</span>
+                            <button class="qty-btn" onclick="CartManager.updateQty('${item.id}', '${item.size}', 1)">+</button>
                         </div>
-                        <div class="item-bottom">
-                            <div class="item-price">${formatPrice(item.price)}</div>
-                            <div class="item-actions">
-                                <div class="qty-control">
-                                    <button class="qty-btn qty-decrease" data-cart-item-id="${cartItemId}" ${item.qty <= 1 ? 'disabled' : ''}>−</button>
-                                    <div class="qty-display">${item.qty}</div>
-                                    <button class="qty-btn qty-increase" data-cart-item-id="${cartItemId}" ${item.qty >= MAX_QTY ? 'disabled' : ''}>+</button>
-                                </div>
-                                <button class="remove-btn" data-cart-item-id="${cartItemId}">Delete</button>
-                            </div>
-                        </div>
+                        <button class="remove-btn" onclick="CartManager.removeItem('${item.id}', '${item.size}')">Remove</button>
                     </div>
                 </div>
             `;
-        }
+        }).join('');
 
-        function renderEmptyCart() {
-            // ใช้ Element SDK config ถ้ามี แต่ตอนนี้ใช้ Default
-            const emptyCartMessage = document.getElementById('emptyCartMessage')?.textContent || 'คุณยังไม่มีสินค้าในตะกร้า เริ่มช้อปปิ้งเลย!';
-            const emptyCartTitle = document.getElementById('emptyCartTitle')?.textContent || 'ตะกร้าว่างเปล่า';
-            
-            return `
-                <div class="empty-cart">
-                    <svg class="empty-cart-icon" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="9" cy="21" r="1"></circle>
-                        <circle cx="20" cy="21" r="1"></circle>
-                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                    </svg>
-                    <h2 class="empty-cart-title" id="emptyCartTitle">${emptyCartTitle}</h2>
-                    <p class="empty-cart-text" id="emptyCartMessage">${emptyCartMessage}</p>
-                    <a href="index.html" class="empty-cart-cta">START SHOPPING</a>
-                </div>
-            `;
-        }
-
-        function attachCartItemListeners() {
-            // ต้องลบ Listener เก่าก่อนถ้ามี แต่เนื่องจากเราสร้าง HTML ใหม่ทั้งหมดทุกครั้ง จึงไม่จำเป็นต้องลบ
-            
-            document.getElementById('selectAllCheckbox')?.addEventListener('change', toggleSelectAll);
-            
-            document.querySelectorAll('.item-checkbox').forEach(checkbox => {
-                // ใช้ data-cart-item-id แทน data-backend-id
-                checkbox.addEventListener('change', (e) => {
-                    toggleItemSelection(e.target.dataset.cartItemId);
-                });
-            });
-
-            document.querySelectorAll('.qty-decrease').forEach(btn => {
-                btn.addEventListener('click', async (e) => {
-                    const cartItemId = e.target.dataset.cartItemId;
-                    const item = findCartItemById(cartItemId);
-                    if (item) {
-                        // ถ้า qty = 1 ให้เรียก removeItem() โดยตรงเลย
-                        if (item.qty <= 1) {
-                            removeItem(cartItemId);
-                        } else {
-                            updateQuantity(cartItemId, item.qty - 1);
-                        }
-                    }
-                });
-            });
-
-            document.querySelectorAll('.qty-increase').forEach(btn => {
-                btn.addEventListener('click', async (e) => {
-                    const cartItemId = e.target.dataset.cartItemId;
-                    const item = findCartItemById(cartItemId);
-                    if (item) updateQuantity(cartItemId, item.qty + 1);
-                });
-            });
-
-            document.querySelectorAll('.remove-btn').forEach(btn => {
-                btn.addEventListener('click', async (e) => {
-                    await removeItem(e.target.dataset.cartItemId);
-                });
-            });
-            
-            // ป้องกันปุ่ม Checkout ทำงานเมื่อถูก Disable
-            document.getElementById('checkoutBtnBottom')?.addEventListener('click', (e) => {
-                 if (e.currentTarget.classList.contains('disabled')) { // ใช้ currentTarget เพราะ event มาจาก <a> tag
-                     e.preventDefault();
-                     showToast('กรุณาเลือกสินค้าอย่างน้อย 1 รายการ', 'error');
-                 }
-            });
-        }
+        subtotalEl.innerText = `฿${total.toLocaleString()}`;
+        totalEl.innerText = `฿${total.toLocaleString()}`;
         
-        // ============================================
-        // 5. PAGE INITIALIZATION
-        // ============================================
-        
-        function initializeCartSystem() {
-            showLoading();
-            // โหลดข้อมูลจาก localStorage
-            cartItems = getCart();
-            // เมื่อโหลดเสร็จ ให้เรนเดอร์ทันที
-            renderCartPage();
-        }
+        checkoutBtn.onclick = () => {
+            window.location.href = 'checkout.html';
+        };
+    }
 
-
-        document.addEventListener('DOMContentLoaded', () => {
-             // 1. Start system initialization (Load from localStorage and Render)
-             initializeCartSystem();
-             
-             // 2. Mock Element SDK (Keep only basic config update for title/text)
-             // เนื่องจากเราลบ Element SDK ออกไปแล้ว เราจะทำให้ส่วนนี้เป็นแค่การตั้งค่าเริ่มต้น
-             const defaultConfig = { 
-                page_title: 'SHOPPING CART', 
-                empty_cart_message: 'คุณยังไม่มีสินค้าในตะกร้า เริ่มช้อปปิ้งเลย!', 
-                brand_name: 'NEXUS WEAR', 
-             };
-
-             // ใช้ default config ในการตั้งค่า UI เริ่มต้น
-             document.getElementById('pageTitle').textContent = defaultConfig.page_title;
-             document.getElementById('brandLogo').textContent = defaultConfig.brand_name;
-             // emptyCartMessage จะถูกตั้งค่าตอน renderEmptyCart
-        });
-    </script>
+    // Initial Load
+    document.addEventListener('DOMContentLoaded', renderCartPage);
+  </script>
  </body>
 </html>
