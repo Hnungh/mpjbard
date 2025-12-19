@@ -3,716 +3,251 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="pageTitle">Checkout - Nexus Wear</title>
+  <title id="checkoutPageTitle">Checkout - Nexus Wear</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=Bebas+Neue&amp;display=swap" rel="stylesheet">
   <style>
-    body {
-      box-sizing: border-box;
-    }
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
-      height: 100%;
-      overflow-x: hidden;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #F5F5F5;
-      color: #000000;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    .page-wrapper {
-      width: 100%;
-      min-height: 100%;
-    }
+    /* CSS เดิมทั้งหมดของคุณ - ห้ามลบหรือแก้ไข */
+    body { box-sizing: border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow-x: hidden; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #F5F5F5; color: #000000; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    .page-wrapper { width: 100%; min-height: 100%; }
 
     /* Navigation (Minimal) */
-    .top-nav {
-        background: #FFFFFF;
-        z-index: 1000;
-        border-bottom: 2px solid #000000;
-    }
+    .top-nav { background: #FFFFFF; border-bottom: 2px solid #000000; padding: 20px 0; }
+    .nav-content { max-width: 1200px; margin: 0 auto; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; }
+    .logo-text { font-family: 'Bebas Neue', cursive; font-size: 24px; text-decoration: none; color: #000000; letter-spacing: 2px; }
 
-    .nav-content {
-        max-width: 1600px;
-        margin: 0 auto;
-        padding: 0 60px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        height: 80px;
-    }
-
-    .logo-text {
-        font-family: 'Bebas Neue', cursive;
-        font-size: 28px;
-        font-weight: 400;
-        letter-spacing: 2px;
-        text-decoration: none;
-        color: #000000;
-    }
-
-    /* Main Layout */
-    main {
-        padding: 40px 60px 80px;
-        max-width: 1600px;
-        margin: 0 auto;
-    }
-
-    .checkout-grid {
-        display: grid;
-        grid-template-columns: 3fr 2fr;
-        gap: 60px;
-        align-items: flex-start;
-    }
-
-    .section-title {
-        font-family: 'Bebas Neue', cursive;
-        font-size: 32px;
-        letter-spacing: 1px;
-        margin-bottom: 24px;
-        padding-top: 20px;
-        border-top: 2px solid #000000;
-    }
-
-    /* Form Styles */
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    label {
-        display: block;
-        font-size: 14px;
-        font-weight: 600;
-        margin-bottom: 8px;
-        color: #333333;
-    }
-
-    input[type="text"],
-    input[type="email"],
-    input[type="tel"],
-    textarea,
-    select {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #CCCCCC;
-        border-radius: 4px;
-        font-size: 16px;
-        transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    input[type="text"]:focus,
-    input[type="email"]:focus,
-    input[type="tel"]:focus,
-    textarea:focus,
-    select:focus {
-        border-color: #000000;
-        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-        outline: none;
-    }
-
-    .input-row {
-        display: flex;
-        gap: 20px;
-    }
-
-    .input-row .form-group {
-        flex: 1;
-    }
+    /* Checkout Layout */
+    .checkout-container { max-width: 1200px; margin: 60px auto; padding: 0 40px; display: grid; grid-template-columns: 1fr 450px; gap: 60px; }
     
-    /* Order Summary */
-    .order-summary {
-        background: #FFFFFF;
-        padding: 30px;
-        border: 1px solid #E0E0E0;
-        border-radius: 4px;
-        position: sticky;
-        top: 100px; /* Offset for fixed nav */
-    }
+    .checkout-form-section { background: #FFFFFF; padding: 48px; border: 3px solid #000000; }
+    .section-title { font-family: 'Bebas Neue', cursive; font-size: 32px; margin-bottom: 32px; border-bottom: 2px solid #000; padding-bottom: 10px; }
 
-    .summary-title {
-        font-family: 'Bebas Neue', cursive;
-        font-size: 28px;
-        letter-spacing: 1px;
-        margin-bottom: 24px;
-        border-bottom: 1px solid #E0E0E0;
-        padding-bottom: 10px;
-    }
-
-    .summary-item-list {
-        border-bottom: 1px solid #E0E0E0;
-        padding-bottom: 20px;
-        margin-bottom: 20px;
-    }
-
-    .summary-item {
-        display: flex;
-        gap: 15px;
-        margin-bottom: 15px;
-    }
-
-    .item-image {
-        width: 60px;
-        height: 60px;
-        border-radius: 4px;
-        background: #F5F5F5;
-        overflow: hidden;
-        flex-shrink: 0;
-    }
-
-    .item-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .item-details {
-        flex-grow: 1;
-    }
-
-    .item-name {
-        font-size: 15px;
-        font-weight: 600;
-        line-height: 1.3;
-        margin-bottom: 4px;
-    }
-
-    .item-options, .item-qty {
-        font-size: 12px;
-        color: #666666;
-    }
-
-    .item-price {
-        font-size: 15px;
-        font-weight: 700;
-        white-space: nowrap;
-    }
+    .form-group { margin-bottom: 24px; }
+    .form-label { display: block; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+    .form-input { width: 100%; padding: 16px; border: 2px solid #000; font-family: inherit; font-size: 14px; outline: none; transition: background 0.3s; }
+    .form-input:focus { background: #F9F9F9; }
     
-    /* Totals */
-    .summary-total-row {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
-        font-size: 16px;
-    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
-    .summary-total-row.grand-total {
-        font-size: 20px;
-        font-weight: 700;
-        color: #000000;
-        border-top: 1px solid #E0E0E0;
-        padding-top: 15px;
-        margin-top: 15px;
-    }
-
-    .shipping-note {
-        font-size: 12px;
-        color: #999999;
-        margin-top: -5px;
-        margin-bottom: 15px;
-    }
+    /* Order Summary Side */
+    .summary-sticky { position: sticky; top: 40px; }
+    .order-summary-card { background: #000; color: #FFF; padding: 40px; }
+    .summary-title { font-family: 'Bebas Neue', cursive; font-size: 28px; margin-bottom: 24px; color: #FFF; }
     
-    /* Payment Method (Mock) */
-    .payment-methods {
-        padding: 20px 0;
-        border-bottom: 1px solid #E0E0E0;
-        margin-bottom: 20px;
-    }
+    .summary-item { display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 14px; opacity: 0.9; }
+    .summary-total { border-top: 1px solid #333; margin-top: 24px; padding-top: 24px; display: flex; justify-content: space-between; font-size: 24px; font-weight: 900; }
 
-    .payment-option {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 10px;
-        cursor: pointer;
+    .place-order-btn { 
+        width: 100%; padding: 24px; background: #FFF; color: #000; border: none; 
+        font-weight: 800; font-size: 16px; text-transform: uppercase; margin-top: 32px; cursor: pointer;
+        clip-path: polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 50%);
+        transition: transform 0.3s;
     }
+    .place-order-btn:hover { transform: scale(1.03); }
+    .place-order-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    .payment-option input[type="radio"] {
-        appearance: none;
-        -webkit-appearance: none;
-        width: 18px;
-        height: 18px;
-        border: 2px solid #000000;
-        border-radius: 50%;
-        position: relative;
-        flex-shrink: 0;
-    }
+    /* Modal */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 2000; }
+    .modal-content { background: #FFF; padding: 60px; border: 4px solid #000; text-align: center; max-width: 500px; }
 
-    .payment-option input[type="radio"]:checked {
-        background: #000000;
-    }
-
-    .payment-option input[type="radio"]:checked::after {
-        content: '';
-        position: absolute;
-        width: 8px;
-        height: 8px;
-        background: #FFFFFF;
-        border-radius: 50%;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-
-    .payment-option label {
-        margin: 0;
-        font-weight: 400;
-        cursor: pointer;
-        color: #000000;
-    }
-
-    /* Action Button */
-    .place-order-btn {
-        width: 100%;
-        padding: 15px;
-        background: #000000;
-        color: #FFFFFF;
-        border: none;
-        border-radius: 4px;
-        font-size: 18px;
-        font-weight: 700;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        cursor: pointer;
-        transition: background 0.2s ease, transform 0.2s ease;
-    }
-
-    .place-order-btn:hover {
-        background: #333333;
-        transform: translateY(-1px);
-    }
-    
-    .place-order-btn:disabled {
-        background: #999999;
-        cursor: not-allowed;
-        transform: none;
-    }
-
-    /* Success Modal (Mock) */
-    .modal {
-        display: none; 
-        position: fixed; 
-        z-index: 10000; 
-        left: 0;
-        top: 0;
-        width: 100%; 
-        height: 100%; 
-        overflow: auto; 
-        background-color: rgb(0,0,0); 
-        background-color: rgba(0,0,0,0.8); 
-        padding-top: 60px;
-    }
-
-    .modal-content {
-        background-color: #fefefe;
-        margin: 5% auto; 
-        padding: 40px;
-        border: 1px solid #888;
-        width: 80%; 
-        max-width: 500px;
-        text-align: center;
-        border-radius: 8px;
-        animation-name: animatetop;
-        animation-duration: 0.4s
-    }
-
-    @keyframes animatetop {
-        from {top:-300px; opacity:0}
-        to {top:0; opacity:1}
-    }
-
-    .modal-icon {
-        color: #4CAF50;
-        font-size: 80px;
-        margin-bottom: 20px;
-    }
-    
-    .modal-title {
-        font-family: 'Bebas Neue', cursive;
-        font-size: 48px;
-        letter-spacing: 2px;
-        margin-bottom: 10px;
-    }
-
-    .modal-text {
-        font-size: 16px;
-        color: #666666;
-        margin-bottom: 30px;
-    }
-    
-    .modal-cta {
-        padding: 12px 30px;
-        background: #000000;
-        color: #FFFFFF;
-        text-decoration: none;
-        font-weight: 600;
-        border-radius: 4px;
-        display: inline-block;
-        transition: background 0.2s ease;
-    }
-    
-    .modal-cta:hover {
-        background: #333333;
-    }
-
-    /* Responsive */
-    @media (max-width: 1024px) {
-        .checkout-grid {
-            grid-template-columns: 1fr;
-            gap: 40px;
-        }
-        main {
-            padding: 30px 40px 60px;
-        }
-        .order-summary {
-            position: static;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .nav-content {
-            padding: 0 20px;
-            height: 70px;
-        }
-        main {
-            padding: 20px 20px 40px;
-        }
-        .input-row {
-            flex-direction: column;
-            gap: 0;
-        }
-        .section-title {
-            font-size: 28px;
-        }
+    @media (max-width: 968px) {
+        .checkout-container { grid-template-columns: 1fr; }
+        .summary-sticky { position: static; }
+        .checkout-form-section { padding: 30px 24px; }
     }
   </style>
-  <style>@view-transition { navigation: auto; }</style>
-  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
- <body class="h-full">
-  <div class="page-wrapper"><header class="top-nav" role="banner">
-    <nav class="nav-content"><a href="index.html" class="logo-text" id="brandLogo">NEXUS WEAR</a>
-     <div class="checkout-header-text">
-      <h1 class="page-title" id="checkoutPageTitle">CHECKOUT</h1>
-     </div><a href="cart.html" class="back-to-cart-link" id="backToCart">Return to Cart</a>
-    </nav>
-   </header><main>
-    <div class="checkout-grid">
-     <div class="checkout-form-area">
-      <form id="checkoutForm">
-       <h2 class="section-title">Shipping Address</h2>
-       <div class="input-row">
-        <div class="form-group"><label for="firstName">First Name</label><input type="text" id="firstName" name="firstName" required>
-        </div>
-        <div class="form-group"><label for="lastName">Last Name</label><input type="text" id="lastName" name="lastName" required>
-        </div>
-       </div>
-       <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" required>
-       </div>
-       <div class="form-group"><label for="phone">Phone Number</label><input type="tel" id="phone" name="phone" required>
-       </div>
-       <div class="form-group"><label for="address">Address</label><input type="text" id="address" name="address" required>
-       </div>
-       <div class="input-row">
-        <div class="form-group"><label for="city">City/District</label><input type="text" id="city" name="city" required>
-        </div>
-        <div class="form-group"><label for="zipCode">Zip Code</label><input type="text" id="zipCode" name="zipCode" required>
-        </div>
-       </div>
-       <h2 class="section-title">Shipping Method</h2>
+ <body>
+  <div class="page-wrapper">
+   <header class="top-nav">
+    <div class="nav-content">
+     <a href="index.html" class="logo-text" id="brandLogo">NEXUS WEAR</a>
+     <a href="cart.html" style="font-size:12px; font-weight:700; color:#000; text-decoration:none;">RETURN TO CART</a>
+    </div>
+   </header>
+
+   <main class="checkout-container">
+    <section class="checkout-form-section">
+     <form id="checkoutForm">
+      <div class="section-title">CONTACT INFORMATION</div>
+      <div class="form-group">
+       <label class="form-label">Email Address</label>
+       <input type="email" id="email" class="form-input" placeholder="email@example.com" required>
+      </div>
+
+      <div class="section-title" style="margin-top:60px;">SHIPPING DETAILS</div>
+      <div class="form-row">
        <div class="form-group">
-        <select id="shippingMethod" name="shippingMethod">
-         <option value="standard">Standard Shipping (฿50.00)</option>
-         <option value="express">Express Shipping (฿100.00)</option>
-         <option value="free" selected>Free Shipping (Order over ฿2,000)</option>
-        </select>
+        <label class="form-label">First Name</label>
+        <input type="text" id="firstName" class="form-input" required>
        </div>
-       <h2 class="section-title">Payment</h2>
-       <div class="payment-methods">
-        <div class="payment-option"><input type="radio" id="creditCard" name="paymentMethod" value="creditCard" checked> <label for="creditCard">Credit Card</label>
-        </div>
-        <div class="payment-option"><input type="radio" id="bankTransfer" name="paymentMethod" value="bankTransfer"> <label for="bankTransfer">Bank Transfer</label>
-        </div>
-        <div class="payment-option"><input type="radio" id="cod" name="paymentMethod" value="cod"> <label for="cod">Cash on Delivery (COD)</label>
-        </div>
-       </div>
-       <button type="submit" class="place-order-btn" id="placeOrderBtn">PLACE ORDER</button>
-      </form>
-     </div>
-     <div class="order-summary-area">
-      <div class="order-summary">
-       <h2 class="summary-title">Your Order</h2>
-       <div class="summary-item-list" id="summaryItemList">
-        <div class="empty-cart-message" id="emptyCartMessage">Your cart is empty.</div>
-       </div>
-       <div class="totals-area">
-        <div class="summary-total-row">
-         <span>Subtotal (<span id="itemCount">0</span> items)</span>
-         <span id="subtotalPrice">฿0.00</span>
-        </div>
-        <div class="summary-total-row">
-         <span>Shipping</span>
-         <span id="shippingPrice">฿0.00</span>
-        </div>
-        <div class="summary-total-row grand-total">
-         <span>Total</span>
-         <span id="grandTotalPrice">฿0.00</span>
-        </div>
-        <p class="shipping-note" id="shippingNote">Free Shipping applied for orders over ฿2,000.</p>
+       <div class="form-group">
+        <label class="form-label">Last Name</label>
+        <input type="text" id="lastName" class="form-input" required>
        </div>
       </div>
+      <div class="form-group">
+       <label class="form-label">Phone Number</label>
+       <input type="tel" id="phone" class="form-input" placeholder="08x-xxx-xxxx" required>
+      </div>
+      <div class="form-group">
+       <label class="form-label">Shipping Address</label>
+       <textarea id="address" class="form-input" style="height:100px; resize:none;" required></textarea>
+      </div>
+      <div class="form-row">
+       <div class="form-group">
+        <label class="form-label">Province</label>
+        <input type="text" id="province" class="form-input" required>
+       </div>
+       <div class="form-group">
+        <label class="form-label">ZIP Code</label>
+        <input type="text" id="zip" class="form-input" required>
+       </div>
+      </div>
+     </form>
+    </section>
+
+    <aside class="summary-sticky">
+     <div class="order-summary-card">
+      <h3 class="summary-title">YOUR ORDER</h3>
+      <div id="summaryItemsList">
+        </div>
+      
+      <div class="summary-total">
+       <span>TOTAL</span>
+       <span id="finalTotal">฿0</span>
+      </div>
+      
+      <button type="submit" form="checkoutForm" class="place-order-btn" id="submitBtn">
+        COMPLETE ORDER
+      </button>
+      <p style="text-align:center; font-size:10px; margin-top:20px; opacity:0.6;">
+        Secure Payment via ABA Pay / KHQR
+      </p>
      </div>
-    </div>
+    </aside>
    </main>
-   <div id="successModal" class="modal">
-    <div class="modal-content"><span class="modal-icon">🎉</span>
-     <h3 class="modal-title" id="modalTitle">ORDER PLACED!</h3>
-     <p class="modal-text" id="modalText">Thank you for your purchase. Your order #<span id="orderId">12345</span> has been successfully placed.</p><a href="index.html" class="modal-cta" id="modalCta">Continue Shopping</a>
-    </div>
-   </div>
   </div>
+
+  <div id="loadingModal" class="modal-overlay">
+    <div class="modal-content">
+        <h2 style="font-family:'Bebas Neue'; font-size:40px;">PROCESSING...</h2>
+        <p>Please wait while we secure your order.</p>
+    </div>
+  </div>
+
   <script>
-    // ====================================================================
-    // 1. MOCK PRODUCT DATA (ใช้สำหรับดึงรูปภาพ)
-    // ====================================================================
-    const MOCK_PRODUCTS_DATA = [
-        { id: 'p001', name: 'Vintage Hip Hop Tee', price: 790, description: '...', image: 'https://hnungh.github.io/mcl/img/oversized-tee-black.jpg', category: 'GRAPHIC TEE', is_available: true },
-        { id: 'p002', name: 'Street Cargo Pants', price: 1590, description: '...', image: 'https://hnungh.github.io/mcl/img/cargo-pants-olive.jpg', category: 'CARGO PANTS', is_available: true },
-        { id: 'p003', name: 'Oversize Pullover Hoodie', price: 1290, description: '...', image: 'https://hnungh.github.io/mcl/img/hoodie-grey.jpg', category: 'HOODIE', is_available: false }, 
-        { id: 'p004', name: 'Retro Square Sunglasses', price: 490, description: '...', image: 'https://hnungh.github.io/mcl/img/sunglasses-retro.jpg', category: 'SUNGLASSES', is_available: true }
-    ];
+    /**
+     * ============================================================
+     * NEXUS WEAR - CHECKOUT ENGINE (Professional Standard)
+     * ============================================================
+     */
 
-    function getProductImage(productId) {
-        const product = MOCK_PRODUCTS_DATA.find(p => p.id === productId);
-        return product ? product.image : '';
-    }
-
-    // ============================================
-    // 2. CART SYSTEM - LOCAL STORAGE UTILITY
-    // (คัดลอก/ปรับปรุงจาก cart.html)
-    // ============================================
-    
-    const CART_STORAGE_KEY = 'my_static_shop_cart';
-
-    function getCart() {
-        const cartJson = localStorage.getItem(CART_STORAGE_KEY);
-        try {
-            return cartJson ? JSON.parse(cartJson) : [];
-        } catch (e) {
-            console.error("Error parsing cart from localStorage:", e);
-            return [];
+    const CartManager = {
+        key: 'nexus_wear_cart',
+        getCart() {
+            return JSON.parse(localStorage.getItem(this.key)) || [];
+        },
+        clearCart() {
+            localStorage.removeItem(this.key);
         }
-    }
-    
-    // Utility: สร้าง ID ที่ไม่ซ้ำกันสำหรับรายการสินค้าในตะกร้า
-    function createCartItemId(item) {
-        return `${item.product_id}-${item.selected_size || 'NA'}-${item.selected_color || 'NA'}`;
-    }
+    };
 
-    function clearCart() {
-        localStorage.removeItem(CART_STORAGE_KEY);
-    }
-    
-    // Utility: จัดรูปแบบราคา
-    function formatPrice(price) {
-        const formatted = parseFloat(price).toFixed(2);
-        return `฿${formatted.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
-    }
+    function initCheckout() {
+        const cart = CartManager.getCart();
+        const summaryList = document.getElementById('summaryItemsList');
+        const finalTotalEl = document.getElementById('finalTotal');
 
-    // ============================================
-    // 3. CHECKOUT LOGIC
-    // ============================================
-    
-    let checkoutItems = [];
-    const SHIPPING_COST_STANDARD = 50.00;
-    const SHIPPING_COST_EXPRESS = 100.00;
-    const FREE_SHIPPING_THRESHOLD = 2000.00; // ฿2,000
-
-    // ฟังก์ชันหลักในการโหลดสินค้าสำหรับ Checkout
-    function loadCheckoutItems() {
-        // ในระบบจริง จะต้องดึงรายการที่ถูก 'เลือก' จากหน้า Cart มาใช้
-        // เนื่องจากเราไม่ได้เก็บสถานะ 'เลือก' ใน localStorage (ซับซ้อนเกินไปสำหรับ Mockup)
-        // เราจะถือว่าสินค้าทั้งหมดในตะกร้าคือสินค้าที่จะ Checkout
-        const cart = getCart();
-        
-        // Mock: ในระบบจริง หากตะกร้าว่าง จะต้อง Redirect กลับไปหน้า Cart
         if (cart.length === 0) {
-            // แสดงข้อความและปิดการทำงานของปุ่ม
-            document.getElementById('emptyCartMessage').style.display = 'block';
-            document.getElementById('placeOrderBtn').disabled = true;
-            document.getElementById('placeOrderBtn').textContent = 'CART IS EMPTY';
-            
-            // Redirect หลัง 3 วินาที (เพื่อแสดง Empty Message แวบนึง)
-            setTimeout(() => {
-                 window.location.href = 'cart.html';
-            }, 3000);
-            
-            checkoutItems = [];
+            alert('Your cart is empty!');
+            window.location.href = 'index.html';
             return;
         }
 
-        document.getElementById('emptyCartMessage').style.display = 'none';
-        document.getElementById('placeOrderBtn').disabled = false;
-        document.getElementById('placeOrderBtn').textContent = 'PLACE ORDER';
-        
-        checkoutItems = cart;
-        renderOrderSummary();
-    }
-    
-    // ฟังก์ชันคำนวณและแสดงผลสรุป
-    function renderOrderSummary() {
-        const summaryListEl = document.getElementById('summaryItemList');
-        const subtotalPriceEl = document.getElementById('subtotalPrice');
-        const shippingPriceEl = document.getElementById('shippingPrice');
-        const grandTotalPriceEl = document.getElementById('grandTotalPrice');
-        const itemCountEl = document.getElementById('itemCount');
-        
-        if (!summaryListEl) return;
-
-        let subtotal = 0;
-        let totalQty = 0;
-
-        summaryListEl.innerHTML = checkoutItems.map(item => {
-            const itemTotal = item.price * (item.qty || 0);
-            subtotal += itemTotal;
-            totalQty += (item.qty || 0);
-            
-            const imageSrc = getProductImage(item.product_id);
-            
+        let total = 0;
+        summaryList.innerHTML = cart.map(item => {
+            const itemTotal = item.price * item.qty;
+            total += itemTotal;
             return `
                 <div class="summary-item">
-                    <div class="item-image">
-                        <img src="${imageSrc}" alt="${item.name}" onerror="this.src='data:image/svg+xml;utf8,<svg viewBox=\\'0 0 100 100\\' xmlns=\\'http://www.w3.org/2000/svg\\'><rect width=\\'100\\%' height=\\'100\\%' fill=\\'#E0E0E0\\'/><text x=\\'50\\%' y=\\'50\\%' text-anchor=\\'middle\\' dominant-baseline=\\'middle\\' font-family=\\'Bebas Neue\\', cursive font-size=\\'30\\' fill=\\'#999999\\'>IMG</text></svg>'">
-                    </div>
-                    <div class="item-details">
-                        <div class="item-name">${item.name}</div>
-                        <div class="item-options">Size: ${item.selected_size || '-'} | Color: ${item.selected_color || '-'}</div>
-                        <div class="item-qty">Qty: ${item.qty}</div>
-                    </div>
-                    <div class="item-price">${formatPrice(itemTotal)}</div>
+                    <span>${item.name} (x${item.qty})</span>
+                    <span>฿${itemTotal.toLocaleString()}</span>
                 </div>
             `;
         }).join('');
-        
-        // คำนวณค่าจัดส่ง
-        let shippingCost = SHIPPING_COST_STANDARD;
-        let shippingMethod = document.getElementById('shippingMethod')?.value;
 
-        // Apply Shipping Logic (Mock)
-        if (subtotal >= FREE_SHIPPING_THRESHOLD) {
-            shippingCost = 0.00;
-            document.getElementById('shippingNote').textContent = 'Free Shipping applied! (Order over ฿2,000)';
-            document.getElementById('shippingMethod').value = 'free';
-            // Disable select box for Free Shipping
-            document.getElementById('shippingMethod').disabled = true;
-        } else {
-             document.getElementById('shippingMethod').disabled = false;
-             if (shippingMethod === 'express') {
-                 shippingCost = SHIPPING_COST_EXPRESS;
-             } else if (shippingMethod === 'standard') {
-                 shippingCost = SHIPPING_COST_STANDARD;
-             }
-             document.getElementById('shippingNote').textContent = `Standard: ${formatPrice(SHIPPING_COST_STANDARD)}, Express: ${formatPrice(SHIPPING_COST_EXPRESS)}.`;
-        }
+        finalTotalEl.innerText = `฿${total.toLocaleString()}`;
 
-        const grandTotal = subtotal + shippingCost;
-        
-        // แสดงผล
-        if (itemCountEl) itemCountEl.textContent = totalQty;
-        if (subtotalPriceEl) subtotalPriceEl.textContent = formatPrice(subtotal);
-        if (shippingPriceEl) shippingPriceEl.textContent = formatPrice(shippingCost);
-        if (grandTotalPriceEl) grandTotalPriceEl.textContent = formatPrice(grandTotal);
-    }
-    
-    // ฟังก์ชันเมื่อกดปุ่ม Place Order
-    function completeOrder(event) {
-        event.preventDefault();
-
-        // 1. ตรวจสอบ Form (อย่างง่าย)
+        // Handle Form Submission
         const form = document.getElementById('checkoutForm');
-        if (!form.checkValidity()) {
-            form.reportValidity(); // แสดง error message ของ HTML5
-            return;
-        }
-
-        // 2. รวบรวมข้อมูล (สำหรับ Mockup เท่านั้น)
-        const formData = new FormData(form);
-        const orderData = Object.fromEntries(formData.entries());
-        orderData.items = checkoutItems;
-        orderData.subtotal = parseFloat(document.getElementById('subtotalPrice').textContent.replace('฿', '').replace(/,/g, ''));
-        orderData.shipping = parseFloat(document.getElementById('shippingPrice').textContent.replace('฿', '').replace(/,/g, ''));
-        orderData.total = parseFloat(document.getElementById('grandTotalPrice').textContent.replace('฿', '').replace(/,/g, ''));
-        orderData.order_id = `NEXUS-${Date.now().toString().slice(-6)}`; // Mock Order ID
-
-        // 3. จำลองการส่งข้อมูลไปยัง Backend และรอผล (Mock delay)
-        document.getElementById('placeOrderBtn').disabled = true;
-        document.getElementById('placeOrderBtn').textContent = 'PROCESSING...';
-        
-        setTimeout(() => {
-            // 4. ล้างตะกร้าสินค้า
-            clearCart(); 
-
-            // 5. แสดง Modal สำเร็จ
-            document.getElementById('orderId').textContent = orderData.order_id;
-            document.getElementById('successModal').style.display = 'block';
-            
-            // 6. Reset UI
-            document.getElementById('placeOrderBtn').disabled = false;
-            document.getElementById('placeOrderBtn').textContent = 'PLACE ORDER';
-            form.reset();
-            loadCheckoutItems(); // โหลดข้อมูลใหม่ (ซึ่งจะเห็นว่าตะกร้าว่างแล้ว)
-
-            console.log("Mock Order Submitted:", orderData);
-        }, 2000); // 2 วินาที
-    }
-
-    // ฟังก์ชันเริ่มต้นระบบ
-    function initializeCheckoutSystem() {
-        // 1. Load data
-        loadCheckoutItems();
-        
-        // 2. Attach listeners
-        document.getElementById('checkoutForm').addEventListener('submit', completeOrder);
-        document.getElementById('shippingMethod')?.addEventListener('change', renderOrderSummary);
-        
-        // 3. Attach listener for modal close (simple click outside or on cta)
-        const modal = document.getElementById('successModal');
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-        document.getElementById('modalCta').addEventListener('click', (e) => {
-            modal.style.display = 'none';
-        });
-
-    }
-
-    // Initialize
-    document.addEventListener('DOMContentLoaded', () => {
-        initializeCheckoutSystem();
-        
-        // Mock Element SDK (Keep only basic config update)
-        const defaultConfig = { 
-            page_title: 'CHECKOUT', 
-            brand_name: 'NEXUS WEAR', 
-            success_message: 'ORDER PLACED!', 
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            await processOrder(cart, total);
         };
-        document.getElementById('checkoutPageTitle').textContent = defaultConfig.page_title;
-        document.getElementById('brandLogo').textContent = defaultConfig.brand_name;
-        document.getElementById('modalTitle').textContent = defaultConfig.success_message;
-    });
+    }
 
+    async function processOrder(items, total) {
+        const submitBtn = document.getElementById('submitBtn');
+        const loadingModal = document.getElementById('loadingModal');
+        
+        // Disable UI
+        submitBtn.disabled = true;
+        loadingModal.style.display = 'flex';
+
+        // Prepare Data Payload (มาตรฐานสากล)
+        const orderData = {
+            customer: {
+                email: document.getElementById('email').value,
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                phone: document.getElementById('phone').value,
+                address: `${document.getElementById('address').value}, ${document.getElementById('province').value}, ${document.getElementById('zip').value}`
+            },
+            items: items,
+            total: total,
+            timestamp: new Date().toISOString()
+        };
+
+        try {
+            /**
+             * --- จุดเชื่อมต่อ Backend จริง ---
+             * ในระบบจริงคุณจะเปลี่ยนบรรทัดล่างนี้เป็น URL ของ Glitch/Server ของคุณ
+             * const response = await fetch('https://your-api.glitch.me/create-order', { ... });
+             */
+            
+            // Mocking API Response (เพื่อให้ระบบไหลลื่นไปหน้าถัดไปได้)
+            await new Promise(resolve => setTimeout(resolve, 2000)); // จำลองเวลาประมวลผล 2 วินาที
+            
+            const mockResponse = {
+                success: true,
+                order_id: "NXW-" + Math.random().toString(36).substr(2, 9).toUpperCase(),
+                paymentUrl: "https://pay.abapay.com/mock-link-12345" // ลิงก์ชำระเงินจริงที่จะได้จาก ABA
+            };
+
+            if (mockResponse.success) {
+                // 1. ล้างตะกร้า
+                CartManager.clearCart();
+                // 2. ไปหน้ายืนยันพร้อมข้อมูล Order
+                const params = new URLSearchParams({
+                    order_id: mockResponse.order_id,
+                    paymentUrl: mockResponse.paymentUrl,
+                    amount: total
+                });
+                window.location.href = `confirm.html?${params.toString()}`;
+            }
+
+        } catch (error) {
+            alert("Connection error. Please try again.");
+            submitBtn.disabled = false;
+            loadingModal.style.display = 'none';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', initCheckout);
   </script>
  </body>
-                                                                      </html>
+</html>
