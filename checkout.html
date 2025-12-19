@@ -8,39 +8,27 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=Bebas+Neue&amp;display=swap" rel="stylesheet">
   <style>
-    /* CSS เดิมทั้งหมดของคุณ - ห้ามลบหรือแก้ไข */
+    /* CSS ยังคงเดิมเพื่อรักษาดีไซน์ของคุณ */
     body { box-sizing: border-box; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { height: 100%; overflow-x: hidden; }
     body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #F5F5F5; color: #000000; line-height: 1.6; -webkit-font-smoothing: antialiased; }
     .page-wrapper { width: 100%; min-height: 100%; }
-
-    /* Navigation (Minimal) */
     .top-nav { background: #FFFFFF; border-bottom: 2px solid #000000; padding: 20px 0; }
     .nav-content { max-width: 1200px; margin: 0 auto; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; }
     .logo-text { font-family: 'Bebas Neue', cursive; font-size: 24px; text-decoration: none; color: #000000; letter-spacing: 2px; }
-
-    /* Checkout Layout */
     .checkout-container { max-width: 1200px; margin: 60px auto; padding: 0 40px; display: grid; grid-template-columns: 1fr 450px; gap: 60px; }
-    
     .checkout-form-section { background: #FFFFFF; padding: 48px; border: 3px solid #000000; }
     .section-title { font-family: 'Bebas Neue', cursive; font-size: 32px; margin-bottom: 32px; border-bottom: 2px solid #000; padding-bottom: 10px; }
-
     .form-group { margin-bottom: 24px; }
     .form-label { display: block; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
     .form-input { width: 100%; padding: 16px; border: 2px solid #000; font-family: inherit; font-size: 14px; outline: none; transition: background 0.3s; }
-    .form-input:focus { background: #F9F9F9; }
-    
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-
-    /* Order Summary Side */
     .summary-sticky { position: sticky; top: 40px; }
     .order-summary-card { background: #000; color: #FFF; padding: 40px; }
     .summary-title { font-family: 'Bebas Neue', cursive; font-size: 28px; margin-bottom: 24px; color: #FFF; }
-    
     .summary-item { display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 14px; opacity: 0.9; }
     .summary-total { border-top: 1px solid #333; margin-top: 24px; padding-top: 24px; display: flex; justify-content: space-between; font-size: 24px; font-weight: 900; }
-
     .place-order-btn { 
         width: 100%; padding: 24px; background: #FFF; color: #000; border: none; 
         font-weight: 800; font-size: 16px; text-transform: uppercase; margin-top: 32px; cursor: pointer;
@@ -49,15 +37,12 @@
     }
     .place-order-btn:hover { transform: scale(1.03); }
     .place-order-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    /* Modal */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 2000; }
     .modal-content { background: #FFF; padding: 60px; border: 4px solid #000; text-align: center; max-width: 500px; }
 
     @media (max-width: 968px) {
         .checkout-container { grid-template-columns: 1fr; }
         .summary-sticky { position: static; }
-        .checkout-form-section { padding: 30px 24px; }
     }
   </style>
  </head>
@@ -114,8 +99,7 @@
     <aside class="summary-sticky">
      <div class="order-summary-card">
       <h3 class="summary-title">YOUR ORDER</h3>
-      <div id="summaryItemsList">
-        </div>
+      <div id="summaryItemsList"></div>
       
       <div class="summary-total">
        <span>TOTAL</span>
@@ -135,26 +119,16 @@
 
   <div id="loadingModal" class="modal-overlay">
     <div class="modal-content">
-        <h2 style="font-family:'Bebas Neue'; font-size:40px;">PROCESSING...</h2>
-        <p>Please wait while we secure your order.</p>
+        <h2 style="font-family:'Bebas Neue'; font-size:40px;">CONNECTING TO ABA...</h2>
+        <p>Please do not close this window.</p>
     </div>
   </div>
 
   <script>
-    /**
-     * ============================================================
-     * NEXUS WEAR - CHECKOUT ENGINE (Professional Standard)
-     * ============================================================
-     */
-
     const CartManager = {
         key: 'nexus_wear_cart',
-        getCart() {
-            return JSON.parse(localStorage.getItem(this.key)) || [];
-        },
-        clearCart() {
-            localStorage.removeItem(this.key);
-        }
+        getCart() { return JSON.parse(localStorage.getItem(this.key)) || []; },
+        clearCart() { localStorage.removeItem(this.key); }
     };
 
     function initCheckout() {
@@ -172,17 +146,11 @@
         summaryList.innerHTML = cart.map(item => {
             const itemTotal = item.price * item.qty;
             total += itemTotal;
-            return `
-                <div class="summary-item">
-                    <span>${item.name} (x${item.qty})</span>
-                    <span>฿${itemTotal.toLocaleString()}</span>
-                </div>
-            `;
+            return `<div class="summary-item"><span>${item.name} (x${item.qty})</span><span>฿${itemTotal.toLocaleString()}</span></div>`;
         }).join('');
 
         finalTotalEl.innerText = `฿${total.toLocaleString()}`;
 
-        // Handle Form Submission
         const form = document.getElementById('checkoutForm');
         form.onsubmit = async (e) => {
             e.preventDefault();
@@ -194,12 +162,12 @@
         const submitBtn = document.getElementById('submitBtn');
         const loadingModal = document.getElementById('loadingModal');
         
-        // Disable UI
         submitBtn.disabled = true;
         loadingModal.style.display = 'flex';
 
-        // Prepare Data Payload (มาตรฐานสากล)
+        // สร้างข้อมูลส่งไป Backend
         const orderData = {
+            order_id: "NXW-" + Date.now(), // ป้องกัน ID ซ้ำ
             customer: {
                 email: document.getElementById('email').value,
                 firstName: document.getElementById('firstName').value,
@@ -208,48 +176,48 @@
                 address: `${document.getElementById('address').value}, ${document.getElementById('province').value}, ${document.getElementById('zip').value}`
             },
             items: items,
-            total: total,
-            timestamp: new Date().toISOString()
+            total: total
         };
 
-        // เปลี่ยนจากของเดิมที่เป็นการ Mock
-const response = await fetch('https://aba-payway-backend.onrender.com/create-order', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(orderData)
-});
-const result = await response.json();
-     
         try {
-            /**
-             * --- จุดเชื่อมต่อ Backend จริง ---
-             * ในระบบจริงคุณจะเปลี่ยนบรรทัดล่างนี้เป็น URL ของ Glitch/Server ของคุณ
-             * const response = await fetch('https://your-api.glitch.me/create-order', { ... });
-             */
+            // 1. เรียกไปที่ Render Backend ของคุณ
+            const response = await fetch('https://aba-payway-backend.onrender.com/create-order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(orderData)
+            });
             
-            // Mocking API Response (เพื่อให้ระบบไหลลื่นไปหน้าถัดไปได้)
-            await new Promise(resolve => setTimeout(resolve, 2000)); // จำลองเวลาประมวลผล 2 วินาที
-            
-            const mockResponse = {
-                success: true,
-                order_id: "NXW-" + Math.random().toString(36).substr(2, 9).toUpperCase(),
-                paymentUrl: "https://pay.abapay.com/mock-link-12345" // ลิงก์ชำระเงินจริงที่จะได้จาก ABA
-            };
+            const result = await response.json();
 
-            if (mockResponse.success) {
-                // 1. ล้างตะกร้า
+            if (result.success && result.aba_params) {
+                // 2. ล้างตะกร้าเพราะเรากำลังจะย้ายไปหน้าชำระเงินแล้ว
                 CartManager.clearCart();
-                // 2. ไปหน้ายืนยันพร้อมข้อมูล Order
-                const params = new URLSearchParams({
-                    order_id: mockResponse.order_id,
-                    paymentUrl: mockResponse.paymentUrl,
-                    amount: total
-                });
-                window.location.href = `confirm.html?${params.toString()}`;
+
+                // 3. สร้าง Form จำลองเพื่อ POST ไปที่ ABA PayWay โดยตรง
+                const abaForm = document.createElement('form');
+                abaForm.method = 'POST';
+                abaForm.action = result.aba_params.api_url; // URL ของ ABA Sandbox
+
+                // ใส่ค่า Parameter ทั้งหมดที่ Backend เตรียมไว้ให้ (รวม Hash)
+                for (const key in result.aba_params) {
+                    if (key !== 'api_url') {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = key;
+                        input.value = result.aba_params[key];
+                        abaForm.appendChild(input);
+                    }
+                }
+
+                document.body.appendChild(abaForm);
+                abaForm.submit(); // "ดีด" ผู้ใช้ไปหน้าชำระเงินของ ABA
+            } else {
+                throw new Error(result.error || "Backend Error");
             }
 
         } catch (error) {
-            alert("Connection error. Please try again.");
+            console.error(error);
+            alert("ระบบขัดข้อง: " + error.message);
             submitBtn.disabled = false;
             loadingModal.style.display = 'none';
         }
