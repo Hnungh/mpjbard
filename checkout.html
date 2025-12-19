@@ -212,19 +212,14 @@
             timestamp: new Date().toISOString()
         };
 
-     // เปลี่ยนจากของเดิมที่เป็นการ Mock
-const response = await fetch('// เปลี่ยนจากของเดิมที่เป็นการ Mock
-const response = await fetch('https://URL-ของ-RENDER-ของคุณ.com/create-order', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(orderData)
-});
-const result = await response.json();/create-order', {
+        // เปลี่ยนจากของเดิมที่เป็นการ Mock
+const response = await fetch('https://aba-payway-backend.onrender.com/create-order', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(orderData)
 });
 const result = await response.json();
+     
         try {
             /**
              * --- จุดเชื่อมต่อ Backend จริง ---
