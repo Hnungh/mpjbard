@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="th" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmation - Nexus Wear</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=Bebas+Neue&amp;display=swap" rel="stylesheet">
+  <style>
+    /* CSS เดิมทั้งหมดของคุณ - ห้ามลบหรือแก้ไข */
+    body { box-sizing: border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow-x: hidden; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #F5F5F5; color: #000000; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    .page-wrapper { width: 100%; min-height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; }
+
+    .confirm-card { background: #FFFFFF; border: 4px solid #000000; padding: 60px; max-width: 600px; width: 100%; text-align: center; position: relative; }
+    .success-icon { width: 80px; height: 80px; background: #000; color: #FFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 32px; font-size: 40px; }
+    
+    .confirm-title { font-family: 'Bebas Neue', cursive; font-size: 56px; margin-bottom: 16px; line-height: 1; }
+    .confirm-text { font-size: 16px; color: #666; margin-bottom: 40px; }
+
+    .order-details { background: #F9F9F9; border: 2px dashed #CCC; padding: 32px; margin-bottom: 40px; text-align: left; }
+    .detail-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; }
+    .detail-label { font-weight: 700; color: #999; text-transform: uppercase; }
+    .detail-value { font-weight: 800; color: #000; }
+
+    .action-container { display: flex; flex-direction: column; gap: 16px; }
+    .btn-pay { 
+        padding: 24px; background: #000; color: #FFF; border: none; font-weight: 800; 
+        font-size: 18px; text-transform: uppercase; cursor: pointer; text-decoration: none;
+        clip-path: polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 50%);
+        transition: transform 0.3s; display: block;
+    }
+    .btn-pay:hover { transform: scale(1.05); }
+    .btn-secondary { font-weight: 700; color: #000; text-decoration: underline; font-size: 14px; background: none; border: none; cursor: pointer; }
+
+    /* Empty/Error State */
+    .error-state { display: none; text-align: center; }
+  </style>
+ </head>
+ <body>
+  <div class="page-wrapper">
+   
+   <div id="mainContent" class="confirm-card">
+    <div class="success-icon">✓</div>
+    <h1 class="confirm-title">ORDER PLACED!</h1>
+    <p class="confirm-text">Thank you for your purchase. Please complete the payment to finalize your order.</p>
+    
+    <div class="order-details">
+     <div class="detail-row">
+      <span class="detail-label">Order ID</span>
+      <span class="detail-value" id="displayOrderId">#NXW-LOADING</span>
+     </div>
+     <div class="detail-row">
+      <span class="detail-label">Total Amount</span>
+      <span class="detail-value" id="displayAmount">฿0</span>
+     </div>
+     <div class="detail-row">
+      <span class="detail-label">Status</span>
+      <span class="detail-value" style="color: #FFB800;">AWAITING PAYMENT</span>
+     </div>
+    </div>
+
+    <div class="action-container">
+     <a href="#" id="payBtn" class="btn-pay">PAY NOW (ABA / KHQR)</a>
+     <button onclick="window.location.href='index.html'" class="btn-secondary">Back to Home</button>
+    </div>
+   </div>
+
+   <div id="errorContent" class="confirm-card error-state">
+    <h1 class="confirm-title">ORDER NOT FOUND</h1>
+    <p class="confirm-text">We couldn't find the order information. Please contact support or try again.</p>
+    <a href="index.html" class="btn-pay">BACK TO SHOPPING</a>
+   </div>
+
+  </div>
+
+  <script>
+    /**
+     * ============================================================
+     * NEXUS WEAR - CONFIRMATION ENGINE (Professional Standard)
+     * ============================================================
+     */
+
+    function initConfirmation() {
+        // 1. ดึงค่าจาก URL Parameters
+        const params = new URLSearchParams(window.location.search);
+        const orderId = params.get('order_id');
+        const amount = params.get('amount');
+        const paymentUrl = params.get('paymentUrl');
+
+        const mainContent = document.getElementById('mainContent');
+        const errorContent = document.getElementById('errorContent');
+
+        // 2. ตรวจสอบความถูกต้องของข้อมูล
+        if (!orderId) {
+            mainContent.style.display = 'none';
+            errorContent.style.display = 'block';
+            return;
+        }
+
+        // 3. แสดงผลข้อมูลออเดอร์
+        document.getElementById('displayOrderId').innerText = `#${orderId}`;
+        document.getElementById('displayAmount').innerText = `฿${Number(amount).toLocaleString()}`;
+        
+        // 4. ตั้งค่าปุ่มชำระเงิน
+        const payBtn = document.getElementById('payBtn');
+        if (paymentUrl && paymentUrl !== 'undefined') {
+            payBtn.href = paymentUrl;
+        } else {
+            // กรณีไม่มีลิงก์จ่ายเงิน (เช่น จ่ายปลายทาง หรือระบบขัดข้อง)
+            payBtn.innerText = "CONTACT FOR PAYMENT";
+            payBtn.onclick = () => { alert("Please contact our support for payment details."); };
+        }
+    }
+
+    // ทำงานทันทีที่โหลดหน้าเว็บ
+    document.addEventListener('DOMContentLoaded', initConfirmation);
+  </script>
+ </body>
+</html>
